@@ -1,4 +1,4 @@
-import type { NextConfig from 'next';
+import type { NextConfig } from 'next'; // <-- This is the corrected line
 
 const nextConfig: NextConfig = {
   output: 'export',
