@@ -68,7 +68,7 @@ function useTypewriter(words: string[], speed = 80, pause = 1200) {
         setTxt(word.substring(0, sub + 1));
         setSub((s) => s + 1);
       } else if (del && sub > 0) {
-        setTxt(word.substring(0, s - 1));
+        setTxt(word.substring(0, sub - 1));
         setSub((s) => s - 1);
       } else if (!del && sub === word.length) {
         setDel(true);
