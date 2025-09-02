@@ -13,7 +13,7 @@ const experience = [
   { role: "Freelance Writer", org: "Multiple Outlets", period: "2014–2020" },
 ];
 
-const achievements: Record<string, { text: string; icon: JSX.Element }[]> = {
+const achievements: Record<string, { text: string; icon: React.ReactNode }[]> = {
   "Media Manager": [
     { text: "Directed media strategy, increasing engagement by 35% YoY.", icon: <FaVideo /> },
     { text: "Produced and scripted a two-season documentary on Disney+ Hotstar.", icon: <FaVideo /> },
