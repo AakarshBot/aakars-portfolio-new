@@ -99,7 +99,7 @@ function useTypewriter(words: string[], speed = 80, pause = 1200) {
 
 // ---------- Main Page Component ----------
 export default function Page() {
-  const [isDark, setIsDark] = useState(true);
+  const [isDark, setIsDark] = useState(false); // Default to light mode
   const [active, setActive] = useState("about");
   const [progress, setProgress] = useState(0);
 
@@ -135,7 +135,7 @@ export default function Page() {
 
   const scrollTo = (r: React.RefObject<HTMLElement>) => r.current?.scrollIntoView({ behavior: "smooth" });
 
-  // Glassmorphism Theme Classes with professional gradients
+  // Glassmorphism Theme Classes with professional gradient background
   const tBg = isDark 
     ? "bg-gradient-to-br from-[#050a14] via-[#091224] to-[#03060c] text-gray-100" 
     : "bg-gradient-to-br from-[#f8fafc] via-[#f1f5f9] to-[#e2e8f0] text-gray-800";
@@ -168,12 +168,12 @@ export default function Page() {
         <div className="h-full bg-gradient-to-r from-teal-400 via-pink-400 to-amber-400 rounded-r-full shadow-[0_0_10px_rgba(45,212,191,0.5)]" style={{ width: `${progress}%` }} />
       </div>
 
-      {/* Navbar with Theme Toggle (No scrollbar) */}
+      {/* Navbar with Theme Toggle */}
       <header className="sticky top-4 z-50 px-4">
-        <div className={`max-w-4xl mx-auto flex justify-between items-center rounded-full px-4 sm:px-6 py-3 transition-colors duration-500 shadow-lg ${tNav}`}>
-          <div className="flex flex-wrap justify-center items-center gap-1 sm:gap-2">
+        <div className={`max-w-5xl mx-auto flex justify-between items-center rounded-full px-4 sm:px-8 py-3 transition-colors duration-500 shadow-lg ${tNav}`}>
+          <div className="flex items-center justify-center gap-2 sm:gap-6 w-full overflow-visible">
             {Object.keys(refs).map((key) => (
-              <button key={key} onClick={() => scrollTo(refs[key as keyof typeof refs])} className={`px-4 py-2 rounded-full text-xs sm:text-sm font-semibold transition-all duration-300 ${active === key ? "bg-teal-500 text-white shadow-[0_4px_14px_rgba(20,184,166,0.4)] scale-105" : "hover:text-teal-500 hover:bg-white/10"}`}>
+              <button key={key} onClick={() => scrollTo(refs[key as keyof typeof refs])} className={`px-3 sm:px-4 py-2 rounded-full text-xs sm:text-sm font-semibold transition-all duration-300 whitespace-nowrap ${active === key ? "bg-teal-500 text-white shadow-[0_4px_14px_rgba(20,184,166,0.4)] scale-105" : "hover:text-teal-500 hover:bg-white/10"}`}>
                 {key === "projects" ? "Selected Works" : key[0].toUpperCase() + key.slice(1)}
               </button>
             ))}
@@ -197,10 +197,10 @@ export default function Page() {
               </motion.div>
 
               <div>
-                <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-teal-400 to-teal-200 tracking-tight pb-2">
+                <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-teal-500 to-teal-700 tracking-tight pb-2">
                   Aakarsh Bommakanti
                 </h1>
-                <p className={`text-xl sm:text-2xl font-bold h-8 mt-2 ${isDark ? 'text-black font-extrabold' : 'text-black font-extrabold'}`} style={{ color: '#000000' }}>
+                <p className="text-xl sm:text-2xl font-bold h-8 mt-2 text-black" style={{ color: isDark ? '#ffffff' : '#000000' }}>
                   {typeText}
                   <span className="inline-block w-1 h-6 bg-pink-400 animate-pulse ml-1 align-middle rounded-full"></span>
                 </p>
@@ -234,7 +234,7 @@ export default function Page() {
         <section id="impact" ref={refs.impact} className="scroll-mt-24 relative z-10">
           <div className="text-center md:text-left mb-10">
             <span className="text-xs font-black text-teal-500 uppercase tracking-widest block mb-2">Quantifiable Results</span>
-            <h3 className={`text-4xl font-extrabold ${tHead}`}>Key Numbers</h3>
+            <h3 className={`text-4xl font-extrabold ${tHead}`}>Track Record & Scale</h3>
           </div>
           <div className="grid md:grid-cols-3 gap-8">
             {impactData.map((clientData, idx) => (
