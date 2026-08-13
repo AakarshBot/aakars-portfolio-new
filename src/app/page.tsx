@@ -135,44 +135,50 @@ export default function Page() {
 
   const scrollTo = (r: React.RefObject<HTMLElement>) => r.current?.scrollIntoView({ behavior: "smooth" });
 
-  // Glassmorphism Theme Classes
-  const tBg = isDark ? "bg-[#050a14] text-gray-100" : "bg-[#fafcff] text-gray-800";
+  // Glassmorphism Theme Classes with professional gradients
+  const tBg = isDark 
+    ? "bg-gradient-to-br from-[#050a14] via-[#091224] to-[#03060c] text-gray-100" 
+    : "bg-gradient-to-br from-[#f8fafc] via-[#f1f5f9] to-[#e2e8f0] text-gray-800";
+    
   const tCard = isDark 
     ? "bg-white/[0.04] backdrop-blur-2xl border border-white/10 shadow-[0_8px_32px_0_rgba(0,0,0,0.37)] hover:bg-white/[0.07]" 
-    : "bg-white/50 backdrop-blur-2xl border border-white/60 shadow-[0_8px_32px_0_rgba(31,38,135,0.07)] hover:bg-white/70";
-  const tNav = isDark ? "bg-gray-900/60 backdrop-blur-2xl border-white/10 text-gray-300" : "bg-white/60 backdrop-blur-2xl border-white/60 text-gray-700";
+    : "bg-white/60 backdrop-blur-2xl border border-white/70 shadow-[0_8px_32px_0_rgba(31,38,135,0.07)] hover:bg-white/80";
+    
+  const tNav = isDark 
+    ? "bg-gray-900/70 backdrop-blur-2xl border-white/10 text-gray-300" 
+    : "bg-white/70 backdrop-blur-2xl border-white/70 text-gray-700 shadow-sm";
+    
   const tHead = isDark ? "text-white" : "text-gray-900";
   const tSub = isDark ? "text-gray-300" : "text-gray-700";
-  const tBadge = isDark ? "bg-gray-800/80 border-gray-700 text-gray-300" : "bg-white/80 border-gray-100 text-gray-700";
-  const tClient = isDark ? "bg-white/[0.02] border-white/5 backdrop-blur-md" : "bg-white/30 border-white/50 backdrop-blur-md";
-  const tIconBox = isDark ? "bg-teal-500/10 text-teal-400" : "bg-teal-50 text-teal-500";
+  const tBadge = isDark ? "bg-gray-800/80 border-gray-700 text-gray-300" : "bg-white/80 border-gray-200 text-gray-700";
+  const tClient = isDark ? "bg-white/[0.02] border-white/5 backdrop-blur-md" : "bg-white/40 border-white/60 backdrop-blur-md";
+  const tIconBox = isDark ? "bg-teal-500/10 text-teal-400" : "bg-teal-50 text-teal-600";
 
   return (
     <div className={`min-h-screen font-sans selection:bg-teal-500 selection:text-white transition-colors duration-700 ${tBg}`}>
       
       {/* Background Animated Light Orbs */}
       <div className="fixed inset-0 -z-10 overflow-hidden pointer-events-none">
-        <motion.div animate={{ x: [0, 100, 0], y: [0, -50, 0], scale: [1, 1.1, 1] }} transition={{ duration: 15, repeat: Infinity, ease: "easeInOut" }} className={`absolute top-[-10%] left-[-10%] w-[50vw] h-[50vw] rounded-full blur-[140px] transition-colors duration-700 ${isDark ? 'bg-teal-500/15' : 'bg-teal-300/30'}`} />
-        <motion.div animate={{ x: [0, -100, 0], y: [0, 100, 0], scale: [1, 1.2, 1] }} transition={{ duration: 20, repeat: Infinity, ease: "easeInOut" }} className={`absolute bottom-[-10%] right-[-10%] w-[60vw] h-[60vw] rounded-full blur-[160px] transition-colors duration-700 ${isDark ? 'bg-pink-600/10' : 'bg-pink-300/20'}`} />
-        <motion.div animate={{ x: [0, 50, 0], y: [0, 50, 0] }} transition={{ duration: 12, repeat: Infinity, ease: "easeInOut" }} className={`absolute top-[40%] left-[20%] w-[30vw] h-[30vw] rounded-full blur-[120px] transition-colors duration-700 ${isDark ? 'bg-amber-500/10' : 'bg-amber-200/20'}`} />
+        <motion.div animate={{ x: [0, 100, 0], y: [0, -50, 0], scale: [1, 1.1, 1] }} transition={{ duration: 15, repeat: Infinity, ease: "easeInOut" }} className={`absolute top-[-10%] left-[-10%] w-[50vw] h-[50vw] rounded-full blur-[140px] transition-colors duration-700 ${isDark ? 'bg-teal-500/15' : 'bg-teal-400/10'}`} />
+        <motion.div animate={{ x: [0, -100, 0], y: [0, 100, 0], scale: [1, 1.2, 1] }} transition={{ duration: 20, repeat: Infinity, ease: "easeInOut" }} className={`absolute bottom-[-10%] right-[-10%] w-[60vw] h-[60vw] rounded-full blur-[160px] transition-colors duration-700 ${isDark ? 'bg-pink-600/10' : 'bg-blue-400/10'}`} />
       </div>
 
       {/* Progress bar */}
-      <div className="fixed top-0 left-0 right-0 h-1.5 z-50 bg-white/10 backdrop-blur-sm">
+      <div className="fixed top-0 left-0 right-0 h-1.5 z-50 bg-white/15 backdrop-blur-sm">
         <div className="h-full bg-gradient-to-r from-teal-400 via-pink-400 to-amber-400 rounded-r-full shadow-[0_0_10px_rgba(45,212,191,0.5)]" style={{ width: `${progress}%` }} />
       </div>
 
-      {/* Navbar with Theme Toggle */}
+      {/* Navbar with Theme Toggle (No scrollbar) */}
       <header className="sticky top-4 z-50 px-4">
         <div className={`max-w-4xl mx-auto flex justify-between items-center rounded-full px-4 sm:px-6 py-3 transition-colors duration-500 shadow-lg ${tNav}`}>
-          <div className="flex gap-1 sm:gap-2 overflow-x-auto no-scrollbar">
+          <div className="flex flex-wrap justify-center items-center gap-1 sm:gap-2">
             {Object.keys(refs).map((key) => (
-              <button key={key} onClick={() => scrollTo(refs[key as keyof typeof refs])} className={`px-4 py-2 rounded-full text-xs sm:text-sm font-semibold transition-all duration-300 whitespace-nowrap ${active === key ? "bg-teal-500 text-white shadow-[0_4px_14px_rgba(20,184,166,0.4)] scale-105" : "hover:text-teal-500 hover:bg-white/10"}`}>
+              <button key={key} onClick={() => scrollTo(refs[key as keyof typeof refs])} className={`px-4 py-2 rounded-full text-xs sm:text-sm font-semibold transition-all duration-300 ${active === key ? "bg-teal-500 text-white shadow-[0_4px_14px_rgba(20,184,166,0.4)] scale-105" : "hover:text-teal-500 hover:bg-white/10"}`}>
                 {key === "projects" ? "Selected Works" : key[0].toUpperCase() + key.slice(1)}
               </button>
             ))}
           </div>
-          <button onClick={() => setIsDark(!isDark)} className="ml-4 p-2.5 rounded-full bg-white/10 hover:bg-white/20 text-teal-400 transition-all shadow-inner">
+          <button onClick={() => setIsDark(!isDark)} className="ml-2 p-2.5 rounded-full bg-white/10 hover:bg-white/20 text-teal-400 transition-all shadow-inner flex-shrink-0">
             {isDark ? <FaSun className="text-amber-300" /> : <FaMoon className="text-teal-600" />}
           </button>
         </div>
@@ -194,7 +200,7 @@ export default function Page() {
                 <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-teal-400 to-teal-200 tracking-tight pb-2">
                   Aakarsh Bommakanti
                 </h1>
-                <p className="text-xl sm:text-2xl font-bold h-8 mt-2 text-teal-500">
+                <p className={`text-xl sm:text-2xl font-bold h-8 mt-2 ${isDark ? 'text-black font-extrabold' : 'text-black font-extrabold'}`} style={{ color: '#000000' }}>
                   {typeText}
                   <span className="inline-block w-1 h-6 bg-pink-400 animate-pulse ml-1 align-middle rounded-full"></span>
                 </p>
@@ -205,7 +211,7 @@ export default function Page() {
                   <button className="w-full bg-gradient-to-r from-teal-500 to-teal-400 text-white px-8 py-3.5 rounded-full shadow-[0_8px_20px_rgba(20,184,166,0.3)] font-semibold transition-all group-hover:shadow-[0_8px_25px_rgba(20,184,166,0.5)] flex items-center justify-center gap-2">Explore more ↓</button>
                 </motion.div>
                 <motion.div className="relative group w-full sm:w-auto" whileTap={{ scale: 0.95 }}>
-                  <a href="/AakarshBommakanti-Resume.pdf" download="AakarshBommakanti-Resume.pdf" className={`w-full flex items-center justify-center gap-2 px-8 py-3.5 rounded-full shadow-lg border font-semibold transition-all group-hover:bg-teal-500 group-hover:text-white group-hover:border-teal-500 ${isDark ? 'bg-white/10 border-white/20 text-teal-400' : 'bg-white/60 border-white/60 text-teal-600'}`}>
+                  <a href="/AakarshBommakanti-Resume.pdf" download="AakarshBommakanti-Resume.pdf" className={`w-full flex items-center justify-center gap-2 px-8 py-3.5 rounded-full shadow-lg border font-semibold transition-all group-hover:bg-teal-500 group-hover:text-white group-hover:border-teal-500 ${isDark ? 'bg-white/10 border-white/20 text-teal-400' : 'bg-white/80 border-white/80 text-teal-700'}`}>
                     <FaDownload /> Download CV
                   </a>
                 </motion.div>
@@ -217,8 +223,8 @@ export default function Page() {
               <p className={`relative z-10 font-medium mb-6 ${isDark ? 'text-gray-300' : 'text-gray-800'}`}>For over a decade, I&apos;ve worked at the intersection of sport, media and storytelling, helping bring fans closer to the teams, players and moments they care about.</p>
               <p className={`relative z-10 font-medium mb-6 ${isDark ? 'text-gray-300' : 'text-gray-800'}`}>As a media manager and content creator, I&apos;ve built fan communities from the ground up, scripted a two-season documentary series for Disney+ Hotstar, and led YouTube publishing for the 2026 FIFA World Cup.</p>
               <p className={`relative z-10 font-medium mb-6 ${isDark ? 'text-gray-300' : 'text-gray-800'}`}>I&apos;m a hands-on leader who combines tactical analysis, data and creative storytelling to make sports content that people actually want to watch, share and come back to.</p>
-              <div className={`relative z-10 p-5 rounded-2xl border-l-4 border-teal-500 ${isDark ? 'bg-teal-500/10' : 'bg-teal-50'}`}>
-                <p className="font-bold text-teal-400">At the heart of everything I do is a simple idea: great sports content should make fans feel closer to the game.</p>
+              <div className={`relative z-10 p-5 rounded-2xl border-l-4 border-teal-500 ${isDark ? 'bg-teal-500/10' : 'bg-teal-100/50'}`}>
+                <p className={`font-bold ${isDark ? 'text-teal-400' : 'text-teal-800'}`}>At the heart of everything I do is a simple idea: great sports content should make fans feel closer to the game.</p>
               </div>
             </div>
           </div>
@@ -227,7 +233,7 @@ export default function Page() {
         {/* Impact / By The Numbers Section */}
         <section id="impact" ref={refs.impact} className="scroll-mt-24 relative z-10">
           <div className="text-center md:text-left mb-10">
-            <span className="text-xs font-black text-teal-400 uppercase tracking-widest block mb-2">Quantifiable Results</span>
+            <span className="text-xs font-black text-teal-500 uppercase tracking-widest block mb-2">Quantifiable Results</span>
             <h3 className={`text-4xl font-extrabold ${tHead}`}>Key Numbers</h3>
           </div>
           <div className="grid md:grid-cols-3 gap-8">
@@ -239,8 +245,8 @@ export default function Page() {
                 <div className="p-8 flex-1 flex flex-col justify-center space-y-6">
                   {clientData.stats.map((stat, sIdx) => (
                     <div key={sIdx} className="text-center">
-                      <h4 className="text-3xl font-black text-teal-400 mb-1">{stat.value}</h4>
-                      <p className="text-xs font-bold text-gray-400 uppercase tracking-wider">{stat.label}</p>
+                      <h4 className="text-3xl font-black text-teal-500 mb-1">{stat.value}</h4>
+                      <p className={`text-xs font-bold uppercase tracking-wider ${isDark ? 'text-gray-400' : 'text-gray-600'}`}>{stat.label}</p>
                     </div>
                   ))}
                 </div>
@@ -252,7 +258,7 @@ export default function Page() {
         {/* Experience Section */}
         <section id="experience" ref={refs.experience} className="scroll-mt-24 relative z-10">
           <div className="text-center md:text-left mb-10">
-            <span className="text-xs font-black text-teal-400 uppercase tracking-widest block mb-2">Career Journey</span>
+            <span className="text-xs font-black text-teal-500 uppercase tracking-widest block mb-2">Career Journey</span>
             <h3 className={`text-4xl font-extrabold ${tHead}`}>Professional Experience</h3>
           </div>
           <div className="space-y-12">
@@ -265,12 +271,12 @@ export default function Page() {
                   <div className="flex flex-col items-center md:items-start text-center md:text-left w-full md:w-1/3 flex-shrink-0 pt-2 z-10">
                     <div className="relative w-28 h-28 sm:w-36 sm:h-36 bg-white/80 backdrop-blur-md rounded-3xl shadow-lg p-5 flex items-center justify-center mb-6"><Image src={item.logo} alt={`${item.org} logo`} fill className="object-contain p-4" /></div>
                     <h4 className={`text-2xl sm:text-3xl font-extrabold leading-tight mb-2 ${tHead}`}>{item.role}</h4>
-                    <p className="text-xl font-bold text-teal-400 mb-5">{item.org}</p>
+                    <p className="text-xl font-bold text-teal-500 mb-5">{item.org}</p>
                     <span className={`inline-block px-5 py-2 text-sm font-bold rounded-full tracking-wide border ${tBadge}`}>{item.period}</span>
 
                     {item.clients && (
                       <div className={`mt-8 w-full p-5 rounded-2xl border ${tClient}`}>
-                        <p className="text-xs font-black text-gray-400 uppercase tracking-widest mb-4 text-center md:text-left">Key Clients</p>
+                        <p className={`text-xs font-black uppercase tracking-widest mb-4 text-center md:text-left ${isDark ? 'text-gray-400' : 'text-gray-600'}`}>Key Clients</p>
                         <div className="flex flex-wrap justify-center md:justify-start gap-4">
                           {item.clients.map((client, cIdx) => (
                             <div key={cIdx} className="relative group/client flex items-center justify-center cursor-help">
@@ -285,10 +291,10 @@ export default function Page() {
 
                   {/* Right Side */}
                   <div className="w-full md:w-2/3 flex flex-col justify-center h-full z-10">
-                    <h5 className="text-sm font-black text-teal-500/60 uppercase tracking-widest mb-6 pb-2 border-b border-teal-500/10">Key Contributions</h5>
+                    <h5 className="text-sm font-black text-teal-600/70 uppercase tracking-widest mb-6 pb-2 border-b border-teal-500/10">Key Contributions</h5>
                     <div className="grid sm:grid-cols-2 gap-5">
                       {achievements[item.role]?.map((a, i) => (
-                        <div key={i} className={`flex items-start gap-4 p-5 rounded-2xl border transition-all shadow-sm hover:shadow-md ${isDark ? 'bg-white/[0.03] border-white/5 hover:bg-white/[0.07]' : 'bg-white/60 border-white/50 hover:bg-white/90'}`}>
+                        <div key={i} className={`flex items-start gap-4 p-5 rounded-2xl border transition-all shadow-sm hover:shadow-md ${isDark ? 'bg-white/[0.03] border-white/5 hover:bg-white/[0.07]' : 'bg-white/70 border-white/60 hover:bg-white/90'}`}>
                           <div className={`text-2xl mt-0.5 flex-shrink-0 w-10 h-10 flex items-center justify-center rounded-xl ${tIconBox}`}>{a.icon}</div>
                           <p className={`text-sm leading-relaxed font-semibold ${tSub}`}>{a.text}</p>
                         </div>
@@ -304,7 +310,7 @@ export default function Page() {
         {/* Selected Works Gallery Section (Vertical / Portrait Aspect Ratio) */}
         <section id="projects" ref={refs.projects} className="scroll-mt-24 relative z-10">
           <div className="text-center md:text-left mb-10">
-            <span className="text-xs font-black text-teal-400 uppercase tracking-widest block mb-2">Portfolio Showcase</span>
+            <span className="text-xs font-black text-teal-500 uppercase tracking-widest block mb-2">Portfolio Showcase</span>
             <h3 className={`text-4xl font-extrabold ${tHead}`}>Selected Works & Highlights</h3>
           </div>
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
@@ -329,7 +335,7 @@ export default function Page() {
         {/* Skills */}
         <section id="skills" ref={refs.skills} className="scroll-mt-24 relative z-10">
           <div className="text-center md:text-left mb-10">
-            <span className="text-xs font-black text-teal-400 uppercase tracking-widest block mb-2">Expertise</span>
+            <span className="text-xs font-black text-teal-500 uppercase tracking-widest block mb-2">Expertise</span>
             <h3 className={`text-4xl font-extrabold ${tHead}`}>Core Skills</h3>
           </div>
           <div className={`flex flex-wrap gap-4 p-8 rounded-[2rem] ${tCard}`}>
