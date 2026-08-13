@@ -308,15 +308,15 @@ export default function Page() {
                   {/* Render Clients if they exist */}
                   {item.clients && (
                     <div className="mt-8 w-full">
-                      <p className="text-xs font-bold text-gray-400 uppercase tracking-wider mb-3 text-center md:text-left border-t border-gray-100 pt-5">Key Clients Managed</p>
-                      <div className="flex flex-wrap justify-center md:justify-start gap-3">
+                      <p className="text-xs font-bold text-gray-400 uppercase tracking-wider mb-4 text-center md:text-left border-t border-gray-100 pt-5">Key Clients Managed</p>
+                      <div className="flex flex-wrap justify-center md:justify-start gap-4">
                         {item.clients.map((client, cIdx) => (
                           <div key={cIdx} className="relative group flex items-center justify-center cursor-help">
-                            <div className="relative w-12 h-12 bg-white rounded-full border border-gray-200 shadow-sm flex items-center justify-center transition-transform group-hover:scale-110 group-hover:border-teal-300">
-                              <Image src={client.logo} alt={client.name} fill className="object-contain p-2" />
+                            <div className="relative w-16 h-16 sm:w-20 sm:h-20 bg-white rounded-full border border-gray-200 shadow-sm flex items-center justify-center transition-transform group-hover:scale-110 group-hover:border-teal-300">
+                              <Image src={client.logo} alt={client.name} fill className="object-contain p-3" />
                             </div>
                             {/* Tooltip */}
-                            <div className="absolute -bottom-10 opacity-0 group-hover:opacity-100 transition-opacity bg-gray-800 text-white text-xs px-2 py-1.5 rounded whitespace-nowrap z-10 pointer-events-none shadow-lg">
+                            <div className="absolute -bottom-12 opacity-0 group-hover:opacity-100 transition-opacity bg-gray-800 text-white text-xs px-2 py-1.5 rounded whitespace-nowrap z-10 pointer-events-none shadow-lg">
                               {client.name}
                             </div>
                           </div>
