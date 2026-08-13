@@ -168,7 +168,7 @@ export default function Page() {
         <div className="h-full bg-gradient-to-r from-teal-400 via-pink-400 to-amber-400 rounded-r-full shadow-[0_0_10px_rgba(45,212,191,0.5)]" style={{ width: `${progress}%` }} />
       </div>
 
-      {/* Navbar with Theme Toggle (Wrapped neatly to prevent scrollbars) */}
+      {/* Navbar with Theme Toggle */}
       <header className="sticky top-4 z-50 px-2 sm:px-4">
         <div className={`max-w-5xl mx-auto flex flex-wrap justify-between items-center rounded-2xl sm:rounded-full px-4 py-3 gap-3 transition-colors duration-500 shadow-lg ${tNav}`}>
           <div className="flex flex-wrap justify-center items-center gap-1.5 sm:gap-4 w-full sm:w-auto flex-1">
@@ -255,7 +255,7 @@ export default function Page() {
           </div>
         </section>
 
-        {/* Experience Section */}
+        {/* Experience Section (Forced Side-by-Side Structure matching Desktop) */}
         <section id="experience" ref={refs.experience} className="scroll-mt-24 relative z-10">
           <div className="text-center md:text-left mb-8 sm:mb-10">
             <span className="text-xs font-black text-teal-500 uppercase tracking-widest block mb-2">Career Journey</span>
