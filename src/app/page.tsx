@@ -62,29 +62,34 @@ const achievements: Record<string, { text: string; icon: React.ReactNode }[]> = 
 
 const projects = [
   { 
-    title: "Odeon Mall Rooftop Venue", 
-    description: "Engineered physical deployment strategy for an open rooftop football turf space, incorporating continuous electrical illumination rigs, mechanical airflow updates, and retail tenant layout parameters.", 
-    image: "/odeon-turf.jpg" 
+    title: "Future Is Us | Disney+ Hotstar", 
+    description: "Produced and scripted a highly-acclaimed two-season sports documentary series following the journey of Hyderabad FC.", 
+    image: "/future-is-us.jpg" 
   },
   { 
-    title: "Corporate Cricket Champions", 
-    description: "Managed digital launch materials, creating website copy, social media posts, and marketing fliers centered on the concept of moving from 'glass buildings to grass fields'.", 
-    image: "/ccc-launch.jpg" 
-  },
-  { 
-    title: "Odisha T20 League Strategy", 
-    description: "Compiled a 12-day operational framework outlining digital distribution logistics on FanCode, FMCG sponsorship brand parameters, on-field LED installations, and a cross-state trophy tour.", 
-    image: "/odisha-t20.jpg" 
+    title: "FIFA World Cup 2026 Growth", 
+    description: "Led the YouTube publishing strategy resulting in a channel milestone of 35.33M subscribers and over 64M hours of watch time.", 
+    image: "/fifa-graph.jpg" 
   },
   { 
     title: "ISL 'Circle of Parity'", 
-    description: "Developed a creative visual content piece for the Indian Super League highlighting league unpredictability involving teams like Mumbai City FC and Inter Kashi.", 
+    description: "Developed a creative visual content piece for the Indian Super League highlighting league unpredictability.", 
     image: "/isl-parity.jpg" 
   },
   { 
     title: "2026 Masters Tournament", 
-    description: "Coordinated promotional graphics and tune-in content for FanCode, refining captions for specific golfers during Round 2 and Day 2.", 
+    description: "Coordinated promotional graphics and tune-in visual packaging for FanCode's coverage of the legendary golf major.", 
     image: "/masters-golf.jpg" 
+  },
+  { 
+    title: "Corporate Cricket Champions", 
+    description: "Managed digital launch materials, creating website copy, social media posts, and marketing fliers.", 
+    image: "/ccc-launch.jpg" 
+  },
+  { 
+    title: "Odisha T20 League Strategy", 
+    description: "Compiled a 12-day operational framework outlining digital distribution logistics on FanCode and FMCG brand parameters.", 
+    image: "/odisha-t20.jpg" 
   },
 ];
 
