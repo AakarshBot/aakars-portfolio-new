@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState, useMemo } from "react";
 import { motion } from "framer-motion";
 import { FaVideo, FaChartLine, FaPenFancy, FaGlobe, FaXTwitter, FaDownload } from "react-icons/fa6";
 import Image from "next/image";
@@ -116,13 +116,13 @@ export default function Page() {
   const skillsRef = useRef<HTMLElement>(null);
   const contactRef = useRef<HTMLElement>(null);
 
-  const refs = {
+  const refs = useMemo(() => ({
     about: aboutRef,
     experience: experienceRef,
     achievements: achievementsRef,
     skills: skillsRef,
     contact: contactRef,
-  };
+  }), []);
 
   const [progress, setProgress] = useState(0);
   const [achTab, setAchTab] = useState<keyof typeof achievements>("Head Of YouTube Publishing");
