@@ -99,7 +99,7 @@ function useTypewriter(words: string[], speed = 80, pause = 1200) {
 
 // ---------- Main Page Component ----------
 export default function Page() {
-  const [isDark, setIsDark] = useState(false); // Default to light mode
+  const [isDark, setIsDark] = useState(false); // Light mode default
   const [active, setActive] = useState("about");
   const [progress, setProgress] = useState(0);
 
@@ -168,41 +168,41 @@ export default function Page() {
         <div className="h-full bg-gradient-to-r from-teal-400 via-pink-400 to-amber-400 rounded-r-full shadow-[0_0_10px_rgba(45,212,191,0.5)]" style={{ width: `${progress}%` }} />
       </div>
 
-      {/* Navbar with Theme Toggle */}
-      <header className="sticky top-4 z-50 px-4">
-        <div className={`max-w-5xl mx-auto flex justify-between items-center rounded-full px-4 sm:px-8 py-3 transition-colors duration-500 shadow-lg ${tNav}`}>
-          <div className="flex items-center justify-center gap-2 sm:gap-6 w-full overflow-visible">
+      {/* Navbar with Theme Toggle (Fully Mobile Responsive Wrap) */}
+      <header className="sticky top-4 z-50 px-2 sm:px-4">
+        <div className={`max-w-5xl mx-auto flex flex-col sm:flex-row justify-between items-center rounded-2xl sm:rounded-full px-4 py-3 gap-3 transition-colors duration-500 shadow-lg ${tNav}`}>
+          <div className="flex flex-wrap justify-center items-center gap-1.5 sm:gap-6 w-full">
             {Object.keys(refs).map((key) => (
-              <button key={key} onClick={() => scrollTo(refs[key as keyof typeof refs])} className={`px-3 sm:px-4 py-2 rounded-full text-xs sm:text-sm font-semibold transition-all duration-300 whitespace-nowrap ${active === key ? "bg-teal-500 text-white shadow-[0_4px_14px_rgba(20,184,166,0.4)] scale-105" : "hover:text-teal-500 hover:bg-white/10"}`}>
+              <button key={key} onClick={() => scrollTo(refs[key as keyof typeof refs])} className={`px-3 py-1.5 sm:px-4 sm:py-2 rounded-full text-xs sm:text-sm font-semibold transition-all duration-300 ${active === key ? "bg-teal-500 text-white shadow-[0_4px_14px_rgba(20,184,166,0.4)] scale-105" : "hover:text-teal-500 hover:bg-white/10"}`}>
                 {key === "projects" ? "Selected Works" : key[0].toUpperCase() + key.slice(1)}
               </button>
             ))}
           </div>
-          <button onClick={() => setIsDark(!isDark)} className="ml-2 p-2.5 rounded-full bg-white/10 hover:bg-white/20 text-teal-400 transition-all shadow-inner flex-shrink-0">
+          <button onClick={() => setIsDark(!isDark)} className="p-2.5 rounded-full bg-white/10 hover:bg-white/20 text-teal-400 transition-all shadow-inner flex-shrink-0 self-end sm:self-center">
             {isDark ? <FaSun className="text-amber-300" /> : <FaMoon className="text-teal-600" />}
           </button>
         </div>
       </header>
 
-      <main className="max-w-6xl mx-auto px-4 py-10 space-y-32 relative">
+      <main className="max-w-6xl mx-auto px-4 py-10 space-y-20 sm:space-y-32 relative">
         
         {/* Hero Section */}
-        <section id="about" ref={refs.about} className="min-h-[85vh] flex items-center justify-center pt-20 md:pt-0">
-          <div className="grid md:grid-cols-2 gap-12 md:gap-16 items-center w-full">
-            <div className="flex flex-col items-center md:items-start text-center md:text-left space-y-8">
-              <motion.div animate={{ y: [-5, 5, -5] }} transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }} className="relative w-56 h-56 sm:w-72 sm:h-72 rounded-full shadow-[0_20px_50px_rgba(20,184,166,0.2)] overflow-hidden flex-shrink-0 border-4 border-white/20 backdrop-blur-sm p-1">
+        <section id="about" ref={refs.about} className="min-h-[85vh] flex items-center justify-center pt-10 md:pt-0">
+          <div className="grid md:grid-cols-2 gap-10 md:gap-16 items-center w-full">
+            <div className="flex flex-col items-center md:items-start text-center md:text-left space-y-6 sm:space-y-8">
+              <motion.div animate={{ y: [-5, 5, -5] }} transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }} className="relative w-48 h-48 sm:w-72 sm:h-72 rounded-full shadow-[0_20px_50px_rgba(20,184,166,0.2)] overflow-hidden flex-shrink-0 border-4 border-white/20 backdrop-blur-sm p-1">
                 <div className="relative w-full h-full rounded-full overflow-hidden">
                   <Image src="/profile.jpg" alt="Aakarsh Bommakanti" fill className="object-cover" />
                 </div>
               </motion.div>
 
               <div>
-                <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-teal-500 to-teal-700 tracking-tight pb-2">
+                <h1 className="text-3xl sm:text-5xl lg:text-6xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-teal-500 to-teal-700 tracking-tight pb-2">
                   Aakarsh Bommakanti
                 </h1>
-                <p className="text-xl sm:text-2xl font-bold h-8 mt-2 text-black" style={{ color: isDark ? '#ffffff' : '#000000' }}>
+                <p className="text-lg sm:text-2xl font-bold h-8 mt-2" style={{ color: isDark ? '#ffffff' : '#000000' }}>
                   {typeText}
-                  <span className="inline-block w-1 h-6 bg-pink-400 animate-pulse ml-1 align-middle rounded-full"></span>
+                  <span className="inline-block w-1 h-5 sm:h-6 bg-pink-400 animate-pulse ml-1 align-middle rounded-full"></span>
                 </p>
               </div>
 
@@ -218,13 +218,13 @@ export default function Page() {
               </div>
             </div>
 
-            <div className={`p-8 sm:p-10 rounded-[2rem] transition-all duration-500 relative overflow-hidden ${tCard}`}>
+            <div className={`p-6 sm:p-10 rounded-[2rem] transition-all duration-500 relative overflow-hidden ${tCard}`}>
               <div className="absolute top-0 right-0 w-32 h-32 bg-teal-500/10 blur-3xl rounded-full pointer-events-none"></div>
-              <p className={`relative z-10 font-medium mb-6 ${isDark ? 'text-gray-300' : 'text-gray-800'}`}>For over a decade, I&apos;ve worked at the intersection of sport, media and storytelling, helping bring fans closer to the teams, players and moments they care about.</p>
-              <p className={`relative z-10 font-medium mb-6 ${isDark ? 'text-gray-300' : 'text-gray-800'}`}>As a media manager and content creator, I&apos;ve built fan communities from the ground up, scripted a two-season documentary series for Disney+ Hotstar, and led YouTube publishing for the 2026 FIFA World Cup.</p>
-              <p className={`relative z-10 font-medium mb-6 ${isDark ? 'text-gray-300' : 'text-gray-800'}`}>I&apos;m a hands-on leader who combines tactical analysis, data and creative storytelling to make sports content that people actually want to watch, share and come back to.</p>
-              <div className={`relative z-10 p-5 rounded-2xl border-l-4 border-teal-500 ${isDark ? 'bg-teal-500/10' : 'bg-teal-100/50'}`}>
-                <p className={`font-bold ${isDark ? 'text-teal-400' : 'text-teal-800'}`}>At the heart of everything I do is a simple idea: great sports content should make fans feel closer to the game.</p>
+              <p className={`relative z-10 text-sm sm:text-base font-medium mb-5 sm:mb-6 ${isDark ? 'text-gray-300' : 'text-gray-800'}`}>For over a decade, I&apos;ve worked at the intersection of sport, media and storytelling, helping bring fans closer to the teams, players and moments they care about.</p>
+              <p className={`relative z-10 text-sm sm:text-base font-medium mb-5 sm:mb-6 ${isDark ? 'text-gray-300' : 'text-gray-800'}`}>As a media manager and content creator, I&apos;ve built fan communities from the ground up, scripted a two-season documentary series for Disney+ Hotstar, and led YouTube publishing for the 2026 FIFA World Cup.</p>
+              <p className={`relative z-10 text-sm sm:text-base font-medium mb-5 sm:mb-6 ${isDark ? 'text-gray-300' : 'text-gray-800'}`}>I&apos;m a hands-on leader who combines tactical analysis, data and creative storytelling to make sports content that people actually want to watch, share and come back to.</p>
+              <div className={`relative z-10 p-4 sm:p-5 rounded-2xl border-l-4 border-teal-500 ${isDark ? 'bg-teal-500/10' : 'bg-teal-100/50'}`}>
+                <p className={`text-sm sm:text-base font-bold ${isDark ? 'text-teal-400' : 'text-teal-800'}`}>At the heart of everything I do is a simple idea: great sports content should make fans feel closer to the game.</p>
               </div>
             </div>
           </div>
@@ -232,20 +232,20 @@ export default function Page() {
 
         {/* Impact / By The Numbers Section */}
         <section id="impact" ref={refs.impact} className="scroll-mt-24 relative z-10">
-          <div className="text-center md:text-left mb-10">
+          <div className="text-center md:text-left mb-8 sm:mb-10">
             <span className="text-xs font-black text-teal-500 uppercase tracking-widest block mb-2">Quantifiable Results</span>
-            <h3 className={`text-4xl font-extrabold ${tHead}`}>Track Record & Scale</h3>
+            <h3 className={`text-3xl sm:text-4xl font-extrabold ${tHead}`}>Track Record & Scale</h3>
           </div>
-          <div className="grid md:grid-cols-3 gap-8">
+          <div className="grid sm:grid-cols-2 md:grid-cols-3 gap-6 sm:gap-8">
             {impactData.map((clientData, idx) => (
               <motion.div key={idx} initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: idx * 0.1 }} className={`flex flex-col rounded-[2rem] transition-all duration-300 overflow-hidden ${tCard}`}>
-                <div className="bg-white/5 flex items-center justify-center p-8 border-b border-white/10">
-                  <div className="relative w-24 h-24 bg-white/80 backdrop-blur-md rounded-2xl shadow-sm p-4 flex items-center justify-center"><Image src={clientData.logo} alt={clientData.client} fill className="object-contain p-2" /></div>
+                <div className="bg-white/5 flex items-center justify-center p-6 sm:p-8 border-b border-white/10">
+                  <div className="relative w-20 h-20 sm:w-24 sm:h-24 bg-white/80 backdrop-blur-md rounded-2xl shadow-sm p-4 flex items-center justify-center"><Image src={clientData.logo} alt={clientData.client} fill className="object-contain p-2" /></div>
                 </div>
-                <div className="p-8 flex-1 flex flex-col justify-center space-y-6">
+                <div className="p-6 sm:p-8 flex-1 flex flex-col justify-center space-y-5 sm:space-y-6">
                   {clientData.stats.map((stat, sIdx) => (
                     <div key={sIdx} className="text-center">
-                      <h4 className="text-3xl font-black text-teal-500 mb-1">{stat.value}</h4>
+                      <h4 className="text-2xl sm:text-3xl font-black text-teal-500 mb-1">{stat.value}</h4>
                       <p className={`text-xs font-bold uppercase tracking-wider ${isDark ? 'text-gray-400' : 'text-gray-600'}`}>{stat.label}</p>
                     </div>
                   ))}
@@ -257,11 +257,11 @@ export default function Page() {
 
         {/* Experience Section */}
         <section id="experience" ref={refs.experience} className="scroll-mt-24 relative z-10">
-          <div className="text-center md:text-left mb-10">
+          <div className="text-center md:text-left mb-8 sm:mb-10">
             <span className="text-xs font-black text-teal-500 uppercase tracking-widest block mb-2">Career Journey</span>
-            <h3 className={`text-4xl font-extrabold ${tHead}`}>Professional Experience</h3>
+            <h3 className={`text-3xl sm:text-4xl font-extrabold ${tHead}`}>Professional Experience</h3>
           </div>
-          <div className="space-y-12">
+          <div className="space-y-8 sm:space-y-12">
             {experience.map((item, index) => (
               <motion.div key={index} initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, amount: 0.2 }} transition={{ duration: 0.5, delay: index * 0.1 }}>
                 <div className={`rounded-[2rem] p-6 sm:p-10 flex flex-col md:flex-row gap-8 lg:gap-12 items-start group transition-all duration-500 relative overflow-hidden ${tCard}`}>
@@ -269,18 +269,18 @@ export default function Page() {
                   
                   {/* Left Side */}
                   <div className="flex flex-col items-center md:items-start text-center md:text-left w-full md:w-1/3 flex-shrink-0 pt-2 z-10">
-                    <div className="relative w-28 h-28 sm:w-36 sm:h-36 bg-white/80 backdrop-blur-md rounded-3xl shadow-lg p-5 flex items-center justify-center mb-6"><Image src={item.logo} alt={`${item.org} logo`} fill className="object-contain p-4" /></div>
-                    <h4 className={`text-2xl sm:text-3xl font-extrabold leading-tight mb-2 ${tHead}`}>{item.role}</h4>
-                    <p className="text-xl font-bold text-teal-500 mb-5">{item.org}</p>
-                    <span className={`inline-block px-5 py-2 text-sm font-bold rounded-full tracking-wide border ${tBadge}`}>{item.period}</span>
+                    <div className="relative w-24 h-24 sm:w-36 sm:h-36 bg-white/80 backdrop-blur-md rounded-3xl shadow-lg p-5 flex items-center justify-center mb-5 sm:mb-6"><Image src={item.logo} alt={`${item.org} logo`} fill className="object-contain p-4" /></div>
+                    <h4 className={`text-xl sm:text-3xl font-extrabold leading-tight mb-2 ${tHead}`}>{item.role}</h4>
+                    <p className="text-lg sm:text-xl font-bold text-teal-500 mb-4 sm:mb-5">{item.org}</p>
+                    <span className={`inline-block px-4 py-1.5 sm:px-5 sm:py-2 text-xs sm:text-sm font-bold rounded-full tracking-wide border ${tBadge}`}>{item.period}</span>
 
                     {item.clients && (
-                      <div className={`mt-8 w-full p-5 rounded-2xl border ${tClient}`}>
-                        <p className={`text-xs font-black uppercase tracking-widest mb-4 text-center md:text-left ${isDark ? 'text-gray-400' : 'text-gray-600'}`}>Key Clients</p>
-                        <div className="flex flex-wrap justify-center md:justify-start gap-4">
+                      <div className={`mt-6 sm:mt-8 w-full p-4 sm:p-5 rounded-2xl border ${tClient}`}>
+                        <p className={`text-xs font-black uppercase tracking-widest mb-3 sm:mb-4 text-center md:text-left ${isDark ? 'text-gray-400' : 'text-gray-600'}`}>Key Clients</p>
+                        <div className="flex flex-wrap justify-center md:justify-start gap-3 sm:gap-4">
                           {item.clients.map((client, cIdx) => (
                             <div key={cIdx} className="relative group/client flex items-center justify-center cursor-help">
-                              <div className="relative w-16 h-16 sm:w-20 sm:h-20 bg-white rounded-2xl border border-white shadow-md flex items-center justify-center transition-transform hover:-translate-y-1"><Image src={client.logo} alt={client.name} fill className="object-contain p-3" /></div>
+                              <div className="relative w-14 h-14 sm:w-20 sm:h-20 bg-white rounded-2xl border border-white shadow-md flex items-center justify-center transition-transform hover:-translate-y-1"><Image src={client.logo} alt={client.name} fill className="object-contain p-2 sm:p-3" /></div>
                               <div className="absolute -bottom-10 opacity-0 group-hover/client:opacity-100 transition-opacity bg-gray-900/90 text-white text-xs font-bold px-3 py-1.5 rounded-lg whitespace-nowrap z-20">{client.name}</div>
                             </div>
                           ))}
@@ -291,12 +291,12 @@ export default function Page() {
 
                   {/* Right Side */}
                   <div className="w-full md:w-2/3 flex flex-col justify-center h-full z-10">
-                    <h5 className="text-sm font-black text-teal-600/70 uppercase tracking-widest mb-6 pb-2 border-b border-teal-500/10">Key Contributions</h5>
-                    <div className="grid sm:grid-cols-2 gap-5">
+                    <h5 className="text-xs sm:text-sm font-black text-teal-600/70 uppercase tracking-widest mb-4 sm:mb-6 pb-2 border-b border-teal-500/10">Key Contributions</h5>
+                    <div className="grid sm:grid-cols-2 gap-4 sm:gap-5">
                       {achievements[item.role]?.map((a, i) => (
-                        <div key={i} className={`flex items-start gap-4 p-5 rounded-2xl border transition-all shadow-sm hover:shadow-md ${isDark ? 'bg-white/[0.03] border-white/5 hover:bg-white/[0.07]' : 'bg-white/70 border-white/60 hover:bg-white/90'}`}>
-                          <div className={`text-2xl mt-0.5 flex-shrink-0 w-10 h-10 flex items-center justify-center rounded-xl ${tIconBox}`}>{a.icon}</div>
-                          <p className={`text-sm leading-relaxed font-semibold ${tSub}`}>{a.text}</p>
+                        <div key={i} className={`flex items-start gap-3 sm:gap-4 p-4 sm:p-5 rounded-2xl border transition-all shadow-sm hover:shadow-md ${isDark ? 'bg-white/[0.03] border-white/5 hover:bg-white/[0.07]' : 'bg-white/70 border-white/60 hover:bg-white/90'}`}>
+                          <div className={`text-xl sm:text-2xl mt-0.5 flex-shrink-0 w-8 h-8 sm:w-10 sm:h-10 flex items-center justify-center rounded-xl ${tIconBox}`}>{a.icon}</div>
+                          <p className={`text-xs sm:text-sm leading-relaxed font-semibold ${tSub}`}>{a.text}</p>
                         </div>
                       ))}
                     </div>
@@ -309,22 +309,22 @@ export default function Page() {
 
         {/* Selected Works Gallery Section (Vertical / Portrait Aspect Ratio) */}
         <section id="projects" ref={refs.projects} className="scroll-mt-24 relative z-10">
-          <div className="text-center md:text-left mb-10">
+          <div className="text-center md:text-left mb-8 sm:mb-10">
             <span className="text-xs font-black text-teal-500 uppercase tracking-widest block mb-2">Portfolio Showcase</span>
-            <h3 className={`text-4xl font-extrabold ${tHead}`}>Selected Works & Highlights</h3>
+            <h3 className={`text-3xl sm:text-4xl font-extrabold ${tHead}`}>Projects & Highlights</h3>
           </div>
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
             {projects.map((project, index) => (
               <motion.div key={index} initial={{ opacity: 0, scale: 0.95 }} whileInView={{ opacity: 1, scale: 1 }} viewport={{ once: true }} transition={{ delay: index * 0.1 }}>
-                <div className={`h-[480px] rounded-[2rem] overflow-hidden cursor-pointer group relative flex flex-col justify-end ${tCard}`}>
+                <div className={`h-[420px] sm:h-[480px] rounded-[2rem] overflow-hidden cursor-pointer group relative flex flex-col justify-end ${tCard}`}>
                   <div className="absolute inset-0 bg-gray-900">
                     <Image src={project.image} alt={project.title} fill className="object-cover group-hover:scale-105 transition-transform duration-700" />
                   </div>
                   {/* Subtle gradient overlay to ensure text readability */}
                   <div className="absolute inset-0 bg-gradient-to-t from-gray-950 via-gray-950/40 to-transparent opacity-90 group-hover:opacity-95 transition-opacity duration-300"></div>
-                  <div className="relative z-10 p-8 text-white transform transition-transform duration-300">
-                    <h4 className="text-2xl font-bold mb-3">{project.title}</h4>
-                    <p className="text-sm text-gray-300 leading-relaxed">{project.description}</p>
+                  <div className="relative z-10 p-6 sm:p-8 text-white transform transition-transform duration-300">
+                    <h4 className="text-xl sm:text-2xl font-bold mb-2 sm:mb-3">{project.title}</h4>
+                    <p className="text-xs sm:text-sm text-gray-300 leading-relaxed">{project.description}</p>
                   </div>
                 </div>
               </motion.div>
@@ -334,44 +334,44 @@ export default function Page() {
 
         {/* Skills */}
         <section id="skills" ref={refs.skills} className="scroll-mt-24 relative z-10">
-          <div className="text-center md:text-left mb-10">
+          <div className="text-center md:text-left mb-8 sm:mb-10">
             <span className="text-xs font-black text-teal-500 uppercase tracking-widest block mb-2">Expertise</span>
-            <h3 className={`text-4xl font-extrabold ${tHead}`}>Core Skills</h3>
+            <h3 className={`text-3xl sm:text-4xl font-extrabold ${tHead}`}>Core Skills</h3>
           </div>
-          <div className={`flex flex-wrap gap-4 p-8 rounded-[2rem] ${tCard}`}>
+          <div className={`flex flex-wrap gap-2.5 sm:gap-4 p-6 sm:p-8 rounded-[2rem] ${tCard}`}>
             {skills.map((skill, index) => (
-              <span key={index} className={`px-6 py-3 backdrop-blur-md rounded-xl shadow-sm border text-sm font-bold hover:-translate-y-1 hover:shadow-md transition-all cursor-default ${isDark ? 'bg-white/5 border-white/10 text-teal-400' : 'bg-white/80 border-white text-teal-800 hover:text-teal-600'}`}>{skill}</span>
+              <span key={index} className={`px-4 py-2 sm:px-6 sm:py-3 backdrop-blur-md rounded-xl shadow-sm border text-xs sm:text-sm font-bold hover:-translate-y-1 hover:shadow-md transition-all cursor-default ${isDark ? 'bg-white/5 border-white/10 text-teal-400' : 'bg-white/80 border-white text-teal-800 hover:text-teal-600'}`}>{skill}</span>
             ))}
           </div>
         </section>
 
         {/* Contact */}
         <section id="contact" ref={refs.contact} className="pb-20 scroll-mt-24 relative z-10">
-          <div className="bg-gradient-to-br from-teal-600 to-teal-950 rounded-[3rem] p-10 sm:p-16 text-white shadow-2xl relative overflow-hidden border border-teal-500/30">
+          <div className="bg-gradient-to-br from-teal-600 to-teal-950 rounded-[2.5rem] sm:rounded-[3rem] p-8 sm:p-16 text-white shadow-2xl relative overflow-hidden border border-teal-500/30">
             <div className="absolute -top-24 -right-24 w-72 h-72 bg-white/10 backdrop-blur-3xl rounded-full pointer-events-none"></div>
             <div className="absolute -bottom-24 -left-24 w-72 h-72 bg-teal-400/20 backdrop-blur-3xl rounded-full pointer-events-none"></div>
             
-            <div className="mb-10 relative z-10">
+            <div className="mb-8 sm:mb-10 relative z-10">
               <span className="text-xs font-black text-teal-300 uppercase tracking-widest block mb-2">Get In Touch</span>
-              <h3 className="text-4xl font-extrabold">Let&apos;s Connect</h3>
+              <h3 className="text-3xl sm:text-4xl font-extrabold">Let&apos;s Connect</h3>
             </div>
             
-            <div className="grid sm:grid-cols-2 gap-8 relative z-10">
-              <a href="mailto:aakarshbommakanti@gmail.com" className="flex items-center gap-5 bg-white/10 hover:bg-white/20 backdrop-blur-md p-5 rounded-2xl transition-all border border-white/10 hover:border-white/30">
-                <span className="w-12 h-12 flex items-center justify-center bg-white text-teal-700 rounded-xl text-2xl shadow-lg">📧</span>
-                <span className="font-bold text-lg truncate">aakarshbommakanti@gmail.com</span>
+            <div className="grid sm:grid-cols-2 gap-4 sm:gap-8 relative z-10">
+              <a href="mailto:aakarshbommakanti@gmail.com" className="flex items-center gap-4 sm:gap-5 bg-white/10 hover:bg-white/20 backdrop-blur-md p-4 sm:p-5 rounded-2xl transition-all border border-white/10 hover:border-white/30">
+                <span className="w-10 h-10 sm:w-12 sm:h-12 flex items-center justify-center bg-white text-teal-700 rounded-xl text-xl sm:text-2xl shadow-lg flex-shrink-0">📧</span>
+                <span className="font-bold text-sm sm:text-lg truncate">aakarshbommakanti@gmail.com</span>
               </a>
-              <div className="flex items-center gap-5 bg-white/10 backdrop-blur-md p-5 rounded-2xl border border-white/5">
-                <span className="w-12 h-12 flex items-center justify-center bg-white text-teal-700 rounded-xl text-2xl shadow-lg">📱</span>
-                <span className="font-bold text-lg">+91 81214 02101</span>
+              <div className="flex items-center gap-4 sm:gap-5 bg-white/10 backdrop-blur-md p-4 sm:p-5 rounded-2xl border border-white/5">
+                <span className="w-10 h-10 sm:w-12 sm:h-12 flex items-center justify-center bg-white text-teal-700 rounded-xl text-xl sm:text-2xl shadow-lg flex-shrink-0">📱</span>
+                <span className="font-bold text-sm sm:text-lg">+91 81214 02101</span>
               </div>
-              <a href="https://twitter.com/aakarsh_ab" target="_blank" rel="noopener noreferrer" className="flex items-center gap-5 bg-white/10 hover:bg-white/20 backdrop-blur-md p-5 rounded-2xl transition-all border border-white/10 hover:border-white/30">
-                <span className="w-12 h-12 flex items-center justify-center bg-white text-teal-700 rounded-xl text-2xl shadow-lg"><FaXTwitter /></span>
-                <span className="font-bold text-lg">@aakarsh_ab</span>
+              <a href="https://twitter.com/aakarsh_ab" target="_blank" rel="noopener noreferrer" className="flex items-center gap-4 sm:gap-5 bg-white/10 hover:bg-white/20 backdrop-blur-md p-4 sm:p-5 rounded-2xl transition-all border border-white/10 hover:border-white/30">
+                <span className="w-10 h-10 sm:w-12 sm:h-12 flex items-center justify-center bg-white text-teal-700 rounded-xl text-xl sm:text-2xl shadow-lg flex-shrink-0"><FaXTwitter /></span>
+                <span className="font-bold text-sm sm:text-lg">@aakarsh_ab</span>
               </a>
-              <div className="flex items-center gap-5 bg-white/10 backdrop-blur-md p-5 rounded-2xl border border-white/5">
-                <span className="w-12 h-12 flex items-center justify-center bg-white text-teal-700 rounded-xl text-2xl shadow-lg">📍</span>
-                <span className="font-bold text-lg">Hyderabad, India</span>
+              <div className="flex items-center gap-4 sm:gap-5 bg-white/10 backdrop-blur-md p-4 sm:p-5 rounded-2xl border border-white/5">
+                <span className="w-10 h-10 sm:w-12 sm:h-12 flex items-center justify-center bg-white text-teal-700 rounded-xl text-xl sm:text-2xl shadow-lg flex-shrink-0">📍</span>
+                <span className="font-bold text-sm sm:text-lg">Hyderabad, India</span>
               </div>
             </div>
           </div>
