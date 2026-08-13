@@ -168,7 +168,7 @@ export default function Page() {
           <div className="flex gap-1 sm:gap-2 overflow-x-auto no-scrollbar">
             {Object.keys(refs).map((key) => (
               <button key={key} onClick={() => scrollTo(refs[key as keyof typeof refs])} className={`px-4 py-2 rounded-full text-xs sm:text-sm font-semibold transition-all duration-300 whitespace-nowrap ${active === key ? "bg-teal-500 text-white shadow-[0_4px_14px_rgba(20,184,166,0.4)] scale-105" : "hover:text-teal-500 hover:bg-white/10"}`}>
-                {key[0].toUpperCase() + key.slice(1)}
+                {key === "projects" ? "Selected Works" : key[0].toUpperCase() + key.slice(1)}
               </button>
             ))}
           </div>
@@ -226,7 +226,10 @@ export default function Page() {
 
         {/* Impact / By The Numbers Section */}
         <section id="impact" ref={refs.impact} className="scroll-mt-24 relative z-10">
-          <h3 className={`text-4xl font-extrabold mb-12 text-center md:text-left ${tHead}`}>Client Impact</h3>
+          <div className="text-center md:text-left mb-10">
+            <span className="text-xs font-black text-teal-400 uppercase tracking-widest block mb-2">Quantifiable Results</span>
+            <h3 className={`text-4xl font-extrabold ${tHead}`}>Track Record & Scale</h3>
+          </div>
           <div className="grid md:grid-cols-3 gap-8">
             {impactData.map((clientData, idx) => (
               <motion.div key={idx} initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: idx * 0.1 }} className={`flex flex-col rounded-[2rem] transition-all duration-300 overflow-hidden ${tCard}`}>
@@ -248,7 +251,10 @@ export default function Page() {
 
         {/* Experience Section */}
         <section id="experience" ref={refs.experience} className="scroll-mt-24 relative z-10">
-          <h3 className={`text-4xl font-extrabold mb-12 text-center md:text-left ${tHead}`}>Experience</h3>
+          <div className="text-center md:text-left mb-10">
+            <span className="text-xs font-black text-teal-400 uppercase tracking-widest block mb-2">Career Journey</span>
+            <h3 className={`text-4xl font-extrabold ${tHead}`}>Professional Experience</h3>
+          </div>
           <div className="space-y-12">
             {experience.map((item, index) => (
               <motion.div key={index} initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, amount: 0.2 }} transition={{ duration: 0.5, delay: index * 0.1 }}>
@@ -295,18 +301,24 @@ export default function Page() {
           </div>
         </section>
 
-        {/* Selected Works Gallery Section */}
+        {/* Selected Works Gallery Section (Vertical / Portrait Aspect Ratio) */}
         <section id="projects" ref={refs.projects} className="scroll-mt-24 relative z-10">
-          <h3 className={`text-4xl font-extrabold mb-12 text-center md:text-left ${tHead}`}>Selected Works</h3>
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="text-center md:text-left mb-10">
+            <span className="text-xs font-black text-teal-400 uppercase tracking-widest block mb-2">Portfolio Showcase</span>
+            <h3 className={`text-4xl font-extrabold ${tHead}`}>Selected Works & Highlights</h3>
+          </div>
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
             {projects.map((project, index) => (
               <motion.div key={index} initial={{ opacity: 0, scale: 0.95 }} whileInView={{ opacity: 1, scale: 1 }} viewport={{ once: true }} transition={{ delay: index * 0.1 }}>
-                <div className={`h-[350px] rounded-[2rem] overflow-hidden cursor-pointer group relative ${tCard}`}>
-                  <div className="absolute inset-0 bg-gray-800"><Image src={project.image} alt={project.title} fill className="object-cover group-hover:scale-110 transition-transform duration-700" /></div>
-                  <div className="absolute inset-0 bg-gradient-to-t from-gray-950/95 via-gray-900/50 to-transparent opacity-85 group-hover:opacity-100 transition-opacity duration-300"></div>
-                  <div className="absolute bottom-0 left-0 w-full p-6 text-white transform translate-y-4 group-hover:translate-y-0 transition-transform duration-300">
-                    <h4 className="text-xl font-bold mb-2">{project.title}</h4>
-                    <p className="text-sm text-gray-300 line-clamp-3 opacity-0 group-hover:opacity-100 transition-opacity duration-300 delay-100">{project.description}</p>
+                <div className={`h-[480px] rounded-[2rem] overflow-hidden cursor-pointer group relative flex flex-col justify-end ${tCard}`}>
+                  <div className="absolute inset-0 bg-gray-900">
+                    <Image src={project.image} alt={project.title} fill className="object-cover group-hover:scale-105 transition-transform duration-700" />
+                  </div>
+                  {/* Subtle gradient overlay to ensure text readability */}
+                  <div className="absolute inset-0 bg-gradient-to-t from-gray-950 via-gray-950/40 to-transparent opacity-90 group-hover:opacity-95 transition-opacity duration-300"></div>
+                  <div className="relative z-10 p-8 text-white transform transition-transform duration-300">
+                    <h4 className="text-2xl font-bold mb-3">{project.title}</h4>
+                    <p className="text-sm text-gray-300 leading-relaxed">{project.description}</p>
                   </div>
                 </div>
               </motion.div>
@@ -316,7 +328,10 @@ export default function Page() {
 
         {/* Skills */}
         <section id="skills" ref={refs.skills} className="scroll-mt-24 relative z-10">
-          <h3 className={`text-4xl font-extrabold mb-10 ${tHead}`}>Core Skills</h3>
+          <div className="text-center md:text-left mb-10">
+            <span className="text-xs font-black text-teal-400 uppercase tracking-widest block mb-2">Expertise</span>
+            <h3 className={`text-4xl font-extrabold ${tHead}`}>Core Skills</h3>
+          </div>
           <div className={`flex flex-wrap gap-4 p-8 rounded-[2rem] ${tCard}`}>
             {skills.map((skill, index) => (
               <span key={index} className={`px-6 py-3 backdrop-blur-md rounded-xl shadow-sm border text-sm font-bold hover:-translate-y-1 hover:shadow-md transition-all cursor-default ${isDark ? 'bg-white/5 border-white/10 text-teal-400' : 'bg-white/80 border-white text-teal-800 hover:text-teal-600'}`}>{skill}</span>
@@ -330,7 +345,11 @@ export default function Page() {
             <div className="absolute -top-24 -right-24 w-72 h-72 bg-white/10 backdrop-blur-3xl rounded-full pointer-events-none"></div>
             <div className="absolute -bottom-24 -left-24 w-72 h-72 bg-teal-400/20 backdrop-blur-3xl rounded-full pointer-events-none"></div>
             
-            <h3 className="text-4xl font-extrabold mb-10 relative z-10">Let&apos;s Connect</h3>
+            <div className="mb-10 relative z-10">
+              <span className="text-xs font-black text-teal-300 uppercase tracking-widest block mb-2">Get In Touch</span>
+              <h3 className="text-4xl font-extrabold">Let&apos;s Connect</h3>
+            </div>
+            
             <div className="grid sm:grid-cols-2 gap-8 relative z-10">
               <a href="mailto:aakarshbommakanti@gmail.com" className="flex items-center gap-5 bg-white/10 hover:bg-white/20 backdrop-blur-md p-5 rounded-2xl transition-all border border-white/10 hover:border-white/30">
                 <span className="w-12 h-12 flex items-center justify-center bg-white text-teal-700 rounded-xl text-2xl shadow-lg">📧</span>
