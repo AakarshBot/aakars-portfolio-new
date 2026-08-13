@@ -17,8 +17,10 @@ const experience = [
 const achievements: Record<string, { text: string; icon: React.ReactNode }[]> = {
   "Head Of YouTube Publishing": [
     { text: "Led YouTube publishing strategy for the 2026 FIFA World Cup as part of Global Publishing, managing HBS delivery workflows and international media assets.", icon: <FaVideo /> },
-    { text: "Grew channel views from 28.18 million to 35.33 million and increased watch time to 61.8 million hours within a single reporting period.", icon: <FaChartLine /> },
-    { text: "Executed comprehensive metadata optimization and A/B testing projects for archival football videos.", icon: <FaGlobe /> },
+    { text: "Managed daily global publishing operations throughout the entirety of 2026, ensuring consistent content delivery across international markets.", icon: <FaGlobe /> },
+    { text: "Directed thumbnail design and visual packaging for the complete 2026 FIFA World Cup content slate, maximizing click-through rates.", icon: <FaPenFancy /> },
+    { text: "Grew channel views from 27.18 million to 35.33 million and increased watch time to 64.95 million hours within a single reporting period.", icon: <FaChartLine /> },
+    { text: "Executed comprehensive metadata optimization and A/B testing projects for archival football videos.", icon: <FaChartLine /> },
   ],
   "Media Manager": [
     { text: "Directed media strategy, increasing engagement by 35% YoY.", icon: <FaVideo /> },
