@@ -31,7 +31,7 @@ const experience = [
 
 const achievements: Record<string, { text: string; icon: React.ReactNode }[]> = {
   "Digital Content Manager": [
-    { text: "FIFA: Led YouTube publishing strategy for the 2026 FIFA World Cup as part of Global Publishing, managing HBS delivery workflows and international media assets.", icon: <FaVideo /> },
+    { text: "FIFA: Oversaw the best year in FIFA YouTube history, leading the publishing strategy for the 2026 FIFA World Cup and managing HBS delivery workflows.", icon: <FaVideo /> },
     { text: "FIFA: Managed daily global publishing operations throughout the entirety of 2026, ensuring consistent content delivery across international markets.", icon: <FaGlobe /> },
     { text: "FIFA: Directed thumbnail design and visual packaging for the complete 2026 FIFA World Cup content slate, maximizing click-through rates.", icon: <FaPenFancy /> },
     { text: "FIFA: Grew channel subscribers from 27.18 million to 35.33 million and increased watch time to 64.95 million hours within a single reporting period.", icon: <FaChartLine /> },
@@ -58,7 +58,7 @@ const achievements: Record<string, { text: string; icon: React.ReactNode }[]> = 
     { text: "Expanded reach through consistent, high-quality analysis.", icon: <FaGlobe /> },
   ],
   "Freelance Writer": [
-    { text: "Authored 20,000+ football articles across global platforms.", icon: <FaPenFancy /> },
+    { text: "Authored 15,000+ football articles across global platforms.", icon: <FaPenFancy /> },
     { text: "Only Indian columnist at RousingTheKop (Liverpool FC fan site).", icon: <FaGlobe /> },
     { text: "Built a readership of 500,000+ with in-depth football analysis.", icon: <FaChartLine /> },
   ],
@@ -71,12 +71,12 @@ const impactData = [
 ];
 
 const projects = [
-  { title: "Future Is Us | Disney+ Hotstar", description: "Produced and scripted a highly-acclaimed two-season sports documentary series following the journey of Hyderabad FC.", image: "/future-is-us.jpg" },
-  { title: "FIFA World Cup 2026 Growth", description: "Led the YouTube publishing strategy resulting in a channel milestone of 35.33M subscribers and over 64M hours of watch time.", image: "/fifa-graph.jpg" },
-  { title: "ISL 'Circle of Parity'", description: "Developed a creative visual content piece for the Indian Super League highlighting league unpredictability.", image: "/isl-parity.jpg" },
-  { title: "2026 Masters Tournament", description: "Coordinated promotional graphics and tune-in visual packaging for FanCode's coverage of the legendary golf major.", image: "/masters-golf.jpg" },
-  { title: "Corporate Cricket Champions", description: "Managed digital launch materials, creating website copy, social media posts, and marketing fliers.", image: "/ccc-launch.jpg" },
-  { title: "Odisha T20 League Strategy", description: "Compiled a 12-day operational framework outlining digital distribution logistics on FanCode and FMCG brand parameters.", image: "/odisha-t20.jpg" },
+  { title: "FIFA YT Publishing", description: "Oversaw the best year in FIFA YouTube history, driving record-breaking subscriber growth and watch time during the 2026 World Cup.", image: "/fifa-yt.jpg" },
+  { title: "FanCode ISL & LALIGA", description: "Produced and managed everyday social media content on FanCode for top-tier global football leagues.", image: "/fancode-content.jpg" },
+  { title: "Future Is Us Docuseries", description: "First-of-its-kind sports docuseries following the journey of Hyderabad FC, aired on Disney+ Hotstar.", image: "/future-is-us.jpg" },
+  { title: "Hyderabad FC Trophy Win", description: "Led the digital media strategy and coverage as Media Manager when Hyderabad FC won the ISL championship.", image: "/hfc-trophy.jpg" },
+  { title: "Microsoft Bing UI", description: "Helped improve the Bing homepage user interface and user experience for real-time sports searches.", image: "/bing-ui.jpg" },
+  { title: "Sports Writer & Editor", description: "Wrote and published over 15,000 articles across global platforms, building a readership of half a million.", image: "/writer.jpg" },
 ];
 
 const skills = ["Content Strategy", "Video Production", "Sports Analytics", "Editorial Leadership", "Social Media Growth", "Storytelling", "Digital Marketing", "SEO & SEM", "Data Visualization", "Brand Management", "Media Relations", "Public Speaking"];
@@ -140,7 +140,7 @@ function TiltCard({ children, className = "" }: { children: React.ReactNode, cla
 
 // ---------- Main Page Component ----------
 export default function Page() {
-  const [isDark, setIsDark] = useState(true); // Premium dark mode by default
+  const [isDark, setIsDark] = useState(true);
   const [active, setActive] = useState("about");
   const [progress, setProgress] = useState(0);
 
