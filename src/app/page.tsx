@@ -7,7 +7,7 @@ import Image from "next/image";
 
 // ---------- Data ----------
 const experience = [
-  { role: "Head Of YouTube Publishing", org: "FIFA", period: "2025–2026", logo: "/fifa.png" },
+  { role: "Head Of YouTube Publishing", org: "FIFA", period: "2026-current", logo: "/fifa.png" },
   { role: "Media Manager", org: "Hyderabad FC", period: "2020–2025", logo: "/hfc.png" },
   { role: "Content Analyst", org: "Microsoft (Bing Sports)", period: "2018–2020", logo: "/microsoft.png" },
   { role: "Editor", org: "The 4th Official", period: "2016–2018", logo: "/4th-official.png" },
