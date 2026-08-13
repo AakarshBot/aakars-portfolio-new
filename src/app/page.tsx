@@ -106,18 +106,38 @@ function useTypewriter(words: string[], speed = 80, pause = 1200) {
   return txt;
 }
 
-// ---------- Background ----------
-function BackgroundTexture() {
+// ---------- Dynamic Glass Background (Cleaned & Professional) ----------
+function GlassBackground() {
   return (
-    <div
-      className="fixed inset-0 -z-10 bg-[#fafafa]"
-      style={{
-        backgroundImage:
-          "radial-gradient(#ddd 1px, transparent 1px), radial-gradient(#ddd 1px, transparent 1px)",
-        backgroundSize: "20px 20px",
-        backgroundPosition: "0 0,10px 10px",
-      }}
-    />
+    <div className="fixed inset-0 -z-10 overflow-hidden bg-[#fafcff]">
+      {/* Cinematic animated light orbs */}
+      <motion.div 
+        animate={{ 
+          x: [0, 100, 0],
+          y: [0, -50, 0],
+          scale: [1, 1.1, 1]
+        }}
+        transition={{ duration: 15, repeat: Infinity, ease: "easeInOut" }}
+        className="absolute top-[-10%] left-[-10%] w-[50vw] h-[50vw] bg-teal-300/30 rounded-full blur-[120px]"
+      />
+      <motion.div 
+        animate={{ 
+          x: [0, -100, 0],
+          y: [0, 100, 0],
+          scale: [1, 1.2, 1]
+        }}
+        transition={{ duration: 20, repeat: Infinity, ease: "easeInOut" }}
+        className="absolute bottom-[-10%] right-[-10%] w-[60vw] h-[60vw] bg-pink-300/20 rounded-full blur-[150px]"
+      />
+      <motion.div 
+        animate={{ 
+          x: [0, 50, 0],
+          y: [0, 50, 0]
+        }}
+        transition={{ duration: 12, repeat: Infinity, ease: "easeInOut" }}
+        className="absolute top-[40%] left-[20%] w-[30vw] h-[30vw] bg-amber-200/20 rounded-full blur-[100px]"
+      />
+    </div>
   );
 }
 
@@ -170,28 +190,28 @@ export default function Page() {
     r.current?.scrollIntoView({ behavior: "smooth" });
 
   return (
-    <div className="min-h-screen text-gray-800 font-sans">
-      <BackgroundTexture />
+    <div className="min-h-screen text-gray-800 font-sans selection:bg-teal-500 selection:text-white">
+      <GlassBackground />
 
       {/* Progress bar */}
-      <div className="fixed top-0 left-0 right-0 h-1 z-50">
+      <div className="fixed top-0 left-0 right-0 h-1.5 z-50 bg-white/20 backdrop-blur-sm">
         <div
-          className="h-1 bg-gradient-to-r from-teal-400 via-pink-400 to-amber-400"
+          className="h-full bg-gradient-to-r from-teal-400 via-pink-400 to-amber-400 rounded-r-full shadow-[0_0_10px_rgba(45,212,191,0.5)]"
           style={{ width: `${progress}%` }}
         />
       </div>
 
-      {/* Navbar */}
-      <header className="sticky top-3 z-50 px-4">
-        <div className="max-w-4xl mx-auto flex justify-center gap-4 rounded-full bg-white/90 backdrop-blur-md px-6 py-3 shadow border border-gray-100">
+      {/* Navbar (Glass) */}
+      <header className="sticky top-4 z-50 px-4">
+        <div className="max-w-4xl mx-auto flex justify-center gap-2 sm:gap-4 rounded-full bg-white/50 backdrop-blur-xl px-4 sm:px-6 py-3 shadow-[0_8px_32px_rgba(0,0,0,0.04)] border border-white/60">
           {Object.keys(refs).map((key) => (
             <button
               key={key}
               onClick={() => scrollTo(refs[key as keyof typeof refs])}
-              className={`px-5 py-2 rounded-full text-sm font-semibold transition-all duration-300 ${
+              className={`px-4 sm:px-6 py-2 rounded-full text-sm font-semibold transition-all duration-300 ${
                 active === key
-                  ? "bg-teal-500 text-white shadow-md scale-105"
-                  : "text-gray-600 hover:bg-gray-100 hover:text-gray-900"
+                  ? "bg-teal-500 text-white shadow-[0_4px_14px_rgba(20,184,166,0.4)] scale-105"
+                  : "text-gray-600 hover:bg-white/80 hover:text-teal-700 hover:shadow-sm"
               }`}
             >
               {key[0].toUpperCase() + key.slice(1)}
@@ -201,85 +221,90 @@ export default function Page() {
       </header>
 
       <main className="max-w-6xl mx-auto px-4 py-10 space-y-32 relative">
-        {/* Hero Section (2-Column Layout) */}
+        {/* Hero Section */}
         <section
           id="about"
           ref={refs.about}
           className="min-h-[85vh] flex items-center justify-center pt-20 md:pt-0"
         >
           <div className="grid md:grid-cols-2 gap-12 md:gap-16 items-center w-full">
+            
             {/* Left Column: Profile & Title */}
-            <div className="flex flex-col items-center md:items-start text-center md:text-left space-y-6">
-              <div className="relative w-56 h-56 sm:w-72 sm:h-72 rounded-full shadow-2xl overflow-hidden flex-shrink-0 border-4 border-white">
-                <Image src="/profile.jpg" alt="Aakarsh Bommakanti" fill className="object-cover" />
-              </div>
+            <div className="flex flex-col items-center md:items-start text-center md:text-left space-y-8">
+              <motion.div 
+                animate={{ y: [-5, 5, -5] }}
+                transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
+                className="relative w-56 h-56 sm:w-72 sm:h-72 rounded-full shadow-[0_20px_50px_rgba(20,184,166,0.2)] overflow-hidden flex-shrink-0 border-4 border-white/80 backdrop-blur-sm p-1"
+              >
+                <div className="relative w-full h-full rounded-full overflow-hidden">
+                  <Image src="/profile.jpg" alt="Aakarsh Bommakanti" fill className="object-cover" />
+                </div>
+              </motion.div>
 
               <div>
-                <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold text-teal-600 tracking-tight">
+                <h1 className="text-4xl sm:text-5xl lg:text-7xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-teal-700 to-teal-400 tracking-tight pb-2">
                   Aakarsh Bommakanti
                 </h1>
-                <p className="text-xl sm:text-2xl font-semibold text-gray-700 h-8 mt-3">
+                <p className="text-xl sm:text-2xl font-bold text-gray-600 h-8 mt-2">
                   {typeText}
-                  <span className="inline-block w-1 h-6 bg-teal-500 animate-pulse ml-1 align-middle"></span>
+                  <span className="inline-block w-1 h-6 bg-pink-400 animate-pulse ml-1 align-middle rounded-full"></span>
                 </p>
               </div>
 
-              <div className="flex flex-col sm:flex-row gap-4 w-full justify-center md:justify-start pt-4">
+              <div className="flex flex-col sm:flex-row gap-4 w-full justify-center md:justify-start pt-2">
                 <motion.div
                   className="relative group w-full sm:w-auto"
                   onClick={() => scrollTo(refs.experience)}
                   whileTap={{ scale: 0.95 }}
                 >
-                  <button className="w-full bg-teal-500 text-white px-8 py-3.5 rounded-full shadow-lg font-medium transition-colors group-hover:bg-white group-hover:text-teal-500 flex items-center justify-center gap-2">
+                  <button className="w-full bg-gradient-to-r from-teal-500 to-teal-400 text-white px-8 py-3.5 rounded-full shadow-[0_8px_20px_rgba(20,184,166,0.3)] font-semibold transition-all group-hover:shadow-[0_8px_25px_rgba(20,184,166,0.5)] flex items-center justify-center gap-2">
                     Explore more ↓
                   </button>
-                  <motion.div
-                    className="absolute inset-0 rounded-full border-2 border-teal-500 z-[-1]"
-                    initial={{ scale: 1 }}
-                    whileHover={{ scale: 1.05 }}
-                    transition={{ type: "spring", stiffness: 400, damping: 10 }}
-                  />
                 </motion.div>
                 
                 <motion.div
                   className="relative group w-full sm:w-auto"
                   whileTap={{ scale: 0.95 }}
                 >
-                  <a href="/AakarshBommakanti-Resume.pdf" download="AakarshBommakanti-Resume.pdf" className="w-full flex items-center justify-center gap-2 bg-white text-teal-500 px-8 py-3.5 rounded-full shadow-lg border-2 border-teal-500 font-medium transition-colors group-hover:bg-teal-500 group-hover:text-white">
+                  <a href="/AakarshBommakanti-Resume.pdf" download="AakarshBommakanti-Resume.pdf" className="w-full flex items-center justify-center gap-2 bg-white/60 backdrop-blur-md text-teal-600 px-8 py-3.5 rounded-full shadow-[0_8px_20px_rgba(0,0,0,0.04)] border border-white/60 font-semibold transition-all group-hover:bg-white group-hover:text-teal-500">
                     <FaDownload />
                     Download CV
                   </a>
-                  <motion.div
-                    className="absolute inset-0 rounded-full border-2 border-teal-500 z-[-1]"
-                    initial={{ scale: 1 }}
-                    whileHover={{ scale: 1.05 }}
-                    transition={{ type: "spring", stiffness: 400, damping: 10 }}
-                  />
                 </motion.div>
               </div>
             </div>
 
-            {/* Right Column: Bio Details */}
-            <div className="text-base sm:text-lg leading-relaxed text-gray-700 space-y-5 text-left bg-white/50 backdrop-blur-sm p-6 sm:p-8 rounded-3xl shadow-sm border border-gray-100">
-              <p>
+            {/* Right Column: Bio Details (True Glassmorphism) */}
+            <motion.div 
+              initial={{ opacity: 0, x: 20 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.8, delay: 0.2 }}
+              className="text-base sm:text-lg leading-relaxed text-gray-800 space-y-6 text-left bg-white/40 backdrop-blur-2xl p-8 sm:p-10 rounded-[2rem] shadow-[0_8px_32px_rgba(0,0,0,0.06)] border border-white/60 relative overflow-hidden"
+            >
+              {/* Internal subtle glow */}
+              <div className="absolute top-0 right-0 w-32 h-32 bg-white/40 blur-2xl rounded-full"></div>
+
+              <p className="relative z-10 font-medium">
                 For over a decade, I&apos;ve worked at the intersection of sport, media and storytelling, helping bring fans closer to the teams, players and moments they care about.
               </p>
-              <p>
+              <p className="relative z-10 font-medium">
                 As a media manager and content creator, I&apos;ve built fan communities from the ground up, scripted a two-season documentary series for Disney+ Hotstar, and led YouTube publishing for the 2026 FIFA World Cup as part of FIFA Global Publishing.
               </p>
-              <p>
+              <p className="relative z-10 font-medium">
                 I&apos;m a hands-on leader who combines tactical analysis, data and creative storytelling to make sports content that people actually want to watch, share and come back to. Along the way, that approach has helped drive significant growth in social engagement and website traffic.
               </p>
-              <p className="font-semibold text-teal-700">
-                At the heart of everything I do is a simple idea: great sports content should make fans feel closer to the game.
-              </p>
-            </div>
+              <div className="relative z-10 p-5 bg-gradient-to-r from-teal-500/10 to-transparent rounded-2xl border-l-4 border-teal-500">
+                <p className="font-bold text-teal-800">
+                  At the heart of everything I do is a simple idea: great sports content should make fans feel closer to the game.
+                </p>
+              </div>
+            </motion.div>
           </div>
         </section>
 
-        {/* Experience & Achievements Section */}
-        <section id="experience" ref={refs.experience} className="scroll-mt-24">
-          <h3 className="text-3xl font-extrabold mb-10 text-center md:text-left text-gray-900">Experience & Achievements</h3>
+        {/* Experience & Achievements Section (Glass Upgraded) */}
+        <section id="experience" ref={refs.experience} className="scroll-mt-24 relative z-10">
+          <h3 className="text-4xl font-extrabold mb-12 text-center md:text-left text-transparent bg-clip-text bg-gradient-to-r from-gray-900 to-gray-600">Experience & Achievements</h3>
           <div className="space-y-12">
             {experience.map((item, index) => (
               <motion.div
@@ -288,35 +313,37 @@ export default function Page() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, amount: 0.2 }}
                 transition={{ duration: 0.5, delay: index * 0.1 }}
-                className="relative p-6 sm:p-8 bg-white rounded-3xl shadow-lg border border-gray-100 flex flex-col md:flex-row gap-8 lg:gap-12 items-start before:absolute before:top-0 before:left-0 before:h-full before:w-1.5 before:bg-gradient-to-b before:from-teal-400 before:to-pink-400 overflow-hidden"
+                className="relative p-6 sm:p-10 bg-white/50 backdrop-blur-xl rounded-[2rem] shadow-[0_8px_30px_rgba(0,0,0,0.04)] border border-white/60 flex flex-col md:flex-row gap-8 lg:gap-12 items-start overflow-hidden group hover:shadow-[0_8px_40px_rgba(20,184,166,0.1)] transition-all duration-500"
               >
+                {/* Decorative side accent */}
+                <div className="absolute top-0 left-0 h-full w-2 bg-gradient-to-b from-teal-400 via-pink-400 to-amber-400 opacity-80"></div>
+
                 {/* Left Side: Logo & Role Info */}
-                <div className="flex flex-col items-center md:items-start text-center md:text-left w-full md:w-1/3 flex-shrink-0 pt-2">
-                  <div className="relative w-24 h-24 sm:w-32 sm:h-32 bg-gray-50 rounded-2xl border border-gray-100 p-4 flex items-center justify-center mb-5 shadow-inner">
-                    <Image src={item.logo} alt={`${item.org} logo`} fill className="object-contain p-3" />
+                <div className="flex flex-col items-center md:items-start text-center md:text-left w-full md:w-1/3 flex-shrink-0 pt-2 z-10">
+                  <div className="relative w-28 h-28 sm:w-36 sm:h-36 bg-white/80 backdrop-blur-md rounded-3xl border border-white shadow-lg p-5 flex items-center justify-center mb-6 group-hover:scale-105 transition-transform duration-500">
+                    <Image src={item.logo} alt={`${item.org} logo`} fill className="object-contain p-4" />
                   </div>
-                  <h4 className="text-2xl font-bold text-gray-900 leading-tight mb-1">
+                  <h4 className="text-3xl font-extrabold text-gray-900 leading-tight mb-2">
                     {item.role}
                   </h4>
-                  <p className="text-xl font-semibold text-teal-600 mb-4">
+                  <p className="text-xl font-bold text-teal-600 mb-5">
                     {item.org}
                   </p>
-                  <span className="inline-block px-4 py-1.5 bg-gray-100 text-gray-600 text-sm font-bold rounded-full tracking-wide">
+                  <span className="inline-block px-5 py-2 bg-white/80 text-gray-700 text-sm font-bold rounded-full tracking-wide shadow-sm border border-gray-100">
                     {item.period}
                   </span>
 
                   {/* Render Clients if they exist */}
                   {item.clients && (
-                    <div className="mt-8 w-full">
-                      <p className="text-xs font-bold text-gray-400 uppercase tracking-wider mb-4 text-center md:text-left border-t border-gray-100 pt-5">Key Clients Managed</p>
+                    <div className="mt-8 w-full bg-white/30 p-5 rounded-2xl border border-white/50">
+                      <p className="text-xs font-black text-gray-500 uppercase tracking-widest mb-4 text-center md:text-left">Key Clients Managed</p>
                       <div className="flex flex-wrap justify-center md:justify-start gap-4">
                         {item.clients.map((client, cIdx) => (
-                          <div key={cIdx} className="relative group flex items-center justify-center cursor-help">
-                            <div className="relative w-16 h-16 sm:w-20 sm:h-20 bg-white rounded-full border border-gray-200 shadow-sm flex items-center justify-center transition-transform group-hover:scale-110 group-hover:border-teal-300">
+                          <div key={cIdx} className="relative group/client flex items-center justify-center cursor-help">
+                            <div className="relative w-16 h-16 sm:w-20 sm:h-20 bg-white rounded-2xl border border-white shadow-md flex items-center justify-center transition-transform hover:-translate-y-1 hover:shadow-lg">
                               <Image src={client.logo} alt={client.name} fill className="object-contain p-3" />
                             </div>
-                            {/* Tooltip */}
-                            <div className="absolute -bottom-12 opacity-0 group-hover:opacity-100 transition-opacity bg-gray-800 text-white text-xs px-2 py-1.5 rounded whitespace-nowrap z-10 pointer-events-none shadow-lg">
+                            <div className="absolute -bottom-10 opacity-0 group-hover/client:opacity-100 transition-opacity bg-gray-900/90 backdrop-blur-sm text-white text-xs font-bold px-3 py-1.5 rounded-lg whitespace-nowrap z-20 pointer-events-none shadow-xl">
                               {client.name}
                             </div>
                           </div>
@@ -327,15 +354,15 @@ export default function Page() {
                 </div>
 
                 {/* Right Side: Achievements Grid */}
-                <div className="w-full md:w-2/3 flex flex-col justify-center h-full">
-                  <h5 className="text-sm font-bold text-gray-400 uppercase tracking-wider mb-4 border-b border-gray-100 pb-2">Key Contributions</h5>
-                  <div className="grid sm:grid-cols-2 gap-4">
+                <div className="w-full md:w-2/3 flex flex-col justify-center h-full z-10">
+                  <h5 className="text-sm font-black text-teal-700/50 uppercase tracking-widest mb-6 pb-2 border-b border-teal-500/10">Key Contributions</h5>
+                  <div className="grid sm:grid-cols-2 gap-5">
                     {achievements[item.role]?.map((a, i) => (
-                      <div key={i} className="flex items-start gap-3 p-4 bg-gray-50 hover:bg-teal-50/40 rounded-2xl transition-colors duration-300 border border-transparent hover:border-teal-100">
-                        <div className="text-teal-500 text-xl mt-0.5 flex-shrink-0">
+                      <div key={i} className="flex items-start gap-4 p-5 bg-white/60 hover:bg-white/90 backdrop-blur-sm rounded-2xl transition-all duration-300 border border-white/50 shadow-sm hover:shadow-md">
+                        <div className="text-teal-500 text-2xl mt-0.5 flex-shrink-0 bg-teal-50 w-10 h-10 flex items-center justify-center rounded-xl">
                           {a.icon}
                         </div>
-                        <p className="text-sm text-gray-700 leading-relaxed font-medium">{a.text}</p>
+                        <p className="text-sm text-gray-700 leading-relaxed font-semibold">{a.text}</p>
                       </div>
                     ))}
                   </div>
@@ -346,13 +373,13 @@ export default function Page() {
         </section>
 
         {/* Skills */}
-        <section id="skills" ref={refs.skills} className="scroll-mt-24">
-          <h3 className="text-3xl font-extrabold mb-8 text-gray-900">Core Skills</h3>
-          <div className="flex flex-wrap gap-3">
+        <section id="skills" ref={refs.skills} className="scroll-mt-24 relative z-10">
+          <h3 className="text-4xl font-extrabold mb-10 text-gray-900">Core Skills</h3>
+          <div className="flex flex-wrap gap-4 p-8 bg-white/40 backdrop-blur-xl rounded-[2rem] border border-white/60 shadow-[0_8px_30px_rgba(0,0,0,0.04)]">
             {skills.map((skill, index) => (
               <span
                 key={index}
-                className="px-5 py-2.5 bg-white rounded-full shadow-sm border border-gray-200 text-sm font-semibold text-teal-700 hover:shadow-md hover:border-teal-300 transition-all cursor-default"
+                className="px-6 py-3 bg-white/80 backdrop-blur-md rounded-xl shadow-sm border border-white text-sm font-bold text-teal-800 hover:-translate-y-1 hover:shadow-md hover:text-teal-600 transition-all cursor-default"
               >
                 {skill}
               </span>
@@ -361,30 +388,31 @@ export default function Page() {
         </section>
 
         {/* Contact */}
-        <section id="contact" ref={refs.contact} className="pb-20 scroll-mt-24">
-          <div className="bg-teal-600 rounded-3xl p-8 sm:p-12 text-white shadow-xl relative overflow-hidden">
-            {/* Decorative background circle */}
-            <div className="absolute -top-24 -right-24 w-64 h-64 bg-teal-500 rounded-full opacity-50 blur-3xl"></div>
+        <section id="contact" ref={refs.contact} className="pb-20 scroll-mt-24 relative z-10">
+          <div className="bg-gradient-to-br from-teal-600 to-teal-800 rounded-[3rem] p-10 sm:p-16 text-white shadow-2xl relative overflow-hidden border border-teal-500/30">
+            {/* Decorative background glass orbs inside contact */}
+            <div className="absolute -top-24 -right-24 w-72 h-72 bg-white/10 backdrop-blur-3xl rounded-full"></div>
+            <div className="absolute -bottom-24 -left-24 w-72 h-72 bg-teal-400/20 backdrop-blur-3xl rounded-full"></div>
             
-            <h3 className="text-3xl font-extrabold mb-8 relative z-10">Let&apos;s Connect</h3>
-            <div className="grid sm:grid-cols-2 gap-6 relative z-10">
-              <a href="mailto:aakarshbommakanti@gmail.com" className="flex items-center gap-4 bg-teal-700/50 p-4 rounded-2xl hover:bg-teal-700 transition-colors">
-                <span className="w-10 h-10 flex items-center justify-center bg-white text-teal-600 rounded-full text-xl shadow-sm">📧</span>
-                <span className="font-medium truncate">aakarshbommakanti@gmail.com</span>
+            <h3 className="text-4xl font-extrabold mb-10 relative z-10">Let&apos;s Connect</h3>
+            <div className="grid sm:grid-cols-2 gap-8 relative z-10">
+              <a href="mailto:aakarshbommakanti@gmail.com" className="flex items-center gap-5 bg-white/10 hover:bg-white/20 backdrop-blur-md p-5 rounded-2xl transition-all border border-white/10 hover:border-white/30">
+                <span className="w-12 h-12 flex items-center justify-center bg-white text-teal-700 rounded-xl text-2xl shadow-lg">📧</span>
+                <span className="font-bold text-lg truncate">aakarshbommakanti@gmail.com</span>
               </a>
-              <div className="flex items-center gap-4 bg-teal-700/50 p-4 rounded-2xl">
-                <span className="w-10 h-10 flex items-center justify-center bg-white text-teal-600 rounded-full text-xl shadow-sm">📱</span>
-                <span className="font-medium">+91 81214 02101</span>
+              <div className="flex items-center gap-5 bg-white/10 backdrop-blur-md p-5 rounded-2xl border border-white/5">
+                <span className="w-12 h-12 flex items-center justify-center bg-white text-teal-700 rounded-xl text-2xl shadow-lg">📱</span>
+                <span className="font-bold text-lg">+91 81214 02101</span>
               </div>
-              <a href="https://twitter.com/aakarsh_ab" target="_blank" rel="noopener noreferrer" className="flex items-center gap-4 bg-teal-700/50 p-4 rounded-2xl hover:bg-teal-700 transition-colors">
-                <span className="w-10 h-10 flex items-center justify-center bg-white text-teal-600 rounded-full text-xl shadow-sm">
+              <a href="https://twitter.com/aakarsh_ab" target="_blank" rel="noopener noreferrer" className="flex items-center gap-5 bg-white/10 hover:bg-white/20 backdrop-blur-md p-5 rounded-2xl transition-all border border-white/10 hover:border-white/30">
+                <span className="w-12 h-12 flex items-center justify-center bg-white text-teal-700 rounded-xl text-2xl shadow-lg">
                   <FaXTwitter />
                 </span>
-                <span className="font-medium">@aakarsh_ab</span>
+                <span className="font-bold text-lg">@aakarsh_ab</span>
               </a>
-              <div className="flex items-center gap-4 bg-teal-700/50 p-4 rounded-2xl">
-                <span className="w-10 h-10 flex items-center justify-center bg-white text-teal-600 rounded-full text-xl shadow-sm">📍</span>
-                <span className="font-medium">Hyderabad, India</span>
+              <div className="flex items-center gap-5 bg-white/10 backdrop-blur-md p-5 rounded-2xl border border-white/5">
+                <span className="w-12 h-12 flex items-center justify-center bg-white text-teal-700 rounded-xl text-2xl shadow-lg">📍</span>
+                <span className="font-bold text-lg">Hyderabad, India</span>
               </div>
             </div>
           </div>
