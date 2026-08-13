@@ -228,7 +228,7 @@ export default function Page() {
         <section id="impact" ref={refs.impact} className="scroll-mt-24 relative z-10">
           <div className="text-center md:text-left mb-10">
             <span className="text-xs font-black text-teal-400 uppercase tracking-widest block mb-2">Quantifiable Results</span>
-            <h3 className={`text-4xl font-extrabold ${tHead}`}>Track Record & Scale</h3>
+            <h3 className={`text-4xl font-extrabold ${tHead}`}>Key Numbers</h3>
           </div>
           <div className="grid md:grid-cols-3 gap-8">
             {impactData.map((clientData, idx) => (
