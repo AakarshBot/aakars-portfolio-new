@@ -7,7 +7,18 @@ import Image from "next/image";
 
 // ---------- Data ----------
 const experience = [
-  { role: "Head Of YouTube Publishing", org: "FIFA", period: "2026-current", logo: "/fifa.png" },
+  { 
+    role: "Digital Content Manager", 
+    org: "Red Lantern Digital Media", 
+    period: "2026-current", 
+    logo: "/redlantern.png",
+    clients: [
+      { name: "FIFA", logo: "/fifa.png" },
+      { name: "FanCode", logo: "/fancode.png" },
+      { name: "Premier League India", logo: "/pl-india.png" },
+      { name: "Liverpool India", logo: "/lfc-india.png" }
+    ]
+  },
   { role: "Media Manager", org: "Hyderabad FC", period: "2020–2025", logo: "/hfc.png" },
   { role: "Content Analyst", org: "Microsoft (Bing Sports)", period: "2018–2020", logo: "/microsoft.png" },
   { role: "Editor", org: "The 4th Official", period: "2016–2018", logo: "/4th-official.png" },
@@ -15,12 +26,14 @@ const experience = [
 ];
 
 const achievements: Record<string, { text: string; icon: React.ReactNode }[]> = {
-  "Head Of YouTube Publishing": [
-    { text: "Led YouTube publishing strategy for the 2026 FIFA World Cup as part of Global Publishing, managing HBS delivery workflows and international media assets.", icon: <FaVideo /> },
-    { text: "Managed daily global publishing operations throughout the entirety of 2026, ensuring consistent content delivery across international markets.", icon: <FaGlobe /> },
-    { text: "Directed thumbnail design and visual packaging for the complete 2026 FIFA World Cup content slate, maximizing click-through rates.", icon: <FaPenFancy /> },
-    { text: "Grew channel subscribers from 27.18 million to 35.33 million and increased watch time to 64.95 million hours within a single reporting period.", icon: <FaChartLine /> },
-    { text: "Executed comprehensive metadata optimization and A/B testing projects for archival football videos.", icon: <FaChartLine /> },
+  "Digital Content Manager": [
+    { text: "FIFA: Led YouTube publishing strategy for the 2026 FIFA World Cup as part of Global Publishing, managing HBS delivery workflows and international media assets.", icon: <FaVideo /> },
+    { text: "FIFA: Managed daily global publishing operations throughout the entirety of 2026, ensuring consistent content delivery across international markets.", icon: <FaGlobe /> },
+    { text: "FIFA: Directed thumbnail design and visual packaging for the complete 2026 FIFA World Cup content slate, maximizing click-through rates.", icon: <FaPenFancy /> },
+    { text: "FIFA: Grew channel subscribers from 27.18 million to 35.33 million and increased watch time to 64.95 million hours within a single reporting period.", icon: <FaChartLine /> },
+    { text: "FanCode: Managed daily social media content publishing for major sports leagues including the ISL and La Liga.", icon: <FaGlobe /> },
+    { text: "FanCode: Formulated comprehensive weekly content plans and performance reports to drive engagement strategy.", icon: <FaChartLine /> },
+    { text: "FanCode: Produced and edited high-performing social media content utilizing raw broadcast assets.", icon: <FaVideo /> },
   ],
   "Media Manager": [
     { text: "Directed media strategy, increasing engagement by 35% YoY.", icon: <FaVideo /> },
@@ -291,6 +304,26 @@ export default function Page() {
                   <span className="inline-block px-4 py-1.5 bg-gray-100 text-gray-600 text-sm font-bold rounded-full tracking-wide">
                     {item.period}
                   </span>
+
+                  {/* Render Clients if they exist */}
+                  {item.clients && (
+                    <div className="mt-8 w-full">
+                      <p className="text-xs font-bold text-gray-400 uppercase tracking-wider mb-3 text-center md:text-left border-t border-gray-100 pt-5">Key Clients Managed</p>
+                      <div className="flex flex-wrap justify-center md:justify-start gap-3">
+                        {item.clients.map((client, cIdx) => (
+                          <div key={cIdx} className="relative group flex items-center justify-center cursor-help">
+                            <div className="relative w-12 h-12 bg-white rounded-full border border-gray-200 shadow-sm flex items-center justify-center transition-transform group-hover:scale-110 group-hover:border-teal-300">
+                              <Image src={client.logo} alt={client.name} fill className="object-contain p-2" />
+                            </div>
+                            {/* Tooltip */}
+                            <div className="absolute -bottom-10 opacity-0 group-hover:opacity-100 transition-opacity bg-gray-800 text-white text-xs px-2 py-1.5 rounded whitespace-nowrap z-10 pointer-events-none shadow-lg">
+                              {client.name}
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  )}
                 </div>
 
                 {/* Right Side: Achievements Grid */}
