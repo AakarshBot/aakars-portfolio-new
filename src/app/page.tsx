@@ -1,22 +1,3 @@
-That is a brilliant idea. A two-column layout for the Hero section will balance the page beautifully and make it look much more professional on desktop monitors. Combining the Experience and Achievements into a single "card" layout is also a massive upgrade—it removes the clunky tabs, makes your brand logos pop, and shows exactly what you achieved at each specific job at a glance.
-
-I have completely refactored the layout to match your vision while keeping all your colors, animations, and themes exactly the same.
-
-### What changed in this layout:
-
-1. **Hero Section (About):** Switched to a CSS Grid. The image, name, typing text, and buttons are stacked on the left, and your bio paragraphs are on the right.
-2. **Experience Cards:** Built a brand new layout for each job.
-* **Left Side:** A much larger logo box (scaled up to 32x32 size on desktop), followed by your Job Title, Company Name (in teal), and a clean pill-shaped badge for the date period.
-* **Right Side:** Your achievements for that specific role are now dynamically mapped right next to the job info in a clean, subtle grid format.
-
-
-3. **Streamlined Navigation:** Removed the standalone "Achievements" section and navigation link, since it is now perfectly integrated into "Experience".
-
-### Please copy the code below.
-
-*(Use the "Copy code" button in the top right corner of the block to ensure no stray characters or markdown backticks get pasted!)*
-
-```tsx
 "use client";
 
 import React, { useEffect, useRef, useState, useMemo } from "react";
@@ -377,5 +358,3 @@ export default function Page() {
     </div>
   );
 }
-
-```
