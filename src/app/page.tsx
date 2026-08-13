@@ -168,17 +168,17 @@ export default function Page() {
         <div className="h-full bg-gradient-to-r from-teal-400 via-pink-400 to-amber-400 rounded-r-full shadow-[0_0_10px_rgba(45,212,191,0.5)]" style={{ width: `${progress}%` }} />
       </div>
 
-      {/* Navbar with Theme Toggle (Fully Mobile Responsive Wrap) */}
+      {/* Navbar with Theme Toggle (Wrapped neatly to prevent scrollbars) */}
       <header className="sticky top-4 z-50 px-2 sm:px-4">
-        <div className={`max-w-5xl mx-auto flex flex-col sm:flex-row justify-between items-center rounded-2xl sm:rounded-full px-4 py-3 gap-3 transition-colors duration-500 shadow-lg ${tNav}`}>
-          <div className="flex flex-wrap justify-center items-center gap-1.5 sm:gap-6 w-full">
+        <div className={`max-w-5xl mx-auto flex flex-wrap justify-between items-center rounded-2xl sm:rounded-full px-4 py-3 gap-3 transition-colors duration-500 shadow-lg ${tNav}`}>
+          <div className="flex flex-wrap justify-center items-center gap-1.5 sm:gap-4 w-full sm:w-auto flex-1">
             {Object.keys(refs).map((key) => (
               <button key={key} onClick={() => scrollTo(refs[key as keyof typeof refs])} className={`px-3 py-1.5 sm:px-4 sm:py-2 rounded-full text-xs sm:text-sm font-semibold transition-all duration-300 ${active === key ? "bg-teal-500 text-white shadow-[0_4px_14px_rgba(20,184,166,0.4)] scale-105" : "hover:text-teal-500 hover:bg-white/10"}`}>
                 {key === "projects" ? "Selected Works" : key[0].toUpperCase() + key.slice(1)}
               </button>
             ))}
           </div>
-          <button onClick={() => setIsDark(!isDark)} className="p-2.5 rounded-full bg-white/10 hover:bg-white/20 text-teal-400 transition-all shadow-inner flex-shrink-0 self-end sm:self-center">
+          <button onClick={() => setIsDark(!isDark)} className="p-2.5 rounded-full bg-white/10 hover:bg-white/20 text-teal-400 transition-all shadow-inner flex-shrink-0 mx-auto sm:mx-0">
             {isDark ? <FaSun className="text-amber-300" /> : <FaMoon className="text-teal-600" />}
           </button>
         </div>
@@ -311,7 +311,7 @@ export default function Page() {
         <section id="projects" ref={refs.projects} className="scroll-mt-24 relative z-10">
           <div className="text-center md:text-left mb-8 sm:mb-10">
             <span className="text-xs font-black text-teal-500 uppercase tracking-widest block mb-2">Portfolio Showcase</span>
-            <h3 className={`text-3xl sm:text-4xl font-extrabold ${tHead}`}>Projects & Highlights</h3>
+            <h3 className={`text-3xl sm:text-4xl font-extrabold ${tHead}`}>Selected Works & Highlights</h3>
           </div>
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
             {projects.map((project, index) => (
