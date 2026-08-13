@@ -1,3 +1,4 @@
+```tsx
 "use client";
 
 import React, { useEffect, useRef, useState, useMemo } from "react";
@@ -357,3 +358,5 @@ export default function Page() {
     </div>
   );
 }
+
+```
