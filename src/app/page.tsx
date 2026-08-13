@@ -135,24 +135,26 @@ export default function Page() {
 
   const scrollTo = (r: React.RefObject<HTMLElement>) => r.current?.scrollIntoView({ behavior: "smooth" });
 
-  // Theme Variables
+  // Glassmorphism Theme Classes
   const tBg = isDark ? "bg-[#050a14] text-gray-100" : "bg-[#fafcff] text-gray-800";
-  const tCard = isDark ? "bg-white/5 border-white/10 shadow-[0_8px_30px_rgba(0,0,0,0.5)] hover:bg-white/10" : "bg-white/50 border-white/60 shadow-[0_8px_30px_rgba(0,0,0,0.04)] hover:bg-white/70";
-  const tNav = isDark ? "bg-gray-900/50 border-white/10 text-gray-400" : "bg-white/50 border-white/60 text-gray-600";
+  const tCard = isDark 
+    ? "bg-white/[0.04] backdrop-blur-2xl border border-white/10 shadow-[0_8px_32px_0_rgba(0,0,0,0.37)] hover:bg-white/[0.07]" 
+    : "bg-white/50 backdrop-blur-2xl border border-white/60 shadow-[0_8px_32px_0_rgba(31,38,135,0.07)] hover:bg-white/70";
+  const tNav = isDark ? "bg-gray-900/60 backdrop-blur-2xl border-white/10 text-gray-300" : "bg-white/60 backdrop-blur-2xl border-white/60 text-gray-700";
   const tHead = isDark ? "text-white" : "text-gray-900";
   const tSub = isDark ? "text-gray-300" : "text-gray-700";
   const tBadge = isDark ? "bg-gray-800/80 border-gray-700 text-gray-300" : "bg-white/80 border-gray-100 text-gray-700";
-  const tClient = isDark ? "bg-gray-900/50 border-gray-800" : "bg-white/30 border-white/50";
+  const tClient = isDark ? "bg-white/[0.02] border-white/5 backdrop-blur-md" : "bg-white/30 border-white/50 backdrop-blur-md";
   const tIconBox = isDark ? "bg-teal-500/10 text-teal-400" : "bg-teal-50 text-teal-500";
 
   return (
     <div className={`min-h-screen font-sans selection:bg-teal-500 selection:text-white transition-colors duration-700 ${tBg}`}>
       
-      {/* Background Orbs */}
+      {/* Background Animated Light Orbs */}
       <div className="fixed inset-0 -z-10 overflow-hidden pointer-events-none">
-        <motion.div animate={{ x: [0, 100, 0], y: [0, -50, 0], scale: [1, 1.1, 1] }} transition={{ duration: 15, repeat: Infinity, ease: "easeInOut" }} className={`absolute top-[-10%] left-[-10%] w-[50vw] h-[50vw] rounded-full blur-[120px] transition-colors duration-700 ${isDark ? 'bg-teal-500/20' : 'bg-teal-300/30'}`} />
-        <motion.div animate={{ x: [0, -100, 0], y: [0, 100, 0], scale: [1, 1.2, 1] }} transition={{ duration: 20, repeat: Infinity, ease: "easeInOut" }} className={`absolute bottom-[-10%] right-[-10%] w-[60vw] h-[60vw] rounded-full blur-[150px] transition-colors duration-700 ${isDark ? 'bg-pink-600/10' : 'bg-pink-300/20'}`} />
-        <motion.div animate={{ x: [0, 50, 0], y: [0, 50, 0] }} transition={{ duration: 12, repeat: Infinity, ease: "easeInOut" }} className={`absolute top-[40%] left-[20%] w-[30vw] h-[30vw] rounded-full blur-[100px] transition-colors duration-700 ${isDark ? 'bg-amber-500/10' : 'bg-amber-200/20'}`} />
+        <motion.div animate={{ x: [0, 100, 0], y: [0, -50, 0], scale: [1, 1.1, 1] }} transition={{ duration: 15, repeat: Infinity, ease: "easeInOut" }} className={`absolute top-[-10%] left-[-10%] w-[50vw] h-[50vw] rounded-full blur-[140px] transition-colors duration-700 ${isDark ? 'bg-teal-500/15' : 'bg-teal-300/30'}`} />
+        <motion.div animate={{ x: [0, -100, 0], y: [0, 100, 0], scale: [1, 1.2, 1] }} transition={{ duration: 20, repeat: Infinity, ease: "easeInOut" }} className={`absolute bottom-[-10%] right-[-10%] w-[60vw] h-[60vw] rounded-full blur-[160px] transition-colors duration-700 ${isDark ? 'bg-pink-600/10' : 'bg-pink-300/20'}`} />
+        <motion.div animate={{ x: [0, 50, 0], y: [0, 50, 0] }} transition={{ duration: 12, repeat: Infinity, ease: "easeInOut" }} className={`absolute top-[40%] left-[20%] w-[30vw] h-[30vw] rounded-full blur-[120px] transition-colors duration-700 ${isDark ? 'bg-amber-500/10' : 'bg-amber-200/20'}`} />
       </div>
 
       {/* Progress bar */}
@@ -162,7 +164,7 @@ export default function Page() {
 
       {/* Navbar with Theme Toggle */}
       <header className="sticky top-4 z-50 px-4">
-        <div className={`max-w-4xl mx-auto flex justify-between items-center rounded-full backdrop-blur-xl px-4 sm:px-6 py-3 transition-colors duration-500 ${tNav}`}>
+        <div className={`max-w-4xl mx-auto flex justify-between items-center rounded-full px-4 sm:px-6 py-3 transition-colors duration-500 shadow-lg ${tNav}`}>
           <div className="flex gap-1 sm:gap-2 overflow-x-auto no-scrollbar">
             {Object.keys(refs).map((key) => (
               <button key={key} onClick={() => scrollTo(refs[key as keyof typeof refs])} className={`px-4 py-2 rounded-full text-xs sm:text-sm font-semibold transition-all duration-300 whitespace-nowrap ${active === key ? "bg-teal-500 text-white shadow-[0_4px_14px_rgba(20,184,166,0.4)] scale-105" : "hover:text-teal-500 hover:bg-white/10"}`}>
@@ -210,12 +212,12 @@ export default function Page() {
               </div>
             </div>
 
-            <div className={`backdrop-blur-2xl p-8 sm:p-10 rounded-[2rem] transition-colors duration-500 relative overflow-hidden ${tCard}`}>
-              <div className="absolute top-0 right-0 w-32 h-32 bg-white/10 blur-2xl rounded-full"></div>
+            <div className={`p-8 sm:p-10 rounded-[2rem] transition-all duration-500 relative overflow-hidden ${tCard}`}>
+              <div className="absolute top-0 right-0 w-32 h-32 bg-teal-500/10 blur-3xl rounded-full pointer-events-none"></div>
               <p className={`relative z-10 font-medium mb-6 ${isDark ? 'text-gray-300' : 'text-gray-800'}`}>For over a decade, I&apos;ve worked at the intersection of sport, media and storytelling, helping bring fans closer to the teams, players and moments they care about.</p>
               <p className={`relative z-10 font-medium mb-6 ${isDark ? 'text-gray-300' : 'text-gray-800'}`}>As a media manager and content creator, I&apos;ve built fan communities from the ground up, scripted a two-season documentary series for Disney+ Hotstar, and led YouTube publishing for the 2026 FIFA World Cup.</p>
               <p className={`relative z-10 font-medium mb-6 ${isDark ? 'text-gray-300' : 'text-gray-800'}`}>I&apos;m a hands-on leader who combines tactical analysis, data and creative storytelling to make sports content that people actually want to watch, share and come back to.</p>
-              <div className="relative z-10 p-5 bg-gradient-to-r from-teal-500/10 to-transparent rounded-2xl border-l-4 border-teal-500">
+              <div className={`relative z-10 p-5 rounded-2xl border-l-4 border-teal-500 ${isDark ? 'bg-teal-500/10' : 'bg-teal-50'}`}>
                 <p className="font-bold text-teal-400">At the heart of everything I do is a simple idea: great sports content should make fans feel closer to the game.</p>
               </div>
             </div>
@@ -227,15 +229,15 @@ export default function Page() {
           <h3 className={`text-4xl font-extrabold mb-12 text-center md:text-left ${tHead}`}>Client Impact</h3>
           <div className="grid md:grid-cols-3 gap-8">
             {impactData.map((clientData, idx) => (
-              <motion.div key={idx} initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: idx * 0.1 }} className={`flex flex-col backdrop-blur-xl rounded-[2rem] transition-all duration-300 overflow-hidden ${tCard}`}>
+              <motion.div key={idx} initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: idx * 0.1 }} className={`flex flex-col rounded-[2rem] transition-all duration-300 overflow-hidden ${tCard}`}>
                 <div className="bg-white/5 flex items-center justify-center p-8 border-b border-white/10">
-                  <div className="relative w-24 h-24 bg-white rounded-2xl shadow-sm p-4 flex items-center justify-center"><Image src={clientData.logo} alt={clientData.client} fill className="object-contain p-2" /></div>
+                  <div className="relative w-24 h-24 bg-white/80 backdrop-blur-md rounded-2xl shadow-sm p-4 flex items-center justify-center"><Image src={clientData.logo} alt={clientData.client} fill className="object-contain p-2" /></div>
                 </div>
                 <div className="p-8 flex-1 flex flex-col justify-center space-y-6">
                   {clientData.stats.map((stat, sIdx) => (
                     <div key={sIdx} className="text-center">
-                      <h4 className="text-3xl font-black text-teal-500 mb-1">{stat.value}</h4>
-                      <p className="text-xs font-bold text-gray-500 uppercase tracking-wider">{stat.label}</p>
+                      <h4 className="text-3xl font-black text-teal-400 mb-1">{stat.value}</h4>
+                      <p className="text-xs font-bold text-gray-400 uppercase tracking-wider">{stat.label}</p>
                     </div>
                   ))}
                 </div>
@@ -250,19 +252,19 @@ export default function Page() {
           <div className="space-y-12">
             {experience.map((item, index) => (
               <motion.div key={index} initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, amount: 0.2 }} transition={{ duration: 0.5, delay: index * 0.1 }}>
-                <div className={`backdrop-blur-xl rounded-[2rem] p-6 sm:p-10 flex flex-col md:flex-row gap-8 lg:gap-12 items-start group transition-all duration-500 relative overflow-hidden ${tCard}`}>
+                <div className={`rounded-[2rem] p-6 sm:p-10 flex flex-col md:flex-row gap-8 lg:gap-12 items-start group transition-all duration-500 relative overflow-hidden ${tCard}`}>
                   <div className="absolute top-0 left-0 h-full w-2 bg-gradient-to-b from-teal-400 via-pink-400 to-amber-400 opacity-80"></div>
                   
                   {/* Left Side */}
                   <div className="flex flex-col items-center md:items-start text-center md:text-left w-full md:w-1/3 flex-shrink-0 pt-2 z-10">
-                    <div className="relative w-28 h-28 sm:w-36 sm:h-36 bg-white rounded-3xl shadow-lg p-5 flex items-center justify-center mb-6"><Image src={item.logo} alt={`${item.org} logo`} fill className="object-contain p-4" /></div>
+                    <div className="relative w-28 h-28 sm:w-36 sm:h-36 bg-white/80 backdrop-blur-md rounded-3xl shadow-lg p-5 flex items-center justify-center mb-6"><Image src={item.logo} alt={`${item.org} logo`} fill className="object-contain p-4" /></div>
                     <h4 className={`text-2xl sm:text-3xl font-extrabold leading-tight mb-2 ${tHead}`}>{item.role}</h4>
-                    <p className="text-xl font-bold text-teal-500 mb-5">{item.org}</p>
+                    <p className="text-xl font-bold text-teal-400 mb-5">{item.org}</p>
                     <span className={`inline-block px-5 py-2 text-sm font-bold rounded-full tracking-wide border ${tBadge}`}>{item.period}</span>
 
                     {item.clients && (
                       <div className={`mt-8 w-full p-5 rounded-2xl border ${tClient}`}>
-                        <p className="text-xs font-black text-gray-500 uppercase tracking-widest mb-4 text-center md:text-left">Key Clients</p>
+                        <p className="text-xs font-black text-gray-400 uppercase tracking-widest mb-4 text-center md:text-left">Key Clients</p>
                         <div className="flex flex-wrap justify-center md:justify-start gap-4">
                           {item.clients.map((client, cIdx) => (
                             <div key={cIdx} className="relative group/client flex items-center justify-center cursor-help">
@@ -277,10 +279,10 @@ export default function Page() {
 
                   {/* Right Side */}
                   <div className="w-full md:w-2/3 flex flex-col justify-center h-full z-10">
-                    <h5 className="text-sm font-black text-teal-600/50 uppercase tracking-widest mb-6 pb-2 border-b border-teal-500/10">Key Contributions</h5>
+                    <h5 className="text-sm font-black text-teal-500/60 uppercase tracking-widest mb-6 pb-2 border-b border-teal-500/10">Key Contributions</h5>
                     <div className="grid sm:grid-cols-2 gap-5">
                       {achievements[item.role]?.map((a, i) => (
-                        <div key={i} className={`flex items-start gap-4 p-5 backdrop-blur-sm rounded-2xl border transition-all shadow-sm hover:shadow-md ${isDark ? 'bg-white/5 border-white/5 hover:bg-white/10' : 'bg-white/60 border-white/50 hover:bg-white/90'}`}>
+                        <div key={i} className={`flex items-start gap-4 p-5 rounded-2xl border transition-all shadow-sm hover:shadow-md ${isDark ? 'bg-white/[0.03] border-white/5 hover:bg-white/[0.07]' : 'bg-white/60 border-white/50 hover:bg-white/90'}`}>
                           <div className={`text-2xl mt-0.5 flex-shrink-0 w-10 h-10 flex items-center justify-center rounded-xl ${tIconBox}`}>{a.icon}</div>
                           <p className={`text-sm leading-relaxed font-semibold ${tSub}`}>{a.text}</p>
                         </div>
@@ -299,9 +301,9 @@ export default function Page() {
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
             {projects.map((project, index) => (
               <motion.div key={index} initial={{ opacity: 0, scale: 0.95 }} whileInView={{ opacity: 1, scale: 1 }} viewport={{ once: true }} transition={{ delay: index * 0.1 }}>
-                <div className={`h-[350px] backdrop-blur-xl rounded-[2rem] overflow-hidden cursor-pointer group relative ${tCard}`}>
+                <div className={`h-[350px] rounded-[2rem] overflow-hidden cursor-pointer group relative ${tCard}`}>
                   <div className="absolute inset-0 bg-gray-800"><Image src={project.image} alt={project.title} fill className="object-cover group-hover:scale-110 transition-transform duration-700" /></div>
-                  <div className="absolute inset-0 bg-gradient-to-t from-gray-900/95 via-gray-900/50 to-transparent opacity-80 group-hover:opacity-100 transition-opacity duration-300"></div>
+                  <div className="absolute inset-0 bg-gradient-to-t from-gray-950/95 via-gray-900/50 to-transparent opacity-85 group-hover:opacity-100 transition-opacity duration-300"></div>
                   <div className="absolute bottom-0 left-0 w-full p-6 text-white transform translate-y-4 group-hover:translate-y-0 transition-transform duration-300">
                     <h4 className="text-xl font-bold mb-2">{project.title}</h4>
                     <p className="text-sm text-gray-300 line-clamp-3 opacity-0 group-hover:opacity-100 transition-opacity duration-300 delay-100">{project.description}</p>
@@ -315,18 +317,18 @@ export default function Page() {
         {/* Skills */}
         <section id="skills" ref={refs.skills} className="scroll-mt-24 relative z-10">
           <h3 className={`text-4xl font-extrabold mb-10 ${tHead}`}>Core Skills</h3>
-          <div className={`flex flex-wrap gap-4 p-8 backdrop-blur-xl rounded-[2rem] ${tCard}`}>
+          <div className={`flex flex-wrap gap-4 p-8 rounded-[2rem] ${tCard}`}>
             {skills.map((skill, index) => (
-              <span key={index} className={`px-6 py-3 backdrop-blur-md rounded-xl shadow-sm border text-sm font-bold hover:-translate-y-1 hover:shadow-md transition-all cursor-default ${isDark ? 'bg-gray-800/80 border-gray-700 text-teal-400' : 'bg-white/80 border-white text-teal-800 hover:text-teal-600'}`}>{skill}</span>
+              <span key={index} className={`px-6 py-3 backdrop-blur-md rounded-xl shadow-sm border text-sm font-bold hover:-translate-y-1 hover:shadow-md transition-all cursor-default ${isDark ? 'bg-white/5 border-white/10 text-teal-400' : 'bg-white/80 border-white text-teal-800 hover:text-teal-600'}`}>{skill}</span>
             ))}
           </div>
         </section>
 
         {/* Contact */}
         <section id="contact" ref={refs.contact} className="pb-20 scroll-mt-24 relative z-10">
-          <div className="bg-gradient-to-br from-teal-600 to-teal-900 rounded-[3rem] p-10 sm:p-16 text-white shadow-2xl relative overflow-hidden border border-teal-500/30">
-            <div className="absolute -top-24 -right-24 w-72 h-72 bg-white/10 backdrop-blur-3xl rounded-full"></div>
-            <div className="absolute -bottom-24 -left-24 w-72 h-72 bg-teal-400/20 backdrop-blur-3xl rounded-full"></div>
+          <div className="bg-gradient-to-br from-teal-600 to-teal-950 rounded-[3rem] p-10 sm:p-16 text-white shadow-2xl relative overflow-hidden border border-teal-500/30">
+            <div className="absolute -top-24 -right-24 w-72 h-72 bg-white/10 backdrop-blur-3xl rounded-full pointer-events-none"></div>
+            <div className="absolute -bottom-24 -left-24 w-72 h-72 bg-teal-400/20 backdrop-blur-3xl rounded-full pointer-events-none"></div>
             
             <h3 className="text-4xl font-extrabold mb-10 relative z-10">Let&apos;s Connect</h3>
             <div className="grid sm:grid-cols-2 gap-8 relative z-10">
