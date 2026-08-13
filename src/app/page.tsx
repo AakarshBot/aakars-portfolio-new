@@ -1,13 +1,9 @@
 "use client";
 
 import React, { useEffect, useRef, useState, useMemo } from "react";
-import { motion, useMotionValue, useSpring, useTransform } from "framer-motion";
+import { motion } from "framer-motion";
 import { FaVideo, FaChartLine, FaPenFancy, FaGlobe, FaXTwitter, FaDownload, FaMoon, FaSun } from "react-icons/fa6";
 import Image from "next/image";
-import { Syne } from "next/font/google";
-
-// Load cinematic display font
-const syne = Syne({ subsets: ["latin"], weight: ["400", "600", "700", "800"] });
 
 // ---------- Data ----------
 const experience = [
@@ -101,43 +97,6 @@ function useTypewriter(words: string[], speed = 80, pause = 1200) {
   return txt;
 }
 
-// ---------- 3D Tilt Wrapper ----------
-function TiltCard({ children, className = "" }: { children: React.ReactNode, className?: string }) {
-  const ref = useRef<HTMLDivElement>(null);
-  const x = useMotionValue(0);
-  const y = useMotionValue(0);
-  const mouseXSpring = useSpring(x, { stiffness: 150, damping: 20 });
-  const mouseYSpring = useSpring(y, { stiffness: 150, damping: 20 });
-  const rotateX = useTransform(mouseYSpring, [-0.5, 0.5], ["5deg", "-5deg"]);
-  const rotateY = useTransform(mouseXSpring, [-0.5, 0.5], ["-5deg", "5deg"]);
-
-  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
-    if (!ref.current) return;
-    const rect = ref.current.getBoundingClientRect();
-    const width = rect.width;
-    const height = rect.height;
-    const mouseX = e.clientX - rect.left;
-    const mouseY = e.clientY - rect.top;
-    x.set(mouseX / width - 0.5);
-    y.set(mouseY / height - 0.5);
-  };
-  const handleMouseLeave = () => { x.set(0); y.set(0); };
-
-  return (
-    <motion.div
-      ref={ref}
-      onMouseMove={handleMouseMove}
-      onMouseLeave={handleMouseLeave}
-      style={{ rotateX, rotateY, transformStyle: "preserve-3d" }}
-      className={`relative ${className}`}
-    >
-      <div style={{ transform: "translateZ(30px)", transformStyle: "preserve-3d" }} className="w-full h-full">
-        {children}
-      </div>
-    </motion.div>
-  );
-}
-
 // ---------- Main Page Component ----------
 export default function Page() {
   const [isDark, setIsDark] = useState(true);
@@ -176,12 +135,12 @@ export default function Page() {
 
   const scrollTo = (r: React.RefObject<HTMLElement>) => r.current?.scrollIntoView({ behavior: "smooth" });
 
-  // Theme Variables for seamless toggling
+  // Theme Variables
   const tBg = isDark ? "bg-[#050a14] text-gray-100" : "bg-[#fafcff] text-gray-800";
   const tCard = isDark ? "bg-white/5 border-white/10 shadow-[0_8px_30px_rgba(0,0,0,0.5)] hover:bg-white/10" : "bg-white/50 border-white/60 shadow-[0_8px_30px_rgba(0,0,0,0.04)] hover:bg-white/70";
   const tNav = isDark ? "bg-gray-900/50 border-white/10 text-gray-400" : "bg-white/50 border-white/60 text-gray-600";
   const tHead = isDark ? "text-white" : "text-gray-900";
-  const tSub = isDark ? "text-gray-400" : "text-gray-600";
+  const tSub = isDark ? "text-gray-300" : "text-gray-700";
   const tBadge = isDark ? "bg-gray-800/80 border-gray-700 text-gray-300" : "bg-white/80 border-gray-100 text-gray-700";
   const tClient = isDark ? "bg-gray-900/50 border-gray-800" : "bg-white/30 border-white/50";
   const tIconBox = isDark ? "bg-teal-500/10 text-teal-400" : "bg-teal-50 text-teal-500";
@@ -190,7 +149,7 @@ export default function Page() {
     <div className={`min-h-screen font-sans selection:bg-teal-500 selection:text-white transition-colors duration-700 ${tBg}`}>
       
       {/* Background Orbs */}
-      <div className="fixed inset-0 -z-10 overflow-hidden">
+      <div className="fixed inset-0 -z-10 overflow-hidden pointer-events-none">
         <motion.div animate={{ x: [0, 100, 0], y: [0, -50, 0], scale: [1, 1.1, 1] }} transition={{ duration: 15, repeat: Infinity, ease: "easeInOut" }} className={`absolute top-[-10%] left-[-10%] w-[50vw] h-[50vw] rounded-full blur-[120px] transition-colors duration-700 ${isDark ? 'bg-teal-500/20' : 'bg-teal-300/30'}`} />
         <motion.div animate={{ x: [0, -100, 0], y: [0, 100, 0], scale: [1, 1.2, 1] }} transition={{ duration: 20, repeat: Infinity, ease: "easeInOut" }} className={`absolute bottom-[-10%] right-[-10%] w-[60vw] h-[60vw] rounded-full blur-[150px] transition-colors duration-700 ${isDark ? 'bg-pink-600/10' : 'bg-pink-300/20'}`} />
         <motion.div animate={{ x: [0, 50, 0], y: [0, 50, 0] }} transition={{ duration: 12, repeat: Infinity, ease: "easeInOut" }} className={`absolute top-[40%] left-[20%] w-[30vw] h-[30vw] rounded-full blur-[100px] transition-colors duration-700 ${isDark ? 'bg-amber-500/10' : 'bg-amber-200/20'}`} />
@@ -230,10 +189,10 @@ export default function Page() {
               </motion.div>
 
               <div>
-                <h1 className={`${syne.className} text-4xl sm:text-5xl lg:text-7xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-teal-500 to-teal-300 tracking-tight pb-2`}>
+                <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-teal-400 to-teal-200 tracking-tight pb-2">
                   Aakarsh Bommakanti
                 </h1>
-                <p className="text-xl sm:text-2xl font-bold h-8 mt-2 text-teal-600/80">
+                <p className="text-xl sm:text-2xl font-bold h-8 mt-2 text-teal-500">
                   {typeText}
                   <span className="inline-block w-1 h-6 bg-pink-400 animate-pulse ml-1 align-middle rounded-full"></span>
                 </p>
@@ -251,7 +210,7 @@ export default function Page() {
               </div>
             </div>
 
-            <TiltCard className={`backdrop-blur-2xl p-8 sm:p-10 rounded-[2rem] transition-colors duration-500 relative overflow-hidden ${tCard}`}>
+            <div className={`backdrop-blur-2xl p-8 sm:p-10 rounded-[2rem] transition-colors duration-500 relative overflow-hidden ${tCard}`}>
               <div className="absolute top-0 right-0 w-32 h-32 bg-white/10 blur-2xl rounded-full"></div>
               <p className={`relative z-10 font-medium mb-6 ${isDark ? 'text-gray-300' : 'text-gray-800'}`}>For over a decade, I&apos;ve worked at the intersection of sport, media and storytelling, helping bring fans closer to the teams, players and moments they care about.</p>
               <p className={`relative z-10 font-medium mb-6 ${isDark ? 'text-gray-300' : 'text-gray-800'}`}>As a media manager and content creator, I&apos;ve built fan communities from the ground up, scripted a two-season documentary series for Disney+ Hotstar, and led YouTube publishing for the 2026 FIFA World Cup.</p>
@@ -259,13 +218,13 @@ export default function Page() {
               <div className="relative z-10 p-5 bg-gradient-to-r from-teal-500/10 to-transparent rounded-2xl border-l-4 border-teal-500">
                 <p className="font-bold text-teal-400">At the heart of everything I do is a simple idea: great sports content should make fans feel closer to the game.</p>
               </div>
-            </TiltCard>
+            </div>
           </div>
         </section>
 
         {/* Impact / By The Numbers Section */}
         <section id="impact" ref={refs.impact} className="scroll-mt-24 relative z-10">
-          <h3 className={`${syne.className} text-4xl font-extrabold mb-12 text-center md:text-left ${tHead}`}>Client Impact</h3>
+          <h3 className={`text-4xl font-extrabold mb-12 text-center md:text-left ${tHead}`}>Client Impact</h3>
           <div className="grid md:grid-cols-3 gap-8">
             {impactData.map((clientData, idx) => (
               <motion.div key={idx} initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: idx * 0.1 }} className={`flex flex-col backdrop-blur-xl rounded-[2rem] transition-all duration-300 overflow-hidden ${tCard}`}>
@@ -287,17 +246,17 @@ export default function Page() {
 
         {/* Experience Section */}
         <section id="experience" ref={refs.experience} className="scroll-mt-24 relative z-10">
-          <h3 className={`${syne.className} text-4xl font-extrabold mb-12 text-center md:text-left ${tHead}`}>Experience</h3>
+          <h3 className={`text-4xl font-extrabold mb-12 text-center md:text-left ${tHead}`}>Experience</h3>
           <div className="space-y-12">
             {experience.map((item, index) => (
               <motion.div key={index} initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, amount: 0.2 }} transition={{ duration: 0.5, delay: index * 0.1 }}>
-                <TiltCard className={`backdrop-blur-xl rounded-[2rem] p-6 sm:p-10 flex flex-col md:flex-row gap-8 lg:gap-12 items-start group transition-all duration-500 ${tCard}`}>
+                <div className={`backdrop-blur-xl rounded-[2rem] p-6 sm:p-10 flex flex-col md:flex-row gap-8 lg:gap-12 items-start group transition-all duration-500 relative overflow-hidden ${tCard}`}>
                   <div className="absolute top-0 left-0 h-full w-2 bg-gradient-to-b from-teal-400 via-pink-400 to-amber-400 opacity-80"></div>
                   
                   {/* Left Side */}
                   <div className="flex flex-col items-center md:items-start text-center md:text-left w-full md:w-1/3 flex-shrink-0 pt-2 z-10">
                     <div className="relative w-28 h-28 sm:w-36 sm:h-36 bg-white rounded-3xl shadow-lg p-5 flex items-center justify-center mb-6"><Image src={item.logo} alt={`${item.org} logo`} fill className="object-contain p-4" /></div>
-                    <h4 className={`${syne.className} text-3xl font-extrabold leading-tight mb-2 ${tHead}`}>{item.role}</h4>
+                    <h4 className={`text-2xl sm:text-3xl font-extrabold leading-tight mb-2 ${tHead}`}>{item.role}</h4>
                     <p className="text-xl font-bold text-teal-500 mb-5">{item.org}</p>
                     <span className={`inline-block px-5 py-2 text-sm font-bold rounded-full tracking-wide border ${tBadge}`}>{item.period}</span>
 
@@ -328,7 +287,7 @@ export default function Page() {
                       ))}
                     </div>
                   </div>
-                </TiltCard>
+                </div>
               </motion.div>
             ))}
           </div>
@@ -336,18 +295,18 @@ export default function Page() {
 
         {/* Selected Works Gallery Section */}
         <section id="projects" ref={refs.projects} className="scroll-mt-24 relative z-10">
-          <h3 className={`${syne.className} text-4xl font-extrabold mb-12 text-center md:text-left ${tHead}`}>Selected Works</h3>
+          <h3 className={`text-4xl font-extrabold mb-12 text-center md:text-left ${tHead}`}>Selected Works</h3>
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
             {projects.map((project, index) => (
               <motion.div key={index} initial={{ opacity: 0, scale: 0.95 }} whileInView={{ opacity: 1, scale: 1 }} viewport={{ once: true }} transition={{ delay: index * 0.1 }}>
-                <TiltCard className={`h-[350px] backdrop-blur-xl rounded-[2rem] overflow-hidden cursor-pointer group ${tCard}`}>
+                <div className={`h-[350px] backdrop-blur-xl rounded-[2rem] overflow-hidden cursor-pointer group relative ${tCard}`}>
                   <div className="absolute inset-0 bg-gray-800"><Image src={project.image} alt={project.title} fill className="object-cover group-hover:scale-110 transition-transform duration-700" /></div>
                   <div className="absolute inset-0 bg-gradient-to-t from-gray-900/95 via-gray-900/50 to-transparent opacity-80 group-hover:opacity-100 transition-opacity duration-300"></div>
                   <div className="absolute bottom-0 left-0 w-full p-6 text-white transform translate-y-4 group-hover:translate-y-0 transition-transform duration-300">
-                    <h4 className={`${syne.className} text-xl font-bold mb-2`}>{project.title}</h4>
+                    <h4 className="text-xl font-bold mb-2">{project.title}</h4>
                     <p className="text-sm text-gray-300 line-clamp-3 opacity-0 group-hover:opacity-100 transition-opacity duration-300 delay-100">{project.description}</p>
                   </div>
-                </TiltCard>
+                </div>
               </motion.div>
             ))}
           </div>
@@ -355,7 +314,7 @@ export default function Page() {
 
         {/* Skills */}
         <section id="skills" ref={refs.skills} className="scroll-mt-24 relative z-10">
-          <h3 className={`${syne.className} text-4xl font-extrabold mb-10 ${tHead}`}>Core Skills</h3>
+          <h3 className={`text-4xl font-extrabold mb-10 ${tHead}`}>Core Skills</h3>
           <div className={`flex flex-wrap gap-4 p-8 backdrop-blur-xl rounded-[2rem] ${tCard}`}>
             {skills.map((skill, index) => (
               <span key={index} className={`px-6 py-3 backdrop-blur-md rounded-xl shadow-sm border text-sm font-bold hover:-translate-y-1 hover:shadow-md transition-all cursor-default ${isDark ? 'bg-gray-800/80 border-gray-700 text-teal-400' : 'bg-white/80 border-white text-teal-800 hover:text-teal-600'}`}>{skill}</span>
@@ -369,7 +328,7 @@ export default function Page() {
             <div className="absolute -top-24 -right-24 w-72 h-72 bg-white/10 backdrop-blur-3xl rounded-full"></div>
             <div className="absolute -bottom-24 -left-24 w-72 h-72 bg-teal-400/20 backdrop-blur-3xl rounded-full"></div>
             
-            <h3 className={`${syne.className} text-4xl font-extrabold mb-10 relative z-10`}>Let&apos;s Connect</h3>
+            <h3 className="text-4xl font-extrabold mb-10 relative z-10">Let&apos;s Connect</h3>
             <div className="grid sm:grid-cols-2 gap-8 relative z-10">
               <a href="mailto:aakarshbommakanti@gmail.com" className="flex items-center gap-5 bg-white/10 hover:bg-white/20 backdrop-blur-md p-5 rounded-2xl transition-all border border-white/10 hover:border-white/30">
                 <span className="w-12 h-12 flex items-center justify-center bg-white text-teal-700 rounded-xl text-2xl shadow-lg">📧</span>
