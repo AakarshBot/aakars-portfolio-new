@@ -100,7 +100,7 @@ function useTypewriter(words: string[], speed = 80, pause = 1200) {
 // ---------- Main Page Component ----------
 export default function Page() {
   const [isDark, setIsDark] = useState(false); // Default to light mode
-  const [showThemePrompt, setShowThemePrompt] = useState(true);
+  const [showOverlay, setShowOverlay] = useState(true);
   const [active, setActive] = useState("about");
   const [progress, setProgress] = useState(0);
 
@@ -126,14 +126,14 @@ export default function Page() {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
-  // Dismiss theme prompt on ANY click on the page
+  // Dismiss overlay on ANY click on the page
   useEffect(() => {
     const handleClickAnywhere = () => {
-      if (showThemePrompt) setShowThemePrompt(false);
+      if (showOverlay) setShowOverlay(false);
     };
     window.addEventListener("click", handleClickAnywhere);
     return () => window.removeEventListener("click", handleClickAnywhere);
-  }, [showThemePrompt]);
+  }, [showOverlay]);
 
   useEffect(() => {
     const observer = new IntersectionObserver((entries) => {
@@ -167,6 +167,18 @@ export default function Page() {
   return (
     <div className={`min-h-screen font-sans selection:bg-teal-500 selection:text-white transition-colors duration-700 ${tBg} relative`}>
       
+      {/* Professional Semi-Opaque Backdrop Overlay on Load */}
+      <AnimatePresence>
+        {showOverlay && (
+          <motion.div 
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 z-40 bg-black/60 backdrop-blur-sm pointer-events-auto"
+          />
+        )}
+      </AnimatePresence>
+
       {/* Background Animated Light Orbs */}
       <div className="fixed inset-0 -z-10 overflow-hidden pointer-events-none">
         <motion.div animate={{ x: [0, 100, 0], y: [0, -50, 0], scale: [1, 1.1, 1] }} transition={{ duration: 15, repeat: Infinity, ease: "easeInOut" }} className={`absolute top-[-10%] left-[-10%] w-[50vw] h-[50vw] rounded-full blur-[140px] transition-colors duration-700 ${isDark ? 'bg-teal-500/15' : 'bg-teal-400/10'}`} />
@@ -178,7 +190,7 @@ export default function Page() {
         <div className="h-full bg-gradient-to-r from-teal-400 via-pink-400 to-amber-400 rounded-r-full shadow-[0_0_10px_rgba(45,212,191,0.5)]" style={{ width: `${progress}%` }} />
       </div>
 
-      {/* Navbar with Theme Toggle */}
+      {/* Navbar with Theme Toggle & Glowing Highlight */}
       <header className="sticky top-4 z-50 px-2 sm:px-4">
         <div className={`max-w-5xl mx-auto flex flex-wrap justify-between items-center rounded-2xl sm:rounded-full px-4 py-3 gap-3 transition-colors duration-500 shadow-lg ${tNav}`}>
           <div className="flex flex-wrap justify-center items-center gap-1.5 sm:gap-4 w-full sm:w-auto flex-1">
@@ -190,14 +202,29 @@ export default function Page() {
           </div>
           
           <div className="relative flex items-center gap-2 mx-auto sm:mx-0">
+            {/* Pulsing Theme Customization Hint */}
+            <AnimatePresence>
+              {showOverlay && (
+                <motion.div 
+                  initial={{ opacity: 0, x: 10 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  exit={{ opacity: 0, x: 10 }}
+                  className="absolute -left-48 top-1/2 -translate-y-1/2 bg-teal-500 text-white text-[11px] font-bold px-3 py-1.5 rounded-xl shadow-lg whitespace-hidden sm:whitespace-nowrap pointer-events-none animate-bounce"
+                >
+                  ✨ Choose your theme here!
+                </motion.div>
+              )}
+            </AnimatePresence>
+
             <span className="text-[11px] font-bold tracking-wider uppercase opacity-70 hidden md:inline-block animate-pulse text-teal-500">Toggle Theme →</span>
+            
             <button 
               onClick={(e) => { 
                 e.stopPropagation(); 
                 setIsDark(!isDark); 
-                setShowThemePrompt(false); 
+                setShowOverlay(false); 
               }} 
-              className="p-3 rounded-full bg-teal-500/20 hover:bg-teal-500/30 text-teal-500 border-2 border-teal-500 transition-all shadow-md flex-shrink-0 scale-110"
+              className={`p-3 rounded-full transition-all shadow-xl flex-shrink-0 scale-110 ${showOverlay ? 'bg-teal-500 text-white ring-4 ring-teal-300 animate-pulse' : 'bg-teal-500/20 hover:bg-teal-500/30 text-teal-500 border-2 border-teal-500'}`}
               title="Click here to switch between light and dark mode"
             >
               {isDark ? <FaSun className="text-amber-300 text-xl" /> : <FaMoon className="text-teal-700 text-xl" />}
@@ -205,21 +232,6 @@ export default function Page() {
           </div>
         </div>
       </header>
-
-      {/* Prominent Floating Welcome Guidance Badge on Screen */}
-      <AnimatePresence>
-        {showThemePrompt && (
-          <motion.div 
-            initial={{ opacity: 0, y: -20, scale: 0.95 }}
-            animate={{ opacity: 1, y: 0, scale: 1 }}
-            exit={{ opacity: 0, y: -20, scale: 0.95 }}
-            className="fixed top-24 left-1/2 -translate-x-1/2 z-50 bg-teal-600 text-white px-6 py-3.5 rounded-2xl shadow-2xl border-2 border-white flex items-center gap-4 cursor-pointer max-w-[90vw] text-center"
-            onClick={() => setShowThemePrompt(false)}
-          >
-            <span className="text-xs sm:text-sm font-black tracking-wide uppercase animate-pulse">✨ Welcome! You can choose your theme using the toggle in the top bar. (Click anywhere to dismiss)</span>
-          </motion.div>
-        )}
-      </AnimatePresence>
 
       <main className="max-w-6xl mx-auto px-4 py-10 space-y-20 sm:space-y-32 relative">
         
@@ -302,7 +314,7 @@ export default function Page() {
           </div>
         </section>
 
-        {/* Experience Section (Fully responsive grid layout for both mobile & desktop) */}
+        {/* Experience Section */}
         <section id="experience" ref={refs.experience} className="scroll-mt-24 relative z-10">
           <div className="text-center md:text-left mb-8 sm:mb-10">
             <span className="text-xs font-black text-teal-500 uppercase tracking-widest block mb-2">Career Journey</span>
