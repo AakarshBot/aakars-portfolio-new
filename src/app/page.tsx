@@ -213,10 +213,10 @@ export default function Page() {
             initial={{ opacity: 0, y: -20, scale: 0.95 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: -20, scale: 0.95 }}
-            className="fixed top-24 left-1/2 -translate-x-1/2 z-50 bg-teal-600 text-white px-6 py-3.5 rounded-2xl shadow-2xl border-2 border-white flex items-center gap-4 cursor-pointer"
+            className="fixed top-24 left-1/2 -translate-x-1/2 z-50 bg-teal-600 text-white px-6 py-3.5 rounded-2xl shadow-2xl border-2 border-white flex items-center gap-4 cursor-pointer max-w-[90vw] text-center"
             onClick={() => setShowThemePrompt(false)}
           >
-            <span className="text-sm font-black tracking-wide uppercase animate-pulse">✨ Welcome! You can choose your theme using the toggle in the top bar. (Click anywhere to dismiss)</span>
+            <span className="text-xs sm:text-sm font-black tracking-wide uppercase animate-pulse">✨ Welcome! You can choose your theme using the toggle in the top bar. (Click anywhere to dismiss)</span>
           </motion.div>
         )}
       </AnimatePresence>
@@ -302,7 +302,7 @@ export default function Page() {
           </div>
         </section>
 
-        {/* Experience Section */}
+        {/* Experience Section (Fully responsive grid layout for both mobile & desktop) */}
         <section id="experience" ref={refs.experience} className="scroll-mt-24 relative z-10">
           <div className="text-center md:text-left mb-8 sm:mb-10">
             <span className="text-xs font-black text-teal-500 uppercase tracking-widest block mb-2">Career Journey</span>
