@@ -190,20 +190,6 @@ export default function Page() {
           </div>
           
           <div className="relative flex items-center gap-2 mx-auto sm:mx-0">
-            {/* Theme Prompt Popup */}
-            <AnimatePresence>
-              {showThemePrompt && (
-                <motion.div 
-                  initial={{ opacity: 0, y: 15, scale: 0.9 }}
-                  animate={{ opacity: 1, y: 0, scale: 1 }}
-                  exit={{ opacity: 0, y: 15, scale: 0.9 }}
-                  className="absolute right-0 -bottom-20 z-50 bg-teal-600 text-white px-5 py-3 rounded-2xl shadow-2xl border-2 border-white flex items-center gap-3 whitespace-nowrap"
-                >
-                  <span className="text-sm font-black tracking-wide uppercase animate-pulse">CHOOSE THEME HERE →</span>
-                </motion.div>
-              )}
-            </AnimatePresence>
-
             <span className="text-[11px] font-bold tracking-wider uppercase opacity-70 hidden md:inline-block animate-pulse text-teal-500">Toggle Theme →</span>
             <button 
               onClick={(e) => { 
@@ -219,6 +205,21 @@ export default function Page() {
           </div>
         </div>
       </header>
+
+      {/* Prominent Floating Welcome Guidance Badge on Screen */}
+      <AnimatePresence>
+        {showThemePrompt && (
+          <motion.div 
+            initial={{ opacity: 0, y: -20, scale: 0.95 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            exit={{ opacity: 0, y: -20, scale: 0.95 }}
+            className="fixed top-24 left-1/2 -translate-x-1/2 z-50 bg-teal-600 text-white px-6 py-3.5 rounded-2xl shadow-2xl border-2 border-white flex items-center gap-4 cursor-pointer"
+            onClick={() => setShowThemePrompt(false)}
+          >
+            <span className="text-sm font-black tracking-wide uppercase animate-pulse">✨ Welcome! You can choose your theme using the toggle in the top bar. (Click anywhere to dismiss)</span>
+          </motion.div>
+        )}
+      </AnimatePresence>
 
       <main className="max-w-6xl mx-auto px-4 py-10 space-y-20 sm:space-y-32 relative">
         
@@ -363,7 +364,7 @@ export default function Page() {
           </div>
         </section>
 
-        {/* Highlights Gallery Section (Fully responsive bento grid on both mobile & desktop) */}
+        {/* Highlights Gallery Section */}
         <section id="highlights" ref={refs.highlights} className="scroll-mt-24 relative z-10">
           <div className="text-center md:text-left mb-8 sm:mb-10">
             <span className="text-xs font-black text-teal-500 uppercase tracking-widest block mb-2">Portfolio Showcase</span>
