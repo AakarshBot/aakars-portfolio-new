@@ -67,12 +67,12 @@ const impactData = [
 ];
 
 const projects = [
-  { title: "FIFA YT Publishing", description: "Oversaw the best year in FIFA YouTube history, driving record-breaking subscriber growth and watch time during the 2026 World Cup.", image: "/fifa-yt.jpg" },
-  { title: "FanCode ISL & LALIGA", description: "Produced and managed everyday social media content on FanCode for top-tier global football leagues.", image: "/fancode-content.jpg" },
-  { title: "Future Is Us Docuseries", description: "First-of-its-kind sports docuseries following the journey of Hyderabad FC, aired on Disney+ Hotstar.", image: "/future-is-us.jpg" },
-  { title: "Hyderabad FC Trophy Win", description: "Led the digital media strategy and coverage as Media Manager when Hyderabad FC won the ISL championship.", image: "/hfc-trophy.jpg" },
-  { title: "Microsoft Bing UI", description: "Helped improve the Bing homepage user interface and user experience for real-time sports searches.", image: "/bing-ui.jpg" },
-  { title: "Sports Writer & Editor", description: "Wrote and published over 15,000 articles across global platforms, building a readership of half a million.", image: "/writer.jpg" },
+  { title: "FIFA YT Publishing", description: "Oversaw the best year in FIFA YouTube history, driving record-breaking subscriber growth and watch time during the 2026 World Cup.", image: "/fifa-yt.jpg", layout: "horizontal" },
+  { title: "FanCode ISL & LALIGA", description: "Produced and managed everyday social media content on FanCode for top-tier global football leagues.", image: "/fancode-content.jpg", layout: "vertical" },
+  { title: "Future Is Us Docuseries", description: "First-of-its-kind sports docuseries following the journey of Hyderabad FC, scripted and produced for Disney+ Hotstar.", image: "/future-is-us.jpg", layout: "vertical" },
+  { title: "Hyderabad FC Trophy Win", description: "Led the digital media strategy and coverage as Media Manager when Hyderabad FC won the ISL championship.", image: "/hfc-trophy.jpg", layout: "horizontal" },
+  { title: "Microsoft Bing UI", description: "Helped improve the Bing homepage user interface and user experience for real-time sports searches.", image: "/bing-ui.jpg", layout: "vertical" },
+  { title: "Sports Writer & Editor", description: "Wrote and published over 15,000 articles across global platforms, building a readership of half a million.", image: "/writer.jpg", layout: "vertical" },
 ];
 
 const skills = ["Content Strategy", "Video Production", "Sports Analytics", "Editorial Leadership", "Social Media Growth", "Storytelling", "Digital Marketing", "SEO & SEM", "Data Visualization", "Brand Management", "Media Relations", "Public Speaking"];
@@ -232,7 +232,7 @@ export default function Page() {
           <div className="grid md:grid-cols-2 gap-10 md:gap-16 items-center w-full">
             <div className="flex flex-col items-center md:items-start text-center md:text-left space-y-6 sm:space-y-8">
               <motion.div animate={{ y: [-5, 5, -5] }} transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }} className="relative w-48 h-48 sm:w-72 sm:h-72 rounded-full shadow-[0_20px_50px_rgba(20,184,166,0.2)] overflow-hidden flex-shrink-0 border-4 border-white/20 backdrop-blur-sm p-1">
-                <div className="relative w-full h-full rounded-full overflow-hidden">
+                <div className="relative w-full h-full rounded-full overflow-hidden bg-transparent">
                   <Image src="/profile.jpg" alt="Aakarsh Bommakanti" fill className="object-cover" />
                 </div>
               </motion.div>
@@ -288,8 +288,10 @@ export default function Page() {
                 transition={{ delay: idx * 0.1 }} 
                 className={`flex flex-col rounded-[2rem] transition-all duration-300 overflow-hidden cursor-pointer hover:scale-[1.02] ${tCard}`}
               >
-                <div className="bg-white/5 flex items-center justify-center p-6 sm:p-8 border-b border-white/10">
-                  <div className="relative w-20 h-20 sm:w-24 sm:h-24 bg-white/80 backdrop-blur-md rounded-2xl shadow-sm p-4 flex items-center justify-center"><Image src={clientData.logo} alt={clientData.client} fill className="object-contain p-2" /></div>
+                <div className="bg-transparent flex items-center justify-center p-6 sm:p-8 border-b border-white/10">
+                  <div className="relative w-20 h-20 sm:w-24 sm:h-24 bg-transparent rounded-2xl p-4 flex items-center justify-center">
+                    <Image src={clientData.logo} alt={clientData.client} fill className="object-contain p-2 bg-transparent" />
+                  </div>
                 </div>
                 <div className="p-6 sm:p-8 flex-1 flex flex-col justify-center space-y-5 sm:space-y-6">
                   {clientData.stats.map((stat, sIdx) => (
@@ -318,7 +320,9 @@ export default function Page() {
                   
                   {/* Left Side */}
                   <div className="flex flex-col items-center md:items-start text-center md:text-left w-full md:w-1/3 flex-shrink-0 pt-2 z-10">
-                    <div className="relative w-24 h-24 sm:w-36 sm:h-36 bg-white/80 backdrop-blur-md rounded-3xl shadow-lg p-5 flex items-center justify-center mb-5 sm:mb-6"><Image src={item.logo} alt={`${item.org} logo`} fill className="object-contain p-4" /></div>
+                    <div className="relative w-24 h-24 sm:w-36 sm:h-36 bg-transparent rounded-3xl p-5 flex items-center justify-center mb-5 sm:mb-6">
+                      <Image src={item.logo} alt={`${item.org} logo`} fill className="object-contain p-4 bg-transparent" />
+                    </div>
                     <h4 className={`text-xl sm:text-3xl font-extrabold leading-tight mb-2 ${tHead}`}>{item.role}</h4>
                     <p className="text-lg sm:text-xl font-bold text-teal-500 mb-4 sm:mb-5">{item.org}</p>
                     <span className={`inline-block px-4 py-1.5 sm:px-5 sm:py-2 text-xs sm:text-sm font-bold rounded-full tracking-wide border ${tBadge}`}>{item.period}</span>
@@ -329,7 +333,9 @@ export default function Page() {
                         <div className="flex flex-wrap justify-center md:justify-start gap-3 sm:gap-4">
                           {item.clients.map((client, cIdx) => (
                             <div key={cIdx} className="relative group/client flex items-center justify-center cursor-help">
-                              <div className="relative w-14 h-14 sm:w-20 sm:h-20 bg-white rounded-2xl border border-white shadow-md flex items-center justify-center transition-transform hover:-translate-y-1"><Image src={client.logo} alt={client.name} fill className="object-contain p-2 sm:p-3" /></div>
+                              <div className="relative w-14 h-14 sm:w-20 sm:h-20 bg-transparent rounded-2xl flex items-center justify-center transition-transform hover:-translate-y-1">
+                                <Image src={client.logo} alt={client.name} fill className="object-contain p-2 sm:p-3 bg-transparent" />
+                              </div>
                               <div className="absolute -bottom-10 opacity-0 group-hover/client:opacity-100 transition-opacity bg-gray-900/90 text-white text-xs font-bold px-3 py-1.5 rounded-lg whitespace-nowrap z-20">{client.name}</div>
                             </div>
                           ))}
@@ -345,8 +351,8 @@ export default function Page() {
                       {achievements[item.role]?.map((a, i) => (
                         <div key={i} className={`flex items-start gap-3 sm:gap-4 p-4 sm:p-5 rounded-2xl border transition-all shadow-sm hover:shadow-md ${isDark ? 'bg-white/[0.03] border-white/5 hover:bg-white/[0.07]' : 'bg-white/70 border-white/60 hover:bg-white/90'}`}>
                           {a.clientLogo ? (
-                            <div className="relative w-8 h-8 sm:w-10 sm:h-10 flex-shrink-0 bg-white rounded-xl shadow-sm p-1.5 flex items-center justify-center">
-                              <Image src={a.clientLogo} alt="client logo" fill className="object-contain p-1" />
+                            <div className="relative w-8 h-8 sm:w-10 sm:h-10 flex-shrink-0 bg-transparent rounded-xl p-1.5 flex items-center justify-center">
+                              <Image src={a.clientLogo} alt="client logo" fill className="object-contain p-1 bg-transparent" />
                             </div>
                           ) : (
                             <div className={`text-xl sm:text-2xl mt-0.5 flex-shrink-0 w-8 h-8 sm:w-10 sm:h-10 flex items-center justify-center rounded-xl ${tIconBox}`}>{a.icon}</div>
@@ -362,28 +368,36 @@ export default function Page() {
           </div>
         </section>
 
-        {/* Highlights Gallery Section (Clean images on top with professional descriptions underneath) */}
+        {/* Highlights Gallery Section (Asymmetric Bento Grid with unclipped images & text underneath) */}
         <section id="highlights" ref={refs.highlights} className="scroll-mt-24 relative z-10">
           <div className="text-center md:text-left mb-8 sm:mb-10">
             <span className="text-xs font-black text-teal-500 uppercase tracking-widest block mb-2">Portfolio Showcase</span>
             <h3 className={`text-3xl sm:text-4xl font-extrabold ${tHead}`}>Highlights</h3>
           </div>
-          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
-            {projects.map((project, index) => (
-              <motion.div key={index} initial={{ opacity: 0, scale: 0.95 }} whileInView={{ opacity: 1, scale: 1 }} viewport={{ once: true }} transition={{ delay: index * 0.1 }}>
-                <div className={`rounded-[2rem] overflow-hidden flex flex-col ${tCard}`}>
-                  {/* Clean uncropped image box */}
-                  <div className="h-[380px] w-full relative p-4 bg-gray-900/5 dark:bg-black/40 flex items-center justify-center">
-                    <Image src={project.image} alt={project.title} fill className="object-contain p-2 hover:scale-105 transition-transform duration-500" />
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-8">
+            {projects.map((project, index) => {
+              const isHorizontal = project.layout === "horizontal";
+              return (
+                <motion.div 
+                  key={index} 
+                  initial={{ opacity: 0, scale: 0.95 }} 
+                  whileInView={{ opacity: 1, scale: 1 }} 
+                  viewport={{ once: true }} 
+                  transition={{ delay: index * 0.1 }}
+                  className={`${isHorizontal ? "md:col-span-3" : "md:col-span-1"}`}
+                >
+                  <div className={`rounded-[2rem] overflow-hidden flex flex-col h-full ${tCard}`}>
+                    <div className={`w-full relative p-4 bg-transparent flex items-center justify-center ${isHorizontal ? "h-[320px] sm:h-[400px]" : "h-[420px]"}`}>
+                      <Image src={project.image} alt={project.title} fill className="object-contain p-2 bg-transparent hover:scale-105 transition-transform duration-500" />
+                    </div>
+                    <div className="p-6 sm:p-8 flex flex-col justify-between flex-1">
+                      <h4 className={`text-xl font-bold mb-2 ${tHead}`}>{project.title}</h4>
+                      <p className={`text-xs sm:text-sm leading-relaxed opacity-80 ${tSub}`}>{project.description}</p>
+                    </div>
                   </div>
-                  {/* Clean text section underneath */}
-                  <div className="p-6 sm:p-8 flex flex-col justify-between flex-1">
-                    <h4 className={`text-xl font-bold mb-2 ${tHead}`}>{project.title}</h4>
-                    <p className={`text-xs sm:text-sm leading-relaxed opacity-80 ${tSub}`}>{project.description}</p>
-                  </div>
-                </div>
-              </motion.div>
-            ))}
+                </motion.div>
+              );
+            })}
           </div>
         </section>
 
