@@ -2,7 +2,7 @@
 
 import React, { useEffect, useRef, useState, useMemo } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { FaVideo, FaChartLine, FaPenFancy, FaGlobe, FaXTwitter, FaDownload, FaMoon, FaSun, FaArrowUpRightFromSquare, FaClock } from "react-icons/fa6";
+import { FaVideo, FaChartLine, FaPenFancy, FaGlobe, FaXTwitter, FaDownload, FaMoon, FaSun, FaArrowUpRightFromSquare, FaClock, FaStar } from "react-icons/fa6";
 import Image from "next/image";
 
 // ---------- Data ----------
@@ -38,7 +38,7 @@ const achievements: Record<string, { text: string; icon: React.ReactNode; client
   "Media Manager": [
     { text: "Directed media strategy, increasing engagement by 35% YoY.", icon: <FaVideo /> },
     { text: "Produced and scripted a two-season documentary on Disney+ Hotstar.", icon: <FaVideo /> },
-    { text: "Managed daily content across social platforms and live coverage.", icon: <FaGlobe /> },
+    { text: "Managed daily content across social platforms and live coverage.", icon: <Globe /> },
     { text: "Created fan campaigns that boosted stadium attendance and loyalty.", icon: <FaChartLine /> },
     { text: "Collabs with the biggest celebrities and influencers to increase engagement.", icon: <FaVideo /> },
     { text: "Co-ordinating sponsorships from the biggest global brands like Hummel, EA Sports and more.", icon: <FaVideo /> },
@@ -67,11 +67,11 @@ const impactData = [
 ];
 
 const marqueeBadges = [
-  "★ 4.4B World Cup Views",
-  "⚽ ISL Winning Media Manager",
-  "📺 Disney+ Hotstar Creator",
-  "🔥 +8M FIFA YouTube Subscribers",
-  "🚀 10+ Years Sports Media Leadership"
+  "4.4B World Cup Views",
+  "ISL Winning Media Manager",
+  "Disney+ Hotstar Creator",
+  "+8M FIFA YouTube Subscribers",
+  "10+ Years Sports Media Leadership"
 ];
 
 const partnerLogos = [
@@ -343,26 +343,30 @@ export default function Page() {
           </div>
         </section>
 
-        {/* Marquee Stat Ticker Ribbon */}
-        <section className="relative w-full overflow-hidden py-4 rounded-2xl bg-teal-500/10 border border-teal-500/20 backdrop-blur-sm">
-          <div className="flex whitespace-nowrap animate-marquee gap-12 items-center">
-            {[...marqueeBadges, ...marqueeBadges].map((badge, idx) => (
-              <div key={idx} className="flex items-center gap-3 text-teal-600 dark:text-teal-300 font-bold text-sm sm:text-base tracking-wide">
+        {/* Framer Motion Marquee Stat Ticker Ribbon */}
+        <section className="relative w-full overflow-hidden py-5 bg-gradient-to-r from-transparent via-teal-500/10 to-transparent border-y border-teal-500/20">
+          <motion.div 
+            className="flex whitespace-nowrap items-center w-max"
+            animate={{ x: ["0%", "-50%"] }}
+            transition={{ ease: "linear", duration: 25, repeat: Infinity }}
+          >
+            {[...marqueeBadges, ...marqueeBadges, ...marqueeBadges, ...marqueeBadges].map((badge, idx) => (
+              <div key={idx} className="flex items-center gap-5 px-8 text-teal-700 dark:text-teal-400 font-black text-sm sm:text-base tracking-widest uppercase">
                 <span>{badge}</span>
-                <span className="w-1.5 h-1.5 rounded-full bg-teal-500 opacity-60"></span>
+                <FaStar className="text-[10px] opacity-30" />
               </div>
             ))}
-          </div>
+          </motion.div>
         </section>
 
-        {/* Infinite Client Logo Marquee Carousel */}
-        <section className="relative w-full overflow-hidden py-6">
-          <div className="text-center mb-4">
-            <span className="text-[10px] font-black uppercase tracking-widest opacity-60">Trusted by Global Sports Leaders & Brands</span>
+        {/* Filtered Client Logo Carousel */}
+        <section className="relative w-full overflow-hidden py-10">
+          <div className="text-center mb-8">
+            <span className="text-xs font-black uppercase tracking-widest opacity-50">Trusted by Global Sports Leaders & Brands</span>
           </div>
-          <div className="flex justify-center items-center flex-wrap gap-8 sm:gap-16 opacity-80 hover:opacity-100 transition-opacity">
+          <div className="max-w-5xl mx-auto px-4 flex justify-center items-center flex-wrap gap-10 sm:gap-16">
             {partnerLogos.map((partner, pIdx) => (
-              <div key={pIdx} className="relative w-16 h-12 sm:w-24 sm:h-16 flex items-center justify-center grayscale hover:grayscale-0 transition-all">
+              <div key={pIdx} className={`relative w-20 h-12 sm:w-28 sm:h-16 flex items-center justify-center transition-all opacity-40 hover:opacity-100 ${isDark ? 'grayscale contrast-200 invert' : 'grayscale contrast-200'}`}>
                 <Image src={partner.logo} alt={partner.name} fill className="object-contain" />
               </div>
             ))}
@@ -466,7 +470,7 @@ export default function Page() {
           </div>
         </section>
 
-        {/* Highlights Gallery Section with Interactive Preview Links */}
+        {/* Highlights Gallery Section */}
         <section id="highlights" ref={refs.highlights} className="scroll-mt-28 relative z-10">
           <div className="text-center md:text-left mb-8 sm:mb-10">
             <span className="text-xs font-black text-teal-500 uppercase tracking-widest block mb-2">Portfolio Showcase</span>
@@ -487,14 +491,10 @@ export default function Page() {
                   <a href={project.link} target="_blank" rel="noopener noreferrer" className={`rounded-[2rem] overflow-hidden flex flex-col h-full group ${tCard} block relative`}>
                     <div className={`w-full relative p-4 bg-transparent flex items-center justify-center ${isHorizontal ? "h-[280px] sm:h-[400px]" : "h-[380px] sm:h-[440px]"}`}>
                       <Image src={project.image} alt={project.title} fill className="object-contain p-2 bg-transparent group-hover:scale-105 transition-transform duration-500" />
-                      <div className="absolute top-6 right-6 w-10 h-10 rounded-full bg-teal-500 text-white flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity shadow-lg">
-                        <FaArrowUpRightFromSquare className="text-sm" />
-                      </div>
                     </div>
                     <div className="p-6 sm:p-8 flex flex-col justify-between flex-1">
                       <h4 className={`text-xl font-bold mb-2 flex items-center justify-between ${tHead}`}>
                         {project.title}
-                        <FaArrowUpRightFromSquare className="text-xs opacity-0 group-hover:opacity-100 transition-opacity text-teal-500" />
                       </h4>
                       <p className={`text-xs sm:text-sm leading-relaxed opacity-80 ${tSub}`}>{project.description}</p>
                     </div>
