@@ -126,6 +126,15 @@ export default function Page() {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
+  // Dismiss theme prompt on ANY click on the page
+  useEffect(() => {
+    const handleClickAnywhere = () => {
+      if (showThemePrompt) setShowThemePrompt(false);
+    };
+    window.addEventListener("click", handleClickAnywhere);
+    return () => window.removeEventListener("click", handleClickAnywhere);
+  }, [showThemePrompt]);
+
   useEffect(() => {
     const observer = new IntersectionObserver((entries) => {
       entries.forEach((e) => { if (e.isIntersecting) setActive(e.target.id); });
@@ -158,18 +167,6 @@ export default function Page() {
   return (
     <div className={`min-h-screen font-sans selection:bg-teal-500 selection:text-white transition-colors duration-700 ${tBg} relative`}>
       
-      {/* Dark semi-opaque backdrop overlay when prompt is active */}
-      <AnimatePresence>
-        {showThemePrompt && (
-          <motion.div 
-            initial={{ opacity: 0 }} 
-            animate={{ opacity: 1 }} 
-            exit={{ opacity: 0 }} 
-            className="fixed inset-0 z-40 bg-black/50 backdrop-blur-[2px] pointer-events-none"
-          />
-        )}
-      </AnimatePresence>
-
       {/* Background Animated Light Orbs */}
       <div className="fixed inset-0 -z-10 overflow-hidden pointer-events-none">
         <motion.div animate={{ x: [0, 100, 0], y: [0, -50, 0], scale: [1, 1.1, 1] }} transition={{ duration: 15, repeat: Infinity, ease: "easeInOut" }} className={`absolute top-[-10%] left-[-10%] w-[50vw] h-[50vw] rounded-full blur-[140px] transition-colors duration-700 ${isDark ? 'bg-teal-500/15' : 'bg-teal-400/10'}`} />
@@ -193,33 +190,31 @@ export default function Page() {
           </div>
           
           <div className="relative flex items-center gap-2 mx-auto sm:mx-0">
-            {/* Theme Prompt Popup pointing to toggle */}
+            {/* Larger, highly visible prompt pointing to the toggle */}
             <AnimatePresence>
               {showThemePrompt && (
                 <motion.div 
-                  initial={{ opacity: 0, y: 10, scale: 0.95 }}
+                  initial={{ opacity: 0, y: 15, scale: 0.9 }}
                   animate={{ opacity: 1, y: 0, scale: 1 }}
-                  exit={{ opacity: 0, y: 10, scale: 0.95 }}
-                  className="absolute right-0 -bottom-16 z-50 bg-white text-gray-900 px-4 py-2.5 rounded-2xl shadow-2xl border border-teal-500/30 flex items-center gap-3 whitespace-nowrap"
+                  exit={{ opacity: 0, y: 15, scale: 0.9 }}
+                  className="absolute right-0 -bottom-20 z-50 bg-teal-600 text-white px-5 py-3 rounded-2xl shadow-2xl border-2 border-white flex items-center gap-3 whitespace-nowrap"
                 >
-                  <span className="text-xs font-bold tracking-wide text-teal-600 uppercase">Choose theme here →</span>
-                  <button 
-                    onClick={() => setShowThemePrompt(false)}
-                    className="text-xs bg-gray-100 hover:bg-gray-200 text-gray-600 px-2 py-1 rounded-lg font-bold"
-                  >
-                    Got it
-                  </button>
+                  <span className="text-sm font-black tracking-wide uppercase animate-pulse">CHOOSE THEME HERE →</span>
                 </motion.div>
               )}
             </AnimatePresence>
 
             <span className="text-[11px] font-bold tracking-wider uppercase opacity-70 hidden md:inline-block animate-pulse text-teal-500">Toggle Theme →</span>
             <button 
-              onClick={() => { setIsDark(!isDark); setShowThemePrompt(false); }} 
-              className="p-2.5 rounded-full bg-teal-500/20 hover:bg-teal-500/30 text-teal-500 border-2 border-teal-500 transition-all shadow-md flex-shrink-0 scale-105"
+              onClick={(e) => { 
+                e.stopPropagation(); 
+                setIsDark(!isDark); 
+                setShowThemePrompt(false); 
+              }} 
+              className="p-3 rounded-full bg-teal-500/20 hover:bg-teal-500/30 text-teal-500 border-2 border-teal-500 transition-all shadow-md flex-shrink-0 scale-110"
               title="Click here to switch between light and dark mode"
             >
-              {isDark ? <FaSun className="text-amber-300 text-lg" /> : <FaMoon className="text-teal-700 text-lg" />}
+              {isDark ? <FaSun className="text-amber-300 text-xl" /> : <FaMoon className="text-teal-700 text-xl" />}
             </button>
           </div>
         </div>
