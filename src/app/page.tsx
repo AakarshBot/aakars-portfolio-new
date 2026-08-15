@@ -362,7 +362,7 @@ export default function Page() {
           </div>
         </section>
 
-        {/* Highlights Gallery Section */}
+        {/* Highlights Gallery Section (Clean images without text blocks) */}
         <section id="highlights" ref={refs.highlights} className="scroll-mt-24 relative z-10">
           <div className="text-center md:text-left mb-8 sm:mb-10">
             <span className="text-xs font-black text-teal-500 uppercase tracking-widest block mb-2">Portfolio Showcase</span>
@@ -371,15 +371,9 @@ export default function Page() {
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
             {projects.map((project, index) => (
               <motion.div key={index} initial={{ opacity: 0, scale: 0.95 }} whileInView={{ opacity: 1, scale: 1 }} viewport={{ once: true }} transition={{ delay: index * 0.1 }}>
-                <div className={`h-[420px] sm:h-[480px] rounded-[2rem] overflow-hidden cursor-pointer group relative flex flex-col justify-end ${tCard}`}>
+                <div className={`h-[420px] sm:h-[480px] rounded-[2rem] overflow-hidden group relative flex flex-col justify-end ${tCard}`}>
                   <div className="absolute inset-0 bg-gray-900">
                     <Image src={project.image} alt={project.title} fill className="object-cover group-hover:scale-105 transition-transform duration-700" />
-                  </div>
-                  {/* Subtle gradient overlay to ensure text readability */}
-                  <div className="absolute inset-0 bg-gradient-to-t from-gray-950 via-gray-950/40 to-transparent opacity-90 group-hover:opacity-95 transition-opacity duration-300"></div>
-                  <div className="relative z-10 p-6 sm:p-8 text-white transform transition-transform duration-300">
-                    <h4 className="text-xl sm:text-2xl font-bold mb-2 sm:mb-3">{project.title}</h4>
-                    <p className="text-xs sm:text-sm text-gray-300 leading-relaxed">{project.description}</p>
                   </div>
                 </div>
               </motion.div>
@@ -426,7 +420,7 @@ export default function Page() {
               </a>
               <div className="flex items-center gap-4 sm:gap-5 bg-white/10 backdrop-blur-md p-4 sm:p-5 rounded-2xl border border-white/5">
                 <span className="w-10 h-10 sm:w-12 sm:h-12 flex items-center justify-center bg-white text-teal-700 rounded-xl text-xl sm:text-2xl shadow-lg flex-shrink-0">📍</span>
-                <span className="font-bold text-sm sm:text-lg">Hyderabad, India</span>
+                <span className="font-bold text-lg">Hyderabad, India</span>
               </div>
             </div>
           </div>
