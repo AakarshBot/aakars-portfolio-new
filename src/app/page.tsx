@@ -362,7 +362,7 @@ export default function Page() {
           </div>
         </section>
 
-        {/* Highlights Gallery Section (Clean images without text blocks) */}
+        {/* Highlights Gallery Section (Clean images on top with professional descriptions underneath) */}
         <section id="highlights" ref={refs.highlights} className="scroll-mt-24 relative z-10">
           <div className="text-center md:text-left mb-8 sm:mb-10">
             <span className="text-xs font-black text-teal-500 uppercase tracking-widest block mb-2">Portfolio Showcase</span>
@@ -371,9 +371,15 @@ export default function Page() {
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
             {projects.map((project, index) => (
               <motion.div key={index} initial={{ opacity: 0, scale: 0.95 }} whileInView={{ opacity: 1, scale: 1 }} viewport={{ once: true }} transition={{ delay: index * 0.1 }}>
-                <div className={`h-[420px] sm:h-[480px] rounded-[2rem] overflow-hidden group relative flex flex-col justify-end ${tCard}`}>
-                  <div className="absolute inset-0 bg-gray-900">
-                    <Image src={project.image} alt={project.title} fill className="object-cover group-hover:scale-105 transition-transform duration-700" />
+                <div className={`rounded-[2rem] overflow-hidden flex flex-col ${tCard}`}>
+                  {/* Clean uncropped image box */}
+                  <div className="h-[380px] w-full relative p-4 bg-gray-900/5 dark:bg-black/40 flex items-center justify-center">
+                    <Image src={project.image} alt={project.title} fill className="object-contain p-2 hover:scale-105 transition-transform duration-500" />
+                  </div>
+                  {/* Clean text section underneath */}
+                  <div className="p-6 sm:p-8 flex flex-col justify-between flex-1">
+                    <h4 className={`text-xl font-bold mb-2 ${tHead}`}>{project.title}</h4>
+                    <p className={`text-xs sm:text-sm leading-relaxed opacity-80 ${tSub}`}>{project.description}</p>
                   </div>
                 </div>
               </motion.div>
