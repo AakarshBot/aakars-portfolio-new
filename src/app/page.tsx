@@ -138,15 +138,6 @@ export default function Page() {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  // Dismiss welcome overlay on ANY click on the page
-  useEffect(() => {
-    const handleClickAnywhere = () => {
-      if (showWelcomeModal) setShowWelcomeModal(false);
-    };
-    window.addEventListener("click", handleClickAnywhere);
-    return () => window.removeEventListener("click", handleClickAnywhere);
-  }, [showWelcomeModal]);
-
   useEffect(() => {
     const observer = new IntersectionObserver((entries) => {
       entries.forEach((e) => { if (e.isIntersecting) setActive(e.target.id); });
@@ -179,15 +170,14 @@ export default function Page() {
   return (
     <div className={`min-h-screen font-sans selection:bg-teal-500 selection:text-white transition-colors duration-700 ${tBg} relative`}>
       
-      {/* Professional Opaque Screen & Modal on Load */}
+      {/* Professional Opaque Screen & Quirky Welcome Modal on Load */}
       <AnimatePresence>
         {showWelcomeModal && (
           <motion.div 
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed inset-0 z-50 bg-black/70 backdrop-blur-md flex items-center justify-center p-4"
-            onClick={(e) => { e.stopPropagation(); setShowWelcomeModal(false); }}
+            className="fixed inset-0 z-50 bg-black/75 backdrop-blur-md flex items-center justify-center p-4"
           >
             <motion.div 
               initial={{ scale: 0.9, y: 20 }}
@@ -198,11 +188,11 @@ export default function Page() {
             >
               <div className="absolute top-0 right-0 w-32 h-32 bg-teal-500/20 blur-3xl rounded-full pointer-events-none"></div>
               
-              <span className="text-xs font-black text-teal-400 uppercase tracking-widest block mb-3">Portfolio Welcome</span>
-              <h3 className="text-2xl sm:text-3xl font-extrabold mb-3">Choose Your Theme</h3>
-              <p className="text-sm text-gray-300 mb-8 leading-relaxed">Customize your viewing experience right away. You can easily switch between light and dark modes at any time using the top navigation bar.</p>
+              <span className="text-xs font-black text-teal-400 uppercase tracking-widest block mb-3">⚡ Quick Vibe Check</span>
+              <h3 className="text-2xl sm:text-3xl font-extrabold mb-3">How do you like your pixels?</h3>
+              <p className="text-sm text-gray-300 mb-8 leading-relaxed">Choose your aesthetic vibe before diving into a decade of football storytelling, epic docuseries, and viral stats.</p>
               
-              <div className="grid grid-cols-2 gap-4 mb-6">
+              <div className="grid grid-cols-2 gap-4">
                 <button 
                   onClick={() => { setIsDark(false); setShowWelcomeModal(false); }}
                   className="flex items-center justify-center gap-2 py-3.5 px-5 rounded-2xl bg-white text-gray-900 font-bold hover:bg-teal-50 transition-all shadow-lg group"
@@ -216,8 +206,6 @@ export default function Page() {
                   <FaMoon className="text-teal-400 group-hover:-rotate-12 transition-transform" /> Dark Mode
                 </button>
               </div>
-
-              <p className="text-[11px] text-gray-400 uppercase tracking-wider">Click anywhere outside to continue</p>
             </motion.div>
           </motion.div>
         )}
@@ -486,3 +474,5 @@ export default function Page() {
     </div>
   );
 }
+```eof
+http://googleusercontent.com/immersive_entry_chip/0
