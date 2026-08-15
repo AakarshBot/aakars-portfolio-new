@@ -190,7 +190,7 @@ export default function Page() {
           </div>
           
           <div className="relative flex items-center gap-2 mx-auto sm:mx-0">
-            {/* Larger, highly visible prompt pointing to the toggle */}
+            {/* Theme Prompt Popup */}
             <AnimatePresence>
               {showThemePrompt && (
                 <motion.div 
@@ -272,7 +272,7 @@ export default function Page() {
             <span className="text-xs font-black text-teal-500 uppercase tracking-widest block mb-2">Quantifiable Results</span>
             <h3 className={`text-3xl sm:text-4xl font-extrabold ${tHead}`}>Key Numbers</h3>
           </div>
-          <div className="grid sm:grid-cols-2 md:grid-cols-3 gap-6 sm:gap-8">
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 sm:gap-8">
             {impactData.map((clientData, idx) => (
               <motion.div 
                 key={idx} 
@@ -342,7 +342,7 @@ export default function Page() {
                   {/* Right Side */}
                   <div className="w-full md:w-2/3 flex flex-col justify-center h-full z-10">
                     <h5 className="text-xs sm:text-sm font-black text-teal-600/70 uppercase tracking-widest mb-4 sm:mb-6 pb-2 border-b border-teal-500/10">Key Contributions</h5>
-                    <div className="grid sm:grid-cols-2 gap-4 sm:gap-5">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-5">
                       {achievements[item.role]?.map((a, i) => (
                         <div key={i} className={`flex items-start gap-3 sm:gap-4 p-4 sm:p-5 rounded-2xl border transition-all shadow-sm hover:shadow-md ${isDark ? 'bg-white/[0.03] border-white/5 hover:bg-white/[0.07]' : 'bg-white/70 border-white/60 hover:bg-white/90'}`}>
                           {a.clientLogo ? (
@@ -363,7 +363,7 @@ export default function Page() {
           </div>
         </section>
 
-        {/* Highlights Gallery Section (Balanced 2-Column Asymmetric Grid to eliminate negative space) */}
+        {/* Highlights Gallery Section (Fully responsive bento grid on both mobile & desktop) */}
         <section id="highlights" ref={refs.highlights} className="scroll-mt-24 relative z-10">
           <div className="text-center md:text-left mb-8 sm:mb-10">
             <span className="text-xs font-black text-teal-500 uppercase tracking-widest block mb-2">Portfolio Showcase</span>
@@ -382,7 +382,7 @@ export default function Page() {
                   className={`${isHorizontal ? "md:col-span-2" : "md:col-span-1"}`}
                 >
                   <div className={`rounded-[2rem] overflow-hidden flex flex-col h-full ${tCard}`}>
-                    <div className={`w-full relative p-4 bg-transparent flex items-center justify-center ${isHorizontal ? "h-[320px] sm:h-[400px]" : "h-[440px]"}`}>
+                    <div className={`w-full relative p-4 bg-transparent flex items-center justify-center ${isHorizontal ? "h-[280px] sm:h-[400px]" : "h-[380px] sm:h-[440px]"}`}>
                       <Image src={project.image} alt={project.title} fill className="object-contain p-2 bg-transparent hover:scale-105 transition-transform duration-500" />
                     </div>
                     <div className="p-6 sm:p-8 flex flex-col justify-between flex-1">
@@ -420,7 +420,7 @@ export default function Page() {
               <h3 className="text-3xl sm:text-4xl font-extrabold">Let&apos;s Connect</h3>
             </div>
             
-            <div className="grid sm:grid-cols-2 gap-4 sm:gap-8 relative z-10">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-8 relative z-10">
               <a href="mailto:aakarshbommakanti@gmail.com" className="flex items-center gap-4 sm:gap-5 bg-white/10 hover:bg-white/20 backdrop-blur-md p-4 sm:p-5 rounded-2xl transition-all border border-white/10 hover:border-white/30">
                 <span className="w-10 h-10 sm:w-12 sm:h-12 flex items-center justify-center bg-white text-teal-700 rounded-xl text-xl sm:text-2xl shadow-lg flex-shrink-0">📧</span>
                 <span className="font-bold text-sm sm:text-lg truncate">aakarshbommakanti@gmail.com</span>
