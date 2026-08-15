@@ -2,7 +2,7 @@
 
 import React, { useEffect, useRef, useState, useMemo } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { FaVideo, FaChartLine, FaPenFancy, FaGlobe, FaXTwitter, FaDownload, FaMoon, FaSun, FaArrowUpRightFromSquare, FaClock } from "react-icons/fa6";
+import { FaVideo, FaChartLine, FaPenFancy, FaGlobe, FaXTwitter, FaDownload, FaMoon, FaSun, FaArrowUpRightFromSquare, FaClock, FaStar } from "react-icons/fa6";
 import Image from "next/image";
 
 // ---------- Data ----------
@@ -64,6 +64,14 @@ const impactData = [
   { client: "FIFA", logo: "/fifa.png", stats: [{ value: "+8M", label: "Subscribers (40 Days)" }, { value: "4.4B", label: "Total Views (40 Days)" }, { value: "61.8M", label: "Hours Watch Time (40 Days)" }] },
   { client: "FanCode", logo: "/fancode.png", stats: [{ value: "Daily", label: "Content Output" }, { value: "Live Digital", label: "Coverage of top leagues" }, { value: "Weekly", label: "Strategy Reports" }] },
   { client: "Hyderabad FC", logo: "/hfc.png", stats: [{ value: "+35%", label: "YoY Engagement" }, { value: "2", label: "Docuseries Seasons" }, { value: "Tier 1", label: "Brand Collabs" }] }
+];
+
+const marqueeBadges = [
+  "4.4B World Cup Views",
+  "ISL Winning Media Manager",
+  "Disney+ Hotstar Creator",
+  "+8M FIFA YouTube Subscribers",
+  "10+ Years Sports Media Leadership"
 ];
 
 const partnerLogos = [
@@ -322,13 +330,13 @@ export default function Page() {
                 </motion.div>
               </div>
 
-              {/* NEW: Muted Social Proof Strip underneath buttons */}
-              <div className="pt-6 w-full max-w-sm mt-4 border-t border-teal-500/10 hidden md:block">
-                <p className={`text-[10px] font-black uppercase tracking-widest mb-4 text-center md:text-left opacity-50 ${isDark ? 'text-gray-300' : 'text-gray-600'}`}>Where I've Worked</p>
-                <div className="flex flex-wrap justify-center md:justify-start items-center gap-5 sm:gap-6">
+              {/* Desktop Social Proof Strip (Single Line, Full Color) */}
+              <div className="pt-6 w-full max-w-2xl mt-4 border-t border-teal-500/10 hidden md:block">
+                <p className={`text-[10px] font-black uppercase tracking-widest mb-4 opacity-70 ${isDark ? 'text-gray-300' : 'text-gray-600'}`}>Where I've Worked</p>
+                <div className="flex items-center gap-6 lg:gap-8 w-full overflow-x-auto [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">
                   {partnerLogos.map((partner, pIdx) => (
-                    <div key={pIdx} className={`relative w-12 h-8 sm:w-14 sm:h-10 flex items-center justify-center transition-all opacity-40 hover:opacity-100 hover:scale-105 ${isDark ? 'grayscale contrast-200 invert' : 'grayscale contrast-200'}`} title={partner.name}>
-                      <Image src={partner.logo} alt={partner.name} fill className="object-contain" />
+                    <div key={pIdx} className="relative w-16 h-10 lg:w-20 lg:h-12 flex-shrink-0 flex items-center justify-center transition-transform hover:scale-110 drop-shadow-sm" title={partner.name}>
+                      <Image src={partner.logo} alt={partner.name} fill className={`object-contain ${isDark ? 'drop-shadow-[0_0_8px_rgba(255,255,255,0.3)]' : ''}`} />
                     </div>
                   ))}
                 </div>
@@ -345,19 +353,35 @@ export default function Page() {
               </div>
             </div>
             
-            {/* Mobile-only Social Proof Strip */}
-            <div className="pt-2 w-full border-t border-teal-500/10 block md:hidden text-center">
-              <p className={`text-[10px] font-black uppercase tracking-widest mb-4 opacity-50 ${isDark ? 'text-gray-300' : 'text-gray-600'}`}>Where I've Worked</p>
-              <div className="flex flex-wrap justify-center items-center gap-5 sm:gap-6">
+            {/* Mobile-only Social Proof Strip (Single Line, Full Color) */}
+            <div className="pt-4 w-full border-t border-teal-500/10 block md:hidden text-center overflow-hidden">
+              <p className={`text-[10px] font-black uppercase tracking-widest mb-4 opacity-70 ${isDark ? 'text-gray-300' : 'text-gray-600'}`}>Where I've Worked</p>
+              <div className="flex items-center justify-start gap-5 overflow-x-auto [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none] pb-2 w-full">
                 {partnerLogos.map((partner, pIdx) => (
-                  <div key={pIdx} className={`relative w-12 h-8 sm:w-14 sm:h-10 flex items-center justify-center transition-all opacity-40 hover:opacity-100 hover:scale-105 ${isDark ? 'grayscale contrast-200 invert' : 'grayscale contrast-200'}`} title={partner.name}>
-                    <Image src={partner.logo} alt={partner.name} fill className="object-contain" />
+                  <div key={pIdx} className="relative w-14 h-8 flex-shrink-0 flex items-center justify-center transition-transform hover:scale-105 drop-shadow-sm" title={partner.name}>
+                    <Image src={partner.logo} alt={partner.name} fill className={`object-contain ${isDark ? 'drop-shadow-[0_0_8px_rgba(255,255,255,0.3)]' : ''}`} />
                   </div>
                 ))}
               </div>
             </div>
 
           </div>
+        </section>
+
+        {/* Framer Motion Marquee Stat Ticker Ribbon */}
+        <section className="relative w-full overflow-hidden py-5 bg-gradient-to-r from-transparent via-teal-500/10 to-transparent border-y border-teal-500/20">
+          <motion.div 
+            className="flex whitespace-nowrap items-center w-max"
+            animate={{ x: ["0%", "-50%"] }}
+            transition={{ ease: "linear", duration: 25, repeat: Infinity }}
+          >
+            {[...marqueeBadges, ...marqueeBadges, ...marqueeBadges, ...marqueeBadges].map((badge, idx) => (
+              <div key={idx} className="flex items-center gap-5 px-8 text-teal-700 dark:text-teal-400 font-black text-sm sm:text-base tracking-widest uppercase">
+                <span>{badge}</span>
+                <FaStar className="text-[10px] opacity-30" />
+              </div>
+            ))}
+          </motion.div>
         </section>
 
         {/* Key Numbers Section */}
