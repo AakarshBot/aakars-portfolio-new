@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useEffect, useRef, useState, useMemo } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion } from "framer-motion";
 import { FaVideo, FaChartLine, FaPenFancy, FaGlobe, FaXTwitter, FaDownload, FaMoon, FaSun } from "react-icons/fa6";
 import Image from "next/image";
 
@@ -99,8 +99,7 @@ function useTypewriter(words: string[], speed = 80, pause = 1200) {
 
 // ---------- Main Page Component ----------
 export default function Page() {
-  const [isDark, setIsDark] = useState(false);
-  const [showModeModal, setShowModeModal] = useState(true);
+  const [isDark, setIsDark] = useState(false); // Default to light mode
   const [active, setActive] = useState("about");
   const [progress, setProgress] = useState(0);
 
@@ -158,46 +157,6 @@ export default function Page() {
   return (
     <div className={`min-h-screen font-sans selection:bg-teal-500 selection:text-white transition-colors duration-700 ${tBg}`}>
       
-      {/* Mode Selection Pop-up on First Load */}
-      <AnimatePresence>
-        {showModeModal && (
-          <motion.div 
-            initial={{ opacity: 0 }} 
-            animate={{ opacity: 1 }} 
-            exit={{ opacity: 0 }} 
-            className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-md p-4"
-          >
-            <motion.div 
-              initial={{ scale: 0.9, y: 20 }} 
-              animate={{ scale: 1, y: 0 }} 
-              exit={{ scale: 0.9, y: 20 }}
-              className={`max-w-md w-full p-8 rounded-[2.5rem] shadow-2xl border text-center ${isDark ? 'bg-gray-900 border-white/10 text-white' : 'bg-white border-gray-100 text-gray-900'}`}
-            >
-              <h3 className="text-2xl font-black mb-3">Welcome to My Portfolio</h3>
-              <p className="text-sm opacity-70 mb-8">Please choose your preferred viewing mode to get started.</p>
-              
-              <div className="grid grid-cols-2 gap-4">
-                <button 
-                  onClick={() => { setIsDark(false); setShowModeModal(false); }}
-                  className="flex flex-col items-center justify-center p-6 rounded-2xl border-2 border-gray-200 hover:border-teal-500 hover:bg-teal-50/5 transition-all group shadow-sm"
-                >
-                  <FaSun className="text-3xl text-amber-500 mb-3 group-hover:scale-110 transition-transform" />
-                  <span className="font-bold text-sm">Light Mode</span>
-                </button>
-
-                <button 
-                  onClick={() => { setIsDark(true); setShowModeModal(false); }}
-                  className="flex flex-col items-center justify-center p-6 rounded-2xl border-2 border-gray-800 hover:border-teal-400 hover:bg-white/5 transition-all group shadow-sm bg-gray-950 text-white"
-                >
-                  <FaMoon className="text-3xl text-teal-400 mb-3 group-hover:scale-110 transition-transform" />
-                  <span className="font-bold text-sm">Dark Mode</span>
-                </button>
-              </div>
-            </motion.div>
-          </motion.div>
-        )}
-      </AnimatePresence>
-
       {/* Background Animated Light Orbs */}
       <div className="fixed inset-0 -z-10 overflow-hidden pointer-events-none">
         <motion.div animate={{ x: [0, 100, 0], y: [0, -50, 0], scale: [1, 1.1, 1] }} transition={{ duration: 15, repeat: Infinity, ease: "easeInOut" }} className={`absolute top-[-10%] left-[-10%] w-[50vw] h-[50vw] rounded-full blur-[140px] transition-colors duration-700 ${isDark ? 'bg-teal-500/15' : 'bg-teal-400/10'}`} />
@@ -209,7 +168,7 @@ export default function Page() {
         <div className="h-full bg-gradient-to-r from-teal-400 via-pink-400 to-amber-400 rounded-r-full shadow-[0_0_10px_rgba(45,212,191,0.5)]" style={{ width: `${progress}%` }} />
       </div>
 
-      {/* Navbar with Theme Toggle */}
+      {/* Navbar with Theme Toggle and Highlight */}
       <header className="sticky top-4 z-40 px-2 sm:px-4">
         <div className={`max-w-5xl mx-auto flex flex-wrap justify-between items-center rounded-2xl sm:rounded-full px-4 py-3 gap-3 transition-colors duration-500 shadow-lg ${tNav}`}>
           <div className="flex flex-wrap justify-center items-center gap-1.5 sm:gap-4 w-full sm:w-auto flex-1">
@@ -219,9 +178,17 @@ export default function Page() {
               </button>
             ))}
           </div>
-          <button onClick={() => setIsDark(!isDark)} className="p-2.5 rounded-full bg-white/10 hover:bg-white/20 text-teal-400 transition-all shadow-inner flex-shrink-0 mx-auto sm:mx-0">
-            {isDark ? <FaSun className="text-amber-300" /> : <FaMoon className="text-teal-600" />}
-          </button>
+          
+          <div className="flex items-center gap-2 mx-auto sm:mx-0">
+            <span className="text-[11px] font-bold tracking-wider uppercase opacity-70 hidden md:inline-block animate-pulse text-teal-500">Toggle Theme →</span>
+            <button 
+              onClick={() => setIsDark(!isDark)} 
+              className="p-2.5 rounded-full bg-teal-500/20 hover:bg-teal-500/30 text-teal-500 border-2 border-teal-500 transition-all shadow-md flex-shrink-0 scale-105"
+              title="Click here to switch between light and dark mode"
+            >
+              {isDark ? <FaSun className="text-amber-300 text-lg" /> : <FaMoon className="text-teal-700 text-lg" />}
+            </button>
+          </div>
         </div>
       </header>
 
@@ -321,7 +288,7 @@ export default function Page() {
                   {/* Left Side */}
                   <div className="flex flex-col items-center md:items-start text-center md:text-left w-full md:w-1/3 flex-shrink-0 pt-2 z-10">
                     <div className="relative w-24 h-24 sm:w-36 sm:h-36 bg-transparent rounded-3xl p-5 flex items-center justify-center mb-5 sm:mb-6">
-                      <Image src={item.logo} alt={`${item.org} logo`} fill className="object-contain p-4 bg-transparent" />
+                      <Image src={item.logo} alt={`${item.org} logo`} fill className="object-contain p-4 bg-transparent drop-shadow-md" />
                     </div>
                     <h4 className={`text-xl sm:text-3xl font-extrabold leading-tight mb-2 ${tHead}`}>{item.role}</h4>
                     <p className="text-lg sm:text-xl font-bold text-teal-500 mb-4 sm:mb-5">{item.org}</p>
@@ -334,7 +301,7 @@ export default function Page() {
                           {item.clients.map((client, cIdx) => (
                             <div key={cIdx} className="relative group/client flex items-center justify-center cursor-help">
                               <div className="relative w-14 h-14 sm:w-20 sm:h-20 bg-transparent rounded-2xl flex items-center justify-center transition-transform hover:-translate-y-1">
-                                <Image src={client.logo} alt={client.name} fill className="object-contain p-2 sm:p-3 bg-transparent" />
+                                <Image src={client.logo} alt={client.name} fill className="object-contain p-2 sm:p-3 bg-transparent drop-shadow-sm" />
                               </div>
                               <div className="absolute -bottom-10 opacity-0 group-hover/client:opacity-100 transition-opacity bg-gray-900/90 text-white text-xs font-bold px-3 py-1.5 rounded-lg whitespace-nowrap z-20">{client.name}</div>
                             </div>
@@ -352,7 +319,7 @@ export default function Page() {
                         <div key={i} className={`flex items-start gap-3 sm:gap-4 p-4 sm:p-5 rounded-2xl border transition-all shadow-sm hover:shadow-md ${isDark ? 'bg-white/[0.03] border-white/5 hover:bg-white/[0.07]' : 'bg-white/70 border-white/60 hover:bg-white/90'}`}>
                           {a.clientLogo ? (
                             <div className="relative w-8 h-8 sm:w-10 sm:h-10 flex-shrink-0 bg-transparent rounded-xl p-1.5 flex items-center justify-center">
-                              <Image src={a.clientLogo} alt="client logo" fill className="object-contain p-1 bg-transparent" />
+                              <Image src={a.clientLogo} alt="client logo" fill className="object-contain p-1 bg-transparent drop-shadow-sm" />
                             </div>
                           ) : (
                             <div className={`text-xl sm:text-2xl mt-0.5 flex-shrink-0 w-8 h-8 sm:w-10 sm:h-10 flex items-center justify-center rounded-xl ${tIconBox}`}>{a.icon}</div>
@@ -368,13 +335,13 @@ export default function Page() {
           </div>
         </section>
 
-        {/* Highlights Gallery Section (Asymmetric Bento Grid with unclipped images & text underneath) */}
+        {/* Highlights Gallery Section (Balanced 2-Column Asymmetric Grid to eliminate negative space) */}
         <section id="highlights" ref={refs.highlights} className="scroll-mt-24 relative z-10">
           <div className="text-center md:text-left mb-8 sm:mb-10">
             <span className="text-xs font-black text-teal-500 uppercase tracking-widest block mb-2">Portfolio Showcase</span>
             <h3 className={`text-3xl sm:text-4xl font-extrabold ${tHead}`}>Highlights</h3>
           </div>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-8">
             {projects.map((project, index) => {
               const isHorizontal = project.layout === "horizontal";
               return (
@@ -384,10 +351,10 @@ export default function Page() {
                   whileInView={{ opacity: 1, scale: 1 }} 
                   viewport={{ once: true }} 
                   transition={{ delay: index * 0.1 }}
-                  className={`${isHorizontal ? "md:col-span-3" : "md:col-span-1"}`}
+                  className={`${isHorizontal ? "md:col-span-2" : "md:col-span-1"}`}
                 >
                   <div className={`rounded-[2rem] overflow-hidden flex flex-col h-full ${tCard}`}>
-                    <div className={`w-full relative p-4 bg-transparent flex items-center justify-center ${isHorizontal ? "h-[320px] sm:h-[400px]" : "h-[420px]"}`}>
+                    <div className={`w-full relative p-4 bg-transparent flex items-center justify-center ${isHorizontal ? "h-[320px] sm:h-[400px]" : "h-[440px]"}`}>
                       <Image src={project.image} alt={project.title} fill className="object-contain p-2 bg-transparent hover:scale-105 transition-transform duration-500" />
                     </div>
                     <div className="p-6 sm:p-8 flex flex-col justify-between flex-1">
