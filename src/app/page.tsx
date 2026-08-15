@@ -38,7 +38,7 @@ const achievements: Record<string, { text: string; icon: React.ReactNode; client
   "Media Manager": [
     { text: "Directed media strategy, increasing engagement by 35% YoY.", icon: <FaVideo /> },
     { text: "Produced and scripted a two-season documentary on Disney+ Hotstar.", icon: <FaVideo /> },
-    { text: "Managed daily content across social platforms and live coverage.", icon: <Globe /> },
+    { text: "Managed daily content across social platforms and live coverage.", icon: <FaGlobe /> },
     { text: "Created fan campaigns that boosted stadium attendance and loyalty.", icon: <FaChartLine /> },
     { text: "Collabs with the biggest celebrities and influencers to increase engagement.", icon: <FaVideo /> },
     { text: "Co-ordinating sponsorships from the biggest global brands like Hummel, EA Sports and more.", icon: <FaVideo /> },
