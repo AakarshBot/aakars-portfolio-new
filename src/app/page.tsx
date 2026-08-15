@@ -2,7 +2,7 @@
 
 import React, { useEffect, useRef, useState, useMemo } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { FaVideo, FaChartLine, FaPenFancy, FaGlobe, FaXTwitter, FaDownload, FaMoon, FaSun } from "react-icons/fa6";
+import { FaVideo, FaChartLine, FaPenFancy, FaGlobe, FaXTwitter, FaDownload, FaMoon, FaSun, FaArrowUpRightFromSquare, FaClock } from "react-icons/fa6";
 import Image from "next/image";
 
 // ---------- Data ----------
@@ -67,12 +67,12 @@ const impactData = [
 ];
 
 const projects = [
-  { title: "FIFA YT Publishing", description: "Oversaw the best year in FIFA YouTube history, driving record-breaking subscriber growth and watch time during the 2026 World Cup.", image: "/fifa-yt.jpg", layout: "horizontal" },
-  { title: "FanCode ISL & LALIGA", description: "Produced and managed everyday social media content on FanCode for top-tier global football leagues.", image: "/fancode-content.jpg", layout: "vertical" },
-  { title: "Future Is Us Docuseries", description: "First-of-its-kind sports docuseries following the journey of Hyderabad FC, scripted and produced for Disney+ Hotstar.", image: "/future-is-us.jpg", layout: "vertical" },
-  { title: "Hyderabad FC Trophy Win", description: "Led the digital media strategy and coverage as Media Manager when Hyderabad FC won the ISL championship.", image: "/hfc-trophy.jpg", layout: "horizontal" },
-  { title: "Microsoft Bing UI", description: "Helped improve the Bing homepage user interface and user experience for real-time sports searches.", image: "/bing-ui.jpg", layout: "vertical" },
-  { title: "Sports Writer & Editor", description: "Wrote and published over 15,000 articles across global platforms, building a readership of half a million.", image: "/writer.jpg", layout: "vertical" },
+  { title: "FIFA YT Publishing", description: "Oversaw the best year in FIFA YouTube history, driving record-breaking subscriber growth and watch time during the 2026 World Cup.", image: "/fifa-yt.jpg", layout: "horizontal", link: "https://youtube.com/@fifa" },
+  { title: "FanCode ISL & LALIGA", description: "Produced and managed everyday social media content on FanCode for top-tier global football leagues.", image: "/fancode-content.jpg", layout: "vertical", link: "https://fancode.com" },
+  { title: "Future Is Us Docuseries", description: "First-of-its-kind sports docuseries following the journey of Hyderabad FC, scripted and produced for Disney+ Hotstar.", image: "/future-is-us.jpg", layout: "vertical", link: "https://hotstar.com" },
+  { title: "Hyderabad FC Trophy Win", description: "Led the digital media strategy and coverage as Media Manager when Hyderabad FC won the ISL championship.", image: "/hfc-trophy.jpg", layout: "horizontal", link: "https://hyderabadfc.co.in" },
+  { title: "Microsoft Bing UI", description: "Helped improve the Bing homepage user interface and user experience for real-time sports searches.", image: "/bing-ui.jpg", layout: "vertical", link: "https://bing.com" },
+  { title: "Sports Writer & Editor", description: "Wrote and published over 15,000 articles across global platforms, building a readership of half a million.", image: "/writer.jpg", layout: "vertical", link: "#" },
 ];
 
 const skills = ["Content Strategy", "Video Production", "Sports Analytics", "Editorial Leadership", "Social Media Growth", "Storytelling", "Digital Marketing", "SEO & SEM", "Data Visualization", "Brand Management", "Media Relations", "Public Speaking"];
@@ -99,11 +99,12 @@ function useTypewriter(words: string[], speed = 80, pause = 1200) {
 
 // ---------- Main Page Component ----------
 export default function Page() {
-  const [isDark, setIsDark] = useState(false); // Default to light mode
+  const [isDark, setIsDark] = useState(false);
   const [showWelcomeModal, setShowWelcomeModal] = useState(true);
   const [active, setActive] = useState("about");
   const [progress, setProgress] = useState(0);
   const [showNav, setShowNav] = useState(true);
+  const [time, setTime] = useState("");
   const lastScrollY = useRef(0);
 
   const aboutRef = useRef<HTMLElement>(null);
@@ -118,6 +119,17 @@ export default function Page() {
   }), []);
 
   const typeText = useTypewriter(["Media Manager", "Content Creator", "Sports Analyst"], 70, 1000);
+
+  // Live Local Time ticker for Hyderabad, India
+  useEffect(() => {
+    const updateTime = () => {
+      const options: Intl.DateTimeFormatOptions = { timeZone: 'Asia/Kolkata', hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: true };
+      setTime(new Intl.DateTimeFormat([], options).format(new Date()));
+    };
+    updateTime();
+    const interval = setInterval(updateTime, 1000);
+    return () => clearInterval(interval);
+  }, []);
 
   // Scroll handler for progress bar and dynamic hiding/showing navbar
   useEffect(() => {
@@ -195,13 +207,13 @@ export default function Page() {
               <div className="grid grid-cols-2 gap-4">
                 <button 
                   onClick={() => { setIsDark(false); setShowWelcomeModal(false); }}
-                  className="flex items-center justify-center gap-2 py-3.5 px-5 rounded-2xl bg-white text-gray-900 font-bold hover:bg-teal-50 transition-all shadow-lg group"
+                  className="flex items-center justify-center gap-2 py-3.5 px-5 rounded-2xl bg-white text-gray-900 font-bold hover:bg-teal-50 transition-all shadow-lg group cursor-pointer"
                 >
                   <FaSun className="text-amber-500 group-hover:rotate-45 transition-transform" /> Light Mode
                 </button>
                 <button 
                   onClick={() => { setIsDark(true); setShowWelcomeModal(false); }}
-                  className="flex items-center justify-center gap-2 py-3.5 px-5 rounded-2xl bg-gray-800 text-teal-300 border border-teal-500/40 font-bold hover:bg-gray-750 transition-all shadow-lg group"
+                  className="flex items-center justify-center gap-2 py-3.5 px-5 rounded-2xl bg-gray-800 text-teal-300 border border-teal-500/40 font-bold hover:bg-gray-750 transition-all shadow-lg group cursor-pointer"
                 >
                   <FaMoon className="text-teal-400 group-hover:-rotate-12 transition-transform" /> Dark Mode
                 </button>
@@ -211,10 +223,10 @@ export default function Page() {
         )}
       </AnimatePresence>
 
-      {/* Background Animated Light Orbs */}
+      {/* Background Animated Gradient Mesh Orbs */}
       <div className="fixed inset-0 -z-10 overflow-hidden pointer-events-none">
-        <motion.div animate={{ x: [0, 100, 0], y: [0, -50, 0], scale: [1, 1.1, 1] }} transition={{ duration: 15, repeat: Infinity, ease: "easeInOut" }} className={`absolute top-[-10%] left-[-10%] w-[50vw] h-[50vw] rounded-full blur-[140px] transition-colors duration-700 ${isDark ? 'bg-teal-500/15' : 'bg-teal-400/10'}`} />
-        <motion.div animate={{ x: [0, -100, 0], y: [0, 100, 0], scale: [1, 1.2, 1] }} transition={{ duration: 20, repeat: Infinity, ease: "easeInOut" }} className={`absolute bottom-[-10%] right-[-10%] w-[60vw] h-[60vw] rounded-full blur-[160px] transition-colors duration-700 ${isDark ? 'bg-pink-600/10' : 'bg-blue-400/10'}`} />
+        <motion.div animate={{ x: [0, 120, 0], y: [0, -80, 0], scale: [1, 1.2, 1] }} transition={{ duration: 18, repeat: Infinity, ease: "easeInOut" }} className={`absolute top-[-15%] left-[-10%] w-[55vw] h-[55vw] rounded-full blur-[150px] transition-colors duration-700 ${isDark ? 'bg-teal-500/15' : 'bg-teal-400/15'}`} />
+        <motion.div animate={{ x: [0, -120, 0], y: [0, 100, 0], scale: [1, 1.3, 1] }} transition={{ duration: 22, repeat: Infinity, ease: "easeInOut" }} className={`absolute bottom-[-15%] right-[-10%] w-[65vw] h-[65vw] rounded-full blur-[180px] transition-colors duration-700 ${isDark ? 'bg-pink-600/15' : 'bg-blue-500/15'}`} />
       </div>
 
       {/* Progress bar */}
@@ -222,27 +234,32 @@ export default function Page() {
         <div className="h-full bg-gradient-to-r from-teal-400 via-pink-400 to-amber-400 rounded-r-full shadow-[0_0_10px_rgba(45,212,191,0.5)]" style={{ width: `${progress}%` }} />
       </div>
 
-      {/* Dynamic Floating Island Navbar */}
+      {/* Dynamic Floating Island Navbar with Live Time Badge */}
       <header className={`fixed top-4 left-0 right-0 z-40 px-3 sm:px-6 transition-transform duration-500 ease-in-out ${showNav ? 'translate-y-0' : '-translate-y-28'}`}>
         <div className={`max-w-4xl mx-auto flex flex-wrap justify-between items-center rounded-full px-5 py-2.5 gap-3 transition-colors duration-500 border ${tNav}`}>
-          <div className="flex flex-wrap justify-center items-center gap-1 sm:gap-3 w-full sm:w-auto flex-1">
+          
+          {/* Live Time Indicator */}
+          <div className="hidden lg:flex items-center gap-2 px-3 py-1 rounded-full bg-teal-500/10 text-teal-600 dark:text-teal-400 text-xs font-bold border border-teal-500/20">
+            <FaClock className="animate-spin-slow" />
+            <span>Hyderabad, IN: {time}</span>
+          </div>
+
+          <div className="flex flex-wrap justify-center items-center gap-1 sm:gap-2 flex-1">
             {Object.keys(refs).map((key) => (
-              <button key={key} onClick={() => scrollTo(refs[key as keyof typeof refs])} className={`px-3 py-1.5 rounded-full text-xs font-bold transition-all duration-300 ${active === key ? "bg-teal-500 text-white shadow-[0_4px_14px_rgba(20,184,166,0.4)] scale-105" : "hover:text-teal-500 hover:bg-white/10"}`}>
+              <button key={key} onClick={() => scrollTo(refs[key as keyof typeof refs])} className={`px-3 py-1.5 rounded-full text-xs font-bold transition-all duration-300 cursor-pointer ${active === key ? "bg-teal-500 text-white shadow-[0_4px_14px_rgba(20,184,166,0.4)] scale-105" : "hover:text-teal-500 hover:bg-white/10"}`}>
                 {key === "highlights" ? "Highlights" : key[0].toUpperCase() + key.slice(1)}
               </button>
             ))}
           </div>
           
-          <div className="relative flex items-center gap-2 mx-auto sm:mx-0">
-            <span className="text-[11px] font-bold tracking-wider uppercase opacity-70 hidden md:inline-block animate-pulse text-teal-500">Toggle Theme →</span>
-            
+          <div className="relative flex items-center gap-2">
             <button 
               onClick={(e) => { 
                 e.stopPropagation(); 
                 setIsDark(!isDark); 
               }} 
-              className="p-2.5 rounded-full bg-teal-500/20 hover:bg-teal-500/30 text-teal-500 border-2 border-teal-500 transition-all shadow-md flex-shrink-0 scale-105"
-              title="Click here to switch between light and dark mode"
+              className="p-2.5 rounded-full bg-teal-500/20 hover:bg-teal-500/30 text-teal-500 border-2 border-teal-500 transition-all shadow-md flex-shrink-0 scale-105 cursor-pointer"
+              title="Toggle Theme"
             >
               {isDark ? <FaSun className="text-amber-300 text-lg" /> : <FaMoon className="text-teal-700 text-lg" />}
             </button>
@@ -256,9 +273,9 @@ export default function Page() {
         <section id="about" ref={refs.about} className="min-h-[85vh] flex items-center justify-center pt-10 md:pt-0">
           <div className="grid md:grid-cols-2 gap-10 md:gap-16 items-center w-full">
             <div className="flex flex-col items-center md:items-start text-center md:text-left space-y-6 sm:space-y-8">
-              <motion.div animate={{ y: [-5, 5, -5] }} transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }} className="relative w-48 h-48 sm:w-72 sm:h-72 rounded-full shadow-[0_20px_50px_rgba(20,184,166,0.2)] overflow-hidden flex-shrink-0 border-4 border-white/20 backdrop-blur-sm p-1">
+              <motion.div animate={{ y: [-5, 5, -5] }} transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }} className="relative w-48 h-48 sm:w-72 sm:h-72 rounded-full shadow-[0_20px_50px_rgba(20,184,166,0.2)] overflow-hidden flex-shrink-0 border-4 border-teal-500/30 backdrop-blur-sm p-1">
                 <div className="relative w-full h-full rounded-full overflow-hidden bg-transparent">
-                  <Image src="/profile.jpg" alt="Aakarsh Bommakanti" fill className="object-cover" />
+                  <Image src="/profile.jpg" alt="Aakarsh Bommakanti" fill className="object-cover hover:scale-105 transition-transform duration-500" />
                 </div>
               </motion.div>
 
@@ -274,7 +291,7 @@ export default function Page() {
 
               <div className="flex flex-col sm:flex-row gap-4 w-full justify-center md:justify-start pt-2">
                 <motion.div className="relative group w-full sm:w-auto" onClick={() => scrollTo(refs.experience)} whileTap={{ scale: 0.95 }}>
-                  <button className="w-full bg-gradient-to-r from-teal-500 to-teal-400 text-white px-8 py-3.5 rounded-full shadow-[0_8px_20px_rgba(20,184,166,0.3)] font-semibold transition-all group-hover:shadow-[0_8px_25px_rgba(20,184,166,0.5)] flex items-center justify-center gap-2">Explore more ↓</button>
+                  <button className="w-full bg-gradient-to-r from-teal-500 to-teal-400 text-white px-8 py-3.5 rounded-full shadow-[0_8px_20px_rgba(20,184,166,0.3)] font-semibold transition-all group-hover:shadow-[0_8px_25px_rgba(20,184,166,0.5)] flex items-center justify-center gap-2 cursor-pointer">Explore more ↓</button>
                 </motion.div>
                 <motion.div className="relative group w-full sm:w-auto" whileTap={{ scale: 0.95 }}>
                   <a href="/AakarshBommakanti-Resume.pdf" download="AakarshBommakanti-Resume.pdf" className={`w-full flex items-center justify-center gap-2 px-8 py-3.5 rounded-full shadow-lg border font-semibold transition-all group-hover:bg-teal-500 group-hover:text-white group-hover:border-teal-500 ${isDark ? 'bg-white/10 border-white/20 text-teal-400' : 'bg-white/80 border-white/80 text-teal-700'}`}>
@@ -393,7 +410,7 @@ export default function Page() {
           </div>
         </section>
 
-        {/* Highlights Gallery Section */}
+        {/* Highlights Gallery Section with Interactive Preview Links */}
         <section id="highlights" ref={refs.highlights} className="scroll-mt-28 relative z-10">
           <div className="text-center md:text-left mb-8 sm:mb-10">
             <span className="text-xs font-black text-teal-500 uppercase tracking-widest block mb-2">Portfolio Showcase</span>
@@ -411,15 +428,21 @@ export default function Page() {
                   transition={{ delay: index * 0.1 }}
                   className={`${isHorizontal ? "md:col-span-2" : "md:col-span-1"}`}
                 >
-                  <div className={`rounded-[2rem] overflow-hidden flex flex-col h-full ${tCard}`}>
+                  <a href={project.link} target="_blank" rel="noopener noreferrer" className={`rounded-[2rem] overflow-hidden flex flex-col h-full group ${tCard} block relative`}>
                     <div className={`w-full relative p-4 bg-transparent flex items-center justify-center ${isHorizontal ? "h-[280px] sm:h-[400px]" : "h-[380px] sm:h-[440px]"}`}>
-                      <Image src={project.image} alt={project.title} fill className="object-contain p-2 bg-transparent hover:scale-105 transition-transform duration-500" />
+                      <Image src={project.image} alt={project.title} fill className="object-contain p-2 bg-transparent group-hover:scale-105 transition-transform duration-500" />
+                      <div className="absolute top-6 right-6 w-10 h-10 rounded-full bg-teal-500 text-white flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity shadow-lg">
+                        <FaArrowUpRightFromSquare className="text-sm" />
+                      </div>
                     </div>
                     <div className="p-6 sm:p-8 flex flex-col justify-between flex-1">
-                      <h4 className={`text-xl font-bold mb-2 ${tHead}`}>{project.title}</h4>
+                      <h4 className={`text-xl font-bold mb-2 flex items-center justify-between ${tHead}`}>
+                        {project.title}
+                        <FaArrowUpRightFromSquare className="text-xs opacity-0 group-hover:opacity-100 transition-opacity text-teal-500" />
+                      </h4>
                       <p className={`text-xs sm:text-sm leading-relaxed opacity-80 ${tSub}`}>{project.description}</p>
                     </div>
-                  </div>
+                  </a>
                 </motion.div>
               );
             })}
@@ -474,5 +497,3 @@ export default function Page() {
     </div>
   );
 }
-```eof
-http://googleusercontent.com/immersive_entry_chip/0
