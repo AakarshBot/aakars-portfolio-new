@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useEffect, useRef, useState, useMemo } from "react";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import { FaVideo, FaChartLine, FaPenFancy, FaGlobe, FaXTwitter, FaDownload, FaMoon, FaSun } from "react-icons/fa6";
 import Image from "next/image";
 
@@ -100,6 +100,7 @@ function useTypewriter(words: string[], speed = 80, pause = 1200) {
 // ---------- Main Page Component ----------
 export default function Page() {
   const [isDark, setIsDark] = useState(false); // Default to light mode
+  const [showThemePrompt, setShowThemePrompt] = useState(true);
   const [active, setActive] = useState("about");
   const [progress, setProgress] = useState(0);
 
@@ -155,8 +156,20 @@ export default function Page() {
   const tIconBox = isDark ? "bg-teal-500/10 text-teal-400" : "bg-teal-50 text-teal-600";
 
   return (
-    <div className={`min-h-screen font-sans selection:bg-teal-500 selection:text-white transition-colors duration-700 ${tBg}`}>
+    <div className={`min-h-screen font-sans selection:bg-teal-500 selection:text-white transition-colors duration-700 ${tBg} relative`}>
       
+      {/* Dark semi-opaque backdrop overlay when prompt is active */}
+      <AnimatePresence>
+        {showThemePrompt && (
+          <motion.div 
+            initial={{ opacity: 0 }} 
+            animate={{ opacity: 1 }} 
+            exit={{ opacity: 0 }} 
+            className="fixed inset-0 z-40 bg-black/50 backdrop-blur-[2px] pointer-events-none"
+          />
+        )}
+      </AnimatePresence>
+
       {/* Background Animated Light Orbs */}
       <div className="fixed inset-0 -z-10 overflow-hidden pointer-events-none">
         <motion.div animate={{ x: [0, 100, 0], y: [0, -50, 0], scale: [1, 1.1, 1] }} transition={{ duration: 15, repeat: Infinity, ease: "easeInOut" }} className={`absolute top-[-10%] left-[-10%] w-[50vw] h-[50vw] rounded-full blur-[140px] transition-colors duration-700 ${isDark ? 'bg-teal-500/15' : 'bg-teal-400/10'}`} />
@@ -168,8 +181,8 @@ export default function Page() {
         <div className="h-full bg-gradient-to-r from-teal-400 via-pink-400 to-amber-400 rounded-r-full shadow-[0_0_10px_rgba(45,212,191,0.5)]" style={{ width: `${progress}%` }} />
       </div>
 
-      {/* Navbar with Theme Toggle and Highlight */}
-      <header className="sticky top-4 z-40 px-2 sm:px-4">
+      {/* Navbar with Theme Toggle */}
+      <header className="sticky top-4 z-50 px-2 sm:px-4">
         <div className={`max-w-5xl mx-auto flex flex-wrap justify-between items-center rounded-2xl sm:rounded-full px-4 py-3 gap-3 transition-colors duration-500 shadow-lg ${tNav}`}>
           <div className="flex flex-wrap justify-center items-center gap-1.5 sm:gap-4 w-full sm:w-auto flex-1">
             {Object.keys(refs).map((key) => (
@@ -179,10 +192,30 @@ export default function Page() {
             ))}
           </div>
           
-          <div className="flex items-center gap-2 mx-auto sm:mx-0">
+          <div className="relative flex items-center gap-2 mx-auto sm:mx-0">
+            {/* Theme Prompt Popup pointing to toggle */}
+            <AnimatePresence>
+              {showThemePrompt && (
+                <motion.div 
+                  initial={{ opacity: 0, y: 10, scale: 0.95 }}
+                  animate={{ opacity: 1, y: 0, scale: 1 }}
+                  exit={{ opacity: 0, y: 10, scale: 0.95 }}
+                  className="absolute right-0 -bottom-16 z-50 bg-white text-gray-900 px-4 py-2.5 rounded-2xl shadow-2xl border border-teal-500/30 flex items-center gap-3 whitespace-nowrap"
+                >
+                  <span className="text-xs font-bold tracking-wide text-teal-600 uppercase">Choose theme here →</span>
+                  <button 
+                    onClick={() => setShowThemePrompt(false)}
+                    className="text-xs bg-gray-100 hover:bg-gray-200 text-gray-600 px-2 py-1 rounded-lg font-bold"
+                  >
+                    Got it
+                  </button>
+                </motion.div>
+              )}
+            </AnimatePresence>
+
             <span className="text-[11px] font-bold tracking-wider uppercase opacity-70 hidden md:inline-block animate-pulse text-teal-500">Toggle Theme →</span>
             <button 
-              onClick={() => setIsDark(!isDark)} 
+              onClick={() => { setIsDark(!isDark); setShowThemePrompt(false); }} 
               className="p-2.5 rounded-full bg-teal-500/20 hover:bg-teal-500/30 text-teal-500 border-2 border-teal-500 transition-all shadow-md flex-shrink-0 scale-105"
               title="Click here to switch between light and dark mode"
             >
