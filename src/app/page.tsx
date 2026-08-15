@@ -2,7 +2,7 @@
 
 import React, { useEffect, useRef, useState, useMemo } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { FaVideo, FaChartLine, FaPenFancy, FaGlobe, FaXTwitter, FaDownload, FaMoon, FaSun, FaArrowUpRightFromSquare, FaClock, FaStar } from "react-icons/fa6";
+import { FaVideo, FaChartLine, FaPenFancy, FaGlobe, FaXTwitter, FaDownload, FaMoon, FaSun, FaArrowUpRightFromSquare, FaClock } from "react-icons/fa6";
 import Image from "next/image";
 
 // ---------- Data ----------
