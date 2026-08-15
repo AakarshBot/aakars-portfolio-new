@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useEffect, useRef, useState, useMemo } from "react";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import { FaVideo, FaChartLine, FaPenFancy, FaGlobe, FaXTwitter, FaDownload, FaMoon, FaSun } from "react-icons/fa6";
 import Image from "next/image";
 
@@ -25,15 +25,15 @@ const experience = [
   { role: "Freelance Writer", org: "Multiple Outlets", period: "2014–2020", logo: "/freelance.png" },
 ];
 
-const achievements: Record<string, { text: string; icon: React.ReactNode }[]> = {
+const achievements: Record<string, { text: string; icon: React.ReactNode; clientLogo?: string }[]> = {
   "Digital Content Manager": [
-    { text: "FIFA: Oversaw the best year in FIFA YouTube history, leading the publishing strategy for the 2026 FIFA World Cup and managing HBS delivery workflows.", icon: <FaVideo /> },
-    { text: "FIFA: Managed daily global publishing operations throughout the entirety of 2026, ensuring consistent content delivery across international markets.", icon: <FaGlobe /> },
-    { text: "FIFA: Directed thumbnail design and visual packaging for the complete 2026 FIFA World Cup content slate, maximizing click-through rates.", icon: <FaPenFancy /> },
-    { text: "FIFA: Grew channel subscribers from 27.18 million to 35.33 million and increased watch time to 64.95 million hours within a single reporting period.", icon: <FaChartLine /> },
-    { text: "FanCode: Managed daily social media content publishing for major sports leagues including the ISL and La Liga.", icon: <FaGlobe /> },
-    { text: "FanCode: Formulated comprehensive weekly content plans and performance reports to drive engagement strategy.", icon: <FaChartLine /> },
-    { text: "FanCode: Produced and edited high-performing social media content utilizing raw broadcast assets.", icon: <FaVideo /> },
+    { text: "FIFA: Oversaw the best year in FIFA YouTube history, leading the publishing strategy for the 2026 FIFA World Cup and managing HBS delivery workflows.", icon: <FaVideo />, clientLogo: "/fifa.png" },
+    { text: "FIFA: Managed daily global publishing operations throughout the entirety of 2026, ensuring consistent content delivery across international markets.", icon: <FaGlobe />, clientLogo: "/fifa.png" },
+    { text: "FIFA: Directed thumbnail design and visual packaging for the complete 2026 FIFA World Cup content slate, maximizing click-through rates.", icon: <FaPenFancy />, clientLogo: "/fifa.png" },
+    { text: "FIFA: Grew channel subscribers from 27.18 million to 35.33 million and increased watch time to 64.95 million hours within a single reporting period.", icon: <FaChartLine />, clientLogo: "/fifa.png" },
+    { text: "FanCode: Managed daily social media content publishing for major sports leagues including the ISL and La Liga.", icon: <FaGlobe />, clientLogo: "/fancode.png" },
+    { text: "FanCode: Formulated comprehensive weekly content plans and performance reports to drive engagement strategy.", icon: <FaChartLine />, clientLogo: "/fancode.png" },
+    { text: "FanCode: Produced and edited high-performing social media content utilizing raw broadcast assets.", icon: <FaVideo />, clientLogo: "/fancode.png" },
   ],
   "Media Manager": [
     { text: "Directed media strategy, increasing engagement by 35% YoY.", icon: <FaVideo /> },
@@ -61,8 +61,8 @@ const achievements: Record<string, { text: string; icon: React.ReactNode }[]> = 
 };
 
 const impactData = [
-  { client: "FIFA", logo: "/fifa.png", stats: [{ value: "35.3M", label: "Subscribers" }, { value: "127M+", label: "Total Views" }, { value: "64.9M", label: "Hours Watched" }] },
-  { client: "FanCode", logo: "/fancode.png", stats: [{ value: "Daily", label: "Content Output" }, { value: "Multi", label: "League Ops (ISL, La Liga)" }, { value: "Weekly", label: "Strategy Reports" }] },
+  { client: "FIFA", logo: "/fifa.png", stats: [{ value: "+8M", label: "Subscribers (40 Days)" }, { value: "4.4B", label: "Total Views (40 Days)" }, { value: "61.8M", label: "Hours Watch Time (40 Days)" }] },
+  { client: "FanCode", logo: "/fancode.png", stats: [{ value: "Daily", label: "Content Output" }, { value: "Live Digital", label: "Coverage of top leagues" }, { value: "Weekly", label: "Strategy Reports" }] },
   { client: "Hyderabad FC", logo: "/hfc.png", stats: [{ value: "+35%", label: "YoY Engagement" }, { value: "2", label: "Docuseries Seasons" }, { value: "Tier 1", label: "Brand Collabs" }] }
 ];
 
@@ -99,7 +99,8 @@ function useTypewriter(words: string[], speed = 80, pause = 1200) {
 
 // ---------- Main Page Component ----------
 export default function Page() {
-  const [isDark, setIsDark] = useState(false); // Light mode default
+  const [isDark, setIsDark] = useState(false);
+  const [showModeModal, setShowModeModal] = useState(true);
   const [active, setActive] = useState("about");
   const [progress, setProgress] = useState(0);
 
@@ -111,7 +112,7 @@ export default function Page() {
   const contactRef = useRef<HTMLElement>(null);
 
   const refs = useMemo(() => ({
-    about: aboutRef, impact: impactRef, experience: experienceRef, projects: projectsRef, skills: skillsRef, contact: contactRef,
+    about: aboutRef, impact: impactRef, experience: experienceRef, highlights: projectsRef, skills: skillsRef, contact: contactRef,
   }), []);
 
   const typeText = useTypewriter(["Media Manager", "Content Creator", "Sports Analyst"], 70, 1000);
@@ -157,6 +158,46 @@ export default function Page() {
   return (
     <div className={`min-h-screen font-sans selection:bg-teal-500 selection:text-white transition-colors duration-700 ${tBg}`}>
       
+      {/* Mode Selection Pop-up on First Load */}
+      <AnimatePresence>
+        {showModeModal && (
+          <motion.div 
+            initial={{ opacity: 0 }} 
+            animate={{ opacity: 1 }} 
+            exit={{ opacity: 0 }} 
+            className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-md p-4"
+          >
+            <motion.div 
+              initial={{ scale: 0.9, y: 20 }} 
+              animate={{ scale: 1, y: 0 }} 
+              exit={{ scale: 0.9, y: 20 }}
+              className={`max-w-md w-full p-8 rounded-[2.5rem] shadow-2xl border text-center ${isDark ? 'bg-gray-900 border-white/10 text-white' : 'bg-white border-gray-100 text-gray-900'}`}
+            >
+              <h3 className="text-2xl font-black mb-3">Welcome to My Portfolio</h3>
+              <p className="text-sm opacity-70 mb-8">Please choose your preferred viewing mode to get started.</p>
+              
+              <div className="grid grid-cols-2 gap-4">
+                <button 
+                  onClick={() => { setIsDark(false); setShowModeModal(false); }}
+                  className="flex flex-col items-center justify-center p-6 rounded-2xl border-2 border-gray-200 hover:border-teal-500 hover:bg-teal-50/5 transition-all group shadow-sm"
+                >
+                  <FaSun className="text-3xl text-amber-500 mb-3 group-hover:scale-110 transition-transform" />
+                  <span className="font-bold text-sm">Light Mode</span>
+                </button>
+
+                <button 
+                  onClick={() => { setIsDark(true); setShowModeModal(false); }}
+                  className="flex flex-col items-center justify-center p-6 rounded-2xl border-2 border-gray-800 hover:border-teal-400 hover:bg-white/5 transition-all group shadow-sm bg-gray-950 text-white"
+                >
+                  <FaMoon className="text-3xl text-teal-400 mb-3 group-hover:scale-110 transition-transform" />
+                  <span className="font-bold text-sm">Dark Mode</span>
+                </button>
+              </div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
       {/* Background Animated Light Orbs */}
       <div className="fixed inset-0 -z-10 overflow-hidden pointer-events-none">
         <motion.div animate={{ x: [0, 100, 0], y: [0, -50, 0], scale: [1, 1.1, 1] }} transition={{ duration: 15, repeat: Infinity, ease: "easeInOut" }} className={`absolute top-[-10%] left-[-10%] w-[50vw] h-[50vw] rounded-full blur-[140px] transition-colors duration-700 ${isDark ? 'bg-teal-500/15' : 'bg-teal-400/10'}`} />
@@ -169,12 +210,12 @@ export default function Page() {
       </div>
 
       {/* Navbar with Theme Toggle */}
-      <header className="sticky top-4 z-50 px-2 sm:px-4">
+      <header className="sticky top-4 z-40 px-2 sm:px-4">
         <div className={`max-w-5xl mx-auto flex flex-wrap justify-between items-center rounded-2xl sm:rounded-full px-4 py-3 gap-3 transition-colors duration-500 shadow-lg ${tNav}`}>
           <div className="flex flex-wrap justify-center items-center gap-1.5 sm:gap-4 w-full sm:w-auto flex-1">
             {Object.keys(refs).map((key) => (
               <button key={key} onClick={() => scrollTo(refs[key as keyof typeof refs])} className={`px-3 py-1.5 sm:px-4 sm:py-2 rounded-full text-xs sm:text-sm font-semibold transition-all duration-300 ${active === key ? "bg-teal-500 text-white shadow-[0_4px_14px_rgba(20,184,166,0.4)] scale-105" : "hover:text-teal-500 hover:bg-white/10"}`}>
-                {key === "projects" ? "Selected Works" : key[0].toUpperCase() + key.slice(1)}
+                {key === "highlights" ? "Highlights" : key[0].toUpperCase() + key.slice(1)}
               </button>
             ))}
           </div>
@@ -230,15 +271,23 @@ export default function Page() {
           </div>
         </section>
 
-        {/* Impact / By The Numbers Section */}
+        {/* Key Numbers Section */}
         <section id="impact" ref={refs.impact} className="scroll-mt-24 relative z-10">
           <div className="text-center md:text-left mb-8 sm:mb-10">
             <span className="text-xs font-black text-teal-500 uppercase tracking-widest block mb-2">Quantifiable Results</span>
-            <h3 className={`text-3xl sm:text-4xl font-extrabold ${tHead}`}>Track Record & Scale</h3>
+            <h3 className={`text-3xl sm:text-4xl font-extrabold ${tHead}`}>Key Numbers</h3>
           </div>
           <div className="grid sm:grid-cols-2 md:grid-cols-3 gap-6 sm:gap-8">
             {impactData.map((clientData, idx) => (
-              <motion.div key={idx} initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: idx * 0.1 }} className={`flex flex-col rounded-[2rem] transition-all duration-300 overflow-hidden ${tCard}`}>
+              <motion.div 
+                key={idx} 
+                onClick={() => scrollTo(refs.experience)}
+                initial={{ opacity: 0, y: 30 }} 
+                whileInView={{ opacity: 1, y: 0 }} 
+                viewport={{ once: true }} 
+                transition={{ delay: idx * 0.1 }} 
+                className={`flex flex-col rounded-[2rem] transition-all duration-300 overflow-hidden cursor-pointer hover:scale-[1.02] ${tCard}`}
+              >
                 <div className="bg-white/5 flex items-center justify-center p-6 sm:p-8 border-b border-white/10">
                   <div className="relative w-20 h-20 sm:w-24 sm:h-24 bg-white/80 backdrop-blur-md rounded-2xl shadow-sm p-4 flex items-center justify-center"><Image src={clientData.logo} alt={clientData.client} fill className="object-contain p-2" /></div>
                 </div>
@@ -255,7 +304,7 @@ export default function Page() {
           </div>
         </section>
 
-        {/* Experience Section (Forced Side-by-Side Structure matching Desktop) */}
+        {/* Experience Section */}
         <section id="experience" ref={refs.experience} className="scroll-mt-24 relative z-10">
           <div className="text-center md:text-left mb-8 sm:mb-10">
             <span className="text-xs font-black text-teal-500 uppercase tracking-widest block mb-2">Career Journey</span>
@@ -295,7 +344,13 @@ export default function Page() {
                     <div className="grid sm:grid-cols-2 gap-4 sm:gap-5">
                       {achievements[item.role]?.map((a, i) => (
                         <div key={i} className={`flex items-start gap-3 sm:gap-4 p-4 sm:p-5 rounded-2xl border transition-all shadow-sm hover:shadow-md ${isDark ? 'bg-white/[0.03] border-white/5 hover:bg-white/[0.07]' : 'bg-white/70 border-white/60 hover:bg-white/90'}`}>
-                          <div className={`text-xl sm:text-2xl mt-0.5 flex-shrink-0 w-8 h-8 sm:w-10 sm:h-10 flex items-center justify-center rounded-xl ${tIconBox}`}>{a.icon}</div>
+                          {a.clientLogo ? (
+                            <div className="relative w-8 h-8 sm:w-10 sm:h-10 flex-shrink-0 bg-white rounded-xl shadow-sm p-1.5 flex items-center justify-center">
+                              <Image src={a.clientLogo} alt="client logo" fill className="object-contain p-1" />
+                            </div>
+                          ) : (
+                            <div className={`text-xl sm:text-2xl mt-0.5 flex-shrink-0 w-8 h-8 sm:w-10 sm:h-10 flex items-center justify-center rounded-xl ${tIconBox}`}>{a.icon}</div>
+                          )}
                           <p className={`text-xs sm:text-sm leading-relaxed font-semibold ${tSub}`}>{a.text}</p>
                         </div>
                       ))}
@@ -307,11 +362,11 @@ export default function Page() {
           </div>
         </section>
 
-        {/* Selected Works Gallery Section (Vertical / Portrait Aspect Ratio) */}
-        <section id="projects" ref={refs.projects} className="scroll-mt-24 relative z-10">
+        {/* Highlights Gallery Section */}
+        <section id="highlights" ref={refs.highlights} className="scroll-mt-24 relative z-10">
           <div className="text-center md:text-left mb-8 sm:mb-10">
             <span className="text-xs font-black text-teal-500 uppercase tracking-widest block mb-2">Portfolio Showcase</span>
-            <h3 className={`text-3xl sm:text-4xl font-extrabold ${tHead}`}>Selected Works & Highlights</h3>
+            <h3 className={`text-3xl sm:text-4xl font-extrabold ${tHead}`}>Highlights</h3>
           </div>
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
             {projects.map((project, index) => (
