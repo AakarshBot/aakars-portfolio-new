@@ -100,7 +100,7 @@ function useTypewriter(words: string[], speed = 80, pause = 1200) {
 // ---------- Main Page Component ----------
 export default function Page() {
   const [isDark, setIsDark] = useState(false); // Default to light mode
-  const [showOverlay, setShowOverlay] = useState(true);
+  const [showWelcomeModal, setShowWelcomeModal] = useState(true);
   const [active, setActive] = useState("about");
   const [progress, setProgress] = useState(0);
   const [showNav, setShowNav] = useState(true);
@@ -126,11 +126,10 @@ export default function Page() {
       const height = document.documentElement.scrollHeight - window.innerHeight;
       setProgress((currentScrollY / height) * 100);
 
-      // Dynamic Nav Show/Hide logic
       if (currentScrollY > lastScrollY.current && currentScrollY > 80) {
-        setShowNav(false); // Scrolling down -> hide navbar
+        setShowNav(false);
       } else {
-        setShowNav(true); // Scrolling up -> show navbar
+        setShowNav(true);
       }
       lastScrollY.current = currentScrollY;
     };
@@ -138,6 +137,15 @@ export default function Page() {
     window.addEventListener("scroll", handleScroll, { passive: true });
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
+
+  // Dismiss welcome overlay on ANY click on the page
+  useEffect(() => {
+    const handleClickAnywhere = () => {
+      if (showWelcomeModal) setShowWelcomeModal(false);
+    };
+    window.addEventListener("click", handleClickAnywhere);
+    return () => window.removeEventListener("click", handleClickAnywhere);
+  }, [showWelcomeModal]);
 
   useEffect(() => {
     const observer = new IntersectionObserver((entries) => {
@@ -171,15 +179,47 @@ export default function Page() {
   return (
     <div className={`min-h-screen font-sans selection:bg-teal-500 selection:text-white transition-colors duration-700 ${tBg} relative`}>
       
-      {/* Professional Semi-Opaque Backdrop Overlay on Load */}
+      {/* Professional Opaque Screen & Modal on Load */}
       <AnimatePresence>
-        {showOverlay && (
+        {showWelcomeModal && (
           <motion.div 
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed inset-0 z-40 bg-black/60 backdrop-blur-sm pointer-events-auto"
-          />
+            className="fixed inset-0 z-50 bg-black/70 backdrop-blur-md flex items-center justify-center p-4"
+            onClick={(e) => { e.stopPropagation(); setShowWelcomeModal(false); }}
+          >
+            <motion.div 
+              initial={{ scale: 0.9, y: 20 }}
+              animate={{ scale: 1, y: 0 }}
+              exit={{ scale: 0.9, y: 20 }}
+              className="bg-gradient-to-br from-gray-900 to-gray-950 text-white p-8 sm:p-10 rounded-[2.5rem] shadow-2xl border border-white/15 max-w-md w-full text-center relative overflow-hidden"
+              onClick={(e) => e.stopPropagation()}
+            >
+              <div className="absolute top-0 right-0 w-32 h-32 bg-teal-500/20 blur-3xl rounded-full pointer-events-none"></div>
+              
+              <span className="text-xs font-black text-teal-400 uppercase tracking-widest block mb-3">Portfolio Welcome</span>
+              <h3 className="text-2xl sm:text-3xl font-extrabold mb-3">Choose Your Theme</h3>
+              <p className="text-sm text-gray-300 mb-8 leading-relaxed">Customize your viewing experience right away. You can easily switch between light and dark modes at any time using the top navigation bar.</p>
+              
+              <div className="grid grid-cols-2 gap-4 mb-6">
+                <button 
+                  onClick={() => { setIsDark(false); setShowWelcomeModal(false); }}
+                  className="flex items-center justify-center gap-2 py-3.5 px-5 rounded-2xl bg-white text-gray-900 font-bold hover:bg-teal-50 transition-all shadow-lg group"
+                >
+                  <FaSun className="text-amber-500 group-hover:rotate-45 transition-transform" /> Light Mode
+                </button>
+                <button 
+                  onClick={() => { setIsDark(true); setShowWelcomeModal(false); }}
+                  className="flex items-center justify-center gap-2 py-3.5 px-5 rounded-2xl bg-gray-800 text-teal-300 border border-teal-500/40 font-bold hover:bg-gray-750 transition-all shadow-lg group"
+                >
+                  <FaMoon className="text-teal-400 group-hover:-rotate-12 transition-transform" /> Dark Mode
+                </button>
+              </div>
+
+              <p className="text-[11px] text-gray-400 uppercase tracking-wider">Click anywhere outside to continue</p>
+            </motion.div>
+          </motion.div>
         )}
       </AnimatePresence>
 
@@ -194,8 +234,8 @@ export default function Page() {
         <div className="h-full bg-gradient-to-r from-teal-400 via-pink-400 to-amber-400 rounded-r-full shadow-[0_0_10px_rgba(45,212,191,0.5)]" style={{ width: `${progress}%` }} />
       </div>
 
-      {/* Dynamic Floating Island Navbar (Auto-hides on scroll down, reappears on scroll up) */}
-      <header className={`fixed top-4 left-0 right-0 z-50 px-3 sm:px-6 transition-transform duration-500 ease-in-out ${showNav ? 'translate-y-0' : '-translate-y-28'}`}>
+      {/* Dynamic Floating Island Navbar */}
+      <header className={`fixed top-4 left-0 right-0 z-40 px-3 sm:px-6 transition-transform duration-500 ease-in-out ${showNav ? 'translate-y-0' : '-translate-y-28'}`}>
         <div className={`max-w-4xl mx-auto flex flex-wrap justify-between items-center rounded-full px-5 py-2.5 gap-3 transition-colors duration-500 border ${tNav}`}>
           <div className="flex flex-wrap justify-center items-center gap-1 sm:gap-3 w-full sm:w-auto flex-1">
             {Object.keys(refs).map((key) => (
@@ -206,29 +246,14 @@ export default function Page() {
           </div>
           
           <div className="relative flex items-center gap-2 mx-auto sm:mx-0">
-            {/* Pulsing Theme Customization Hint */}
-            <AnimatePresence>
-              {showOverlay && (
-                <motion.div 
-                  initial={{ opacity: 0, x: 10 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  exit={{ opacity: 0, x: 10 }}
-                  className="absolute -left-48 top-1/2 -translate-y-1/2 bg-teal-500 text-white text-[11px] font-bold px-3 py-1.5 rounded-xl shadow-lg whitespace-hidden sm:whitespace-nowrap pointer-events-none animate-bounce"
-                >
-                  ✨ Choose your theme here!
-                </motion.div>
-              )}
-            </AnimatePresence>
-
             <span className="text-[11px] font-bold tracking-wider uppercase opacity-70 hidden md:inline-block animate-pulse text-teal-500">Toggle Theme →</span>
             
             <button 
               onClick={(e) => { 
                 e.stopPropagation(); 
                 setIsDark(!isDark); 
-                setShowOverlay(false); 
               }} 
-              className={`p-2.5 rounded-full transition-all shadow-xl flex-shrink-0 scale-105 ${showOverlay ? 'bg-teal-500 text-white ring-4 ring-teal-300 animate-pulse' : 'bg-teal-500/20 hover:bg-teal-500/30 text-teal-500 border-2 border-teal-500'}`}
+              className="p-2.5 rounded-full bg-teal-500/20 hover:bg-teal-500/30 text-teal-500 border-2 border-teal-500 transition-all shadow-md flex-shrink-0 scale-105"
               title="Click here to switch between light and dark mode"
             >
               {isDark ? <FaSun className="text-amber-300 text-lg" /> : <FaMoon className="text-teal-700 text-lg" />}
