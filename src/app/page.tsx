@@ -103,6 +103,8 @@ export default function Page() {
   const [showOverlay, setShowOverlay] = useState(true);
   const [active, setActive] = useState("about");
   const [progress, setProgress] = useState(0);
+  const [showNav, setShowNav] = useState(true);
+  const lastScrollY = useRef(0);
 
   const aboutRef = useRef<HTMLElement>(null);
   const impactRef = useRef<HTMLElement>(null);
@@ -117,23 +119,25 @@ export default function Page() {
 
   const typeText = useTypewriter(["Media Manager", "Content Creator", "Sports Analyst"], 70, 1000);
 
+  // Scroll handler for progress bar and dynamic hiding/showing navbar
   useEffect(() => {
-    const onScroll = () => {
+    const handleScroll = () => {
+      const currentScrollY = window.scrollY;
       const height = document.documentElement.scrollHeight - window.innerHeight;
-      setProgress((window.scrollY / height) * 100);
-    };
-    window.addEventListener("scroll", onScroll);
-    return () => window.removeEventListener("scroll", onScroll);
-  }, []);
+      setProgress((currentScrollY / height) * 100);
 
-  // Dismiss overlay on ANY click on the page
-  useEffect(() => {
-    const handleClickAnywhere = () => {
-      if (showOverlay) setShowOverlay(false);
+      // Dynamic Nav Show/Hide logic
+      if (currentScrollY > lastScrollY.current && currentScrollY > 80) {
+        setShowNav(false); // Scrolling down -> hide navbar
+      } else {
+        setShowNav(true); // Scrolling up -> show navbar
+      }
+      lastScrollY.current = currentScrollY;
     };
-    window.addEventListener("click", handleClickAnywhere);
-    return () => window.removeEventListener("click", handleClickAnywhere);
-  }, [showOverlay]);
+
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
 
   useEffect(() => {
     const observer = new IntersectionObserver((entries) => {
@@ -155,8 +159,8 @@ export default function Page() {
     : "bg-white/60 backdrop-blur-2xl border border-white/70 shadow-[0_8px_32px_0_rgba(31,38,135,0.07)] hover:bg-white/80";
     
   const tNav = isDark 
-    ? "bg-gray-900/70 backdrop-blur-2xl border-white/10 text-gray-300" 
-    : "bg-white/70 backdrop-blur-2xl border-white/70 text-gray-700 shadow-sm";
+    ? "bg-gray-900/80 backdrop-blur-2xl border-white/10 text-gray-300 shadow-[0_10px_30px_rgba(0,0,0,0.5)]" 
+    : "bg-white/80 backdrop-blur-2xl border-white/80 text-gray-700 shadow-[0_10px_30px_rgba(31,38,135,0.1)]";
     
   const tHead = isDark ? "text-white" : "text-gray-900";
   const tSub = isDark ? "text-gray-300" : "text-gray-700";
@@ -190,12 +194,12 @@ export default function Page() {
         <div className="h-full bg-gradient-to-r from-teal-400 via-pink-400 to-amber-400 rounded-r-full shadow-[0_0_10px_rgba(45,212,191,0.5)]" style={{ width: `${progress}%` }} />
       </div>
 
-      {/* Navbar with Theme Toggle & Glowing Highlight */}
-      <header className="sticky top-4 z-50 px-2 sm:px-4">
-        <div className={`max-w-5xl mx-auto flex flex-wrap justify-between items-center rounded-2xl sm:rounded-full px-4 py-3 gap-3 transition-colors duration-500 shadow-lg ${tNav}`}>
-          <div className="flex flex-wrap justify-center items-center gap-1.5 sm:gap-4 w-full sm:w-auto flex-1">
+      {/* Dynamic Floating Island Navbar (Auto-hides on scroll down, reappears on scroll up) */}
+      <header className={`fixed top-4 left-0 right-0 z-50 px-3 sm:px-6 transition-transform duration-500 ease-in-out ${showNav ? 'translate-y-0' : '-translate-y-28'}`}>
+        <div className={`max-w-4xl mx-auto flex flex-wrap justify-between items-center rounded-full px-5 py-2.5 gap-3 transition-colors duration-500 border ${tNav}`}>
+          <div className="flex flex-wrap justify-center items-center gap-1 sm:gap-3 w-full sm:w-auto flex-1">
             {Object.keys(refs).map((key) => (
-              <button key={key} onClick={() => scrollTo(refs[key as keyof typeof refs])} className={`px-3 py-1.5 sm:px-4 sm:py-2 rounded-full text-xs sm:text-sm font-semibold transition-all duration-300 ${active === key ? "bg-teal-500 text-white shadow-[0_4px_14px_rgba(20,184,166,0.4)] scale-105" : "hover:text-teal-500 hover:bg-white/10"}`}>
+              <button key={key} onClick={() => scrollTo(refs[key as keyof typeof refs])} className={`px-3 py-1.5 rounded-full text-xs font-bold transition-all duration-300 ${active === key ? "bg-teal-500 text-white shadow-[0_4px_14px_rgba(20,184,166,0.4)] scale-105" : "hover:text-teal-500 hover:bg-white/10"}`}>
                 {key === "highlights" ? "Highlights" : key[0].toUpperCase() + key.slice(1)}
               </button>
             ))}
@@ -224,16 +228,16 @@ export default function Page() {
                 setIsDark(!isDark); 
                 setShowOverlay(false); 
               }} 
-              className={`p-3 rounded-full transition-all shadow-xl flex-shrink-0 scale-110 ${showOverlay ? 'bg-teal-500 text-white ring-4 ring-teal-300 animate-pulse' : 'bg-teal-500/20 hover:bg-teal-500/30 text-teal-500 border-2 border-teal-500'}`}
+              className={`p-2.5 rounded-full transition-all shadow-xl flex-shrink-0 scale-105 ${showOverlay ? 'bg-teal-500 text-white ring-4 ring-teal-300 animate-pulse' : 'bg-teal-500/20 hover:bg-teal-500/30 text-teal-500 border-2 border-teal-500'}`}
               title="Click here to switch between light and dark mode"
             >
-              {isDark ? <FaSun className="text-amber-300 text-xl" /> : <FaMoon className="text-teal-700 text-xl" />}
+              {isDark ? <FaSun className="text-amber-300 text-lg" /> : <FaMoon className="text-teal-700 text-lg" />}
             </button>
           </div>
         </div>
       </header>
 
-      <main className="max-w-6xl mx-auto px-4 py-10 space-y-20 sm:space-y-32 relative">
+      <main className="max-w-6xl mx-auto px-4 py-16 space-y-20 sm:space-y-32 relative">
         
         {/* Hero Section */}
         <section id="about" ref={refs.about} className="min-h-[85vh] flex items-center justify-center pt-10 md:pt-0">
@@ -280,7 +284,7 @@ export default function Page() {
         </section>
 
         {/* Key Numbers Section */}
-        <section id="impact" ref={refs.impact} className="scroll-mt-24 relative z-10">
+        <section id="impact" ref={refs.impact} className="scroll-mt-28 relative z-10">
           <div className="text-center md:text-left mb-8 sm:mb-10">
             <span className="text-xs font-black text-teal-500 uppercase tracking-widest block mb-2">Quantifiable Results</span>
             <h3 className={`text-3xl sm:text-4xl font-extrabold ${tHead}`}>Key Numbers</h3>
@@ -315,7 +319,7 @@ export default function Page() {
         </section>
 
         {/* Experience Section */}
-        <section id="experience" ref={refs.experience} className="scroll-mt-24 relative z-10">
+        <section id="experience" ref={refs.experience} className="scroll-mt-28 relative z-10">
           <div className="text-center md:text-left mb-8 sm:mb-10">
             <span className="text-xs font-black text-teal-500 uppercase tracking-widest block mb-2">Career Journey</span>
             <h3 className={`text-3xl sm:text-4xl font-extrabold ${tHead}`}>Professional Experience</h3>
@@ -377,7 +381,7 @@ export default function Page() {
         </section>
 
         {/* Highlights Gallery Section */}
-        <section id="highlights" ref={refs.highlights} className="scroll-mt-24 relative z-10">
+        <section id="highlights" ref={refs.highlights} className="scroll-mt-28 relative z-10">
           <div className="text-center md:text-left mb-8 sm:mb-10">
             <span className="text-xs font-black text-teal-500 uppercase tracking-widest block mb-2">Portfolio Showcase</span>
             <h3 className={`text-3xl sm:text-4xl font-extrabold ${tHead}`}>Highlights</h3>
@@ -410,7 +414,7 @@ export default function Page() {
         </section>
 
         {/* Skills */}
-        <section id="skills" ref={refs.skills} className="scroll-mt-24 relative z-10">
+        <section id="skills" ref={refs.skills} className="scroll-mt-28 relative z-10">
           <div className="text-center md:text-left mb-8 sm:mb-10">
             <span className="text-xs font-black text-teal-500 uppercase tracking-widest block mb-2">Expertise</span>
             <h3 className={`text-3xl sm:text-4xl font-extrabold ${tHead}`}>Core Skills</h3>
@@ -423,7 +427,7 @@ export default function Page() {
         </section>
 
         {/* Contact */}
-        <section id="contact" ref={refs.contact} className="pb-20 scroll-mt-24 relative z-10">
+        <section id="contact" ref={refs.contact} className="pb-20 scroll-mt-28 relative z-10">
           <div className="bg-gradient-to-br from-teal-600 to-teal-950 rounded-[2.5rem] sm:rounded-[3rem] p-8 sm:p-16 text-white shadow-2xl relative overflow-hidden border border-teal-500/30">
             <div className="absolute -top-24 -right-24 w-72 h-72 bg-white/10 backdrop-blur-3xl rounded-full pointer-events-none"></div>
             <div className="absolute -bottom-24 -left-24 w-72 h-72 bg-teal-400/20 backdrop-blur-3xl rounded-full pointer-events-none"></div>
