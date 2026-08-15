@@ -2,7 +2,7 @@
 
 import React, { useEffect, useRef, useState, useMemo } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { FaVideo, FaChartLine, FaPenFancy, FaGlobe, FaXTwitter, FaDownload, FaMoon, FaSun, FaArrowUpRightFromSquare, FaClock, FaStar } from "react-icons/fa6";
+import { FaVideo, FaChartLine, FaPenFancy, FaGlobe, FaXTwitter, FaDownload, FaMoon, FaSun, FaArrowUpRightFromSquare, FaClock } from "react-icons/fa6";
 import Image from "next/image";
 
 // ---------- Data ----------
@@ -27,51 +27,33 @@ const experience = [
 
 const achievements: Record<string, { text: string; icon: React.ReactNode; clientLogo?: string }[]> = {
   "Digital Content Manager": [
-    { text: "FIFA: Oversaw the best year in FIFA YouTube history, leading the publishing strategy for the 2026 FIFA World Cup and managing HBS delivery workflows.", icon: <FaVideo />, clientLogo: "/fifa.png" },
-    { text: "FIFA: Managed daily global publishing operations throughout the entirety of 2026, ensuring consistent content delivery across international markets.", icon: <FaGlobe />, clientLogo: "/fifa.png" },
-    { text: "FIFA: Directed thumbnail design and visual packaging for the complete 2026 FIFA World Cup content slate, maximizing click-through rates.", icon: <FaPenFancy />, clientLogo: "/fifa.png" },
-    { text: "FIFA: Grew channel subscribers from 27.18 million to 35.33 million and increased watch time to 64.95 million hours within a single reporting period.", icon: <FaChartLine />, clientLogo: "/fifa.png" },
-    { text: "FanCode: Managed daily social media content publishing for major sports leagues including the ISL and La Liga.", icon: <FaGlobe />, clientLogo: "/fancode.png" },
-    { text: "FanCode: Formulated comprehensive weekly content plans and performance reports to drive engagement strategy.", icon: <FaChartLine />, clientLogo: "/fancode.png" },
-    { text: "FanCode: Produced and edited high-performing social media content utilizing raw broadcast assets.", icon: <FaVideo />, clientLogo: "/fancode.png" },
+    { text: "Led the YouTube publishing and optimization strategy for FIFA, driving channel views from 66.18 million to over 127.33 million within a single reporting period.", icon: <FaChartLine />, clientLogo: "/fifa.png" },
+    { text: "Engineered aggressive A/B testing, metadata refinement, and thumbnail packaging for massive international football archives.", icon: <FaPenFancy />, clientLogo: "/fifa.png" },
+    { text: "Directed daily live social coverage, promotional graphics, and tune-in campaigns for FanCode across top-tier properties, including the ISL, La Liga, and the 2026 Masters golf tournament.", icon: <FaGlobe />, clientLogo: "/fancode.png" },
   ],
   "Media Manager": [
-    { text: "Directed media strategy, increasing engagement by 35% YoY.", icon: <FaVideo /> },
-    { text: "Produced and scripted a two-season documentary on Disney+ Hotstar.", icon: <FaVideo /> },
-    { text: "Managed daily content across social platforms and live coverage.", icon: <FaGlobe /> },
-    { text: "Created fan campaigns that boosted stadium attendance and loyalty.", icon: <FaChartLine /> },
-    { text: "Collabs with the biggest celebrities and influencers to increase engagement.", icon: <FaVideo /> },
-    { text: "Co-ordinating sponsorships from the biggest global brands like Hummel, EA Sports and more.", icon: <FaVideo /> },
+    { text: "Architected the digital media strategy that defined Hyderabad FC's ISL Championship-winning era.", icon: <FaGlobe /> },
+    { text: "Scripted and produced 'Future Is Us'—a groundbreaking, two-season sports documentary series for Disney+ Hotstar.", icon: <FaVideo /> },
+    { text: "Led high-impact brand collaborations and fan-loyalty campaigns that significantly boosted stadium attendance and YoY engagement.", icon: <FaChartLine /> },
   ],
   "Content Analyst": [
-    { text: "Built predictive models for Premier League & Champions League outcomes.", icon: <FaChartLine /> },
-    { text: "Enhanced Bing Sports UX with improved live coverage and personalization.", icon: <FaGlobe /> },
-    { text: "Streamlined API integrations for real-time match data.", icon: <FaChartLine /> },
+    { text: "Enhanced the Bing Sports UI/UX, streamlining API integrations to deliver real-time match data to millions of users.", icon: <FaGlobe /> },
+    { text: "Built predictive data models for Premier League and Champions League outcomes to drive personalized user experiences.", icon: <FaChartLine /> },
   ],
   Editor: [
-    { text: "Led a team of 10 writers, publishing 20+ articles daily.", icon: <FaPenFancy /> },
-    { text: "Strengthened workflows for quick and reliable match-day coverage.", icon: <FaPenFancy /> },
-    { text: "Expanded reach through consistent, high-quality analysis.", icon: <FaGlobe /> },
+    { text: "Led a team of 10 writers, publishing 20+ articles daily while strengthening workflows for quick, reliable match-day coverage.", icon: <FaPenFancy /> },
+    { text: "Expanded reach through consistent, high-quality analysis across global sports platforms.", icon: <FaGlobe /> },
   ],
   "Freelance Writer": [
-    { text: "Authored 15,000+ football articles across global platforms.", icon: <FaPenFancy /> },
-    { text: "Only Indian columnist at RousingTheKop (Liverpool FC fan site).", icon: <FaGlobe /> },
-    { text: "Built a readership of 500,000+ with in-depth football analysis.", icon: <FaChartLine /> },
+    { text: "Authored over 15,000 football articles across global platforms, establishing an engaged readership of half a million fans.", icon: <FaPenFancy /> },
+    { text: "Served as the sole Indian columnist for RousingTheKop, delivering in-depth Liverpool FC tactical analysis.", icon: <FaGlobe /> },
   ],
 };
 
 const impactData = [
-  { client: "FIFA", logo: "/fifa.png", stats: [{ value: "+8M", label: "Subscribers (40 Days)" }, { value: "4.4B", label: "Total Views (40 Days)" }, { value: "61.8M", label: "Hours Watch Time (40 Days)" }] },
-  { client: "FanCode", logo: "/fancode.png", stats: [{ value: "Daily", label: "Content Output" }, { value: "Live Digital", label: "Coverage of top leagues" }, { value: "Weekly", label: "Strategy Reports" }] },
-  { client: "Hyderabad FC", logo: "/hfc.png", stats: [{ value: "+35%", label: "YoY Engagement" }, { value: "2", label: "Docuseries Seasons" }, { value: "Tier 1", label: "Brand Collabs" }] }
-];
-
-const marqueeBadges = [
-  "4.4B World Cup Views",
-  "ISL Winning Media Manager",
-  "Disney+ Hotstar Creator",
-  "+8M FIFA YouTube Subscribers",
-  "10+ Years Sports Media Leadership"
+  { client: "FIFA", logo: "/fifa.png", stats: [{ value: "127.3M", label: "Peak Monthly Views" }, { value: "4.95M", label: "Hours Watch Time" }, { value: "A/B Tested", label: "Metadata & Optimization" }] },
+  { client: "FanCode", logo: "/fancode.png", stats: [{ value: "Daily", label: "Live Social Coverage" }, { value: "Tier 1", label: "Global Events (e.g. Masters)" }, { value: "100%", label: "Data-Driven Strategy" }] },
+  { client: "Storytelling", logo: "/hfc.png", stats: [{ value: "15,000+", label: "Articles Published" }, { value: "500K+", label: "Engaged Readership" }, { value: "2 Seasons", label: "Disney+ Docuseries" }] }
 ];
 
 const partnerLogos = [
@@ -330,10 +312,10 @@ export default function Page() {
                 </motion.div>
               </div>
 
-              {/* Desktop Social Proof Strip (Single Line, Full Color) */}
+              {/* Desktop Social Proof Strip (Single Line, No Scrolling Banner) */}
               <div className="pt-6 w-full max-w-2xl mt-4 border-t border-teal-500/10 hidden md:block">
                 <p className={`text-[10px] font-black uppercase tracking-widest mb-4 opacity-70 ${isDark ? 'text-gray-300' : 'text-gray-600'}`}>Where I've Worked</p>
-                <div className="flex items-center gap-6 lg:gap-8 w-full overflow-x-auto [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">
+                <div className="flex flex-wrap items-center gap-6 lg:gap-8 w-full justify-start">
                   {partnerLogos.map((partner, pIdx) => (
                     <div key={pIdx} className="relative w-16 h-10 lg:w-20 lg:h-12 flex-shrink-0 flex items-center justify-center transition-transform hover:scale-110 drop-shadow-sm" title={partner.name}>
                       <Image src={partner.logo} alt={partner.name} fill className={`object-contain ${isDark ? 'drop-shadow-[0_0_8px_rgba(255,255,255,0.3)]' : ''}`} />
@@ -345,18 +327,17 @@ export default function Page() {
 
             <div className={`p-6 sm:p-10 rounded-[2rem] transition-all duration-500 relative overflow-hidden ${tCard}`}>
               <div className="absolute top-0 right-0 w-32 h-32 bg-teal-500/10 blur-3xl rounded-full pointer-events-none"></div>
-              <p className={`relative z-10 text-sm sm:text-base font-medium mb-5 sm:mb-6 ${isDark ? 'text-gray-300' : 'text-gray-800'}`}>For over a decade, I&apos;ve worked at the intersection of sport, media and storytelling, helping bring fans closer to the teams, players and moments they care about.</p>
-              <p className={`relative z-10 text-sm sm:text-base font-medium mb-5 sm:mb-6 ${isDark ? 'text-gray-300' : 'text-gray-800'}`}>As a media manager and content creator, I&apos;ve built fan communities from the ground up, scripted a two-season documentary series for Disney+ Hotstar, and led YouTube publishing for the 2026 FIFA World Cup.</p>
-              <p className={`relative z-10 text-sm sm:text-base font-medium mb-5 sm:mb-6 ${isDark ? 'text-gray-300' : 'text-gray-800'}`}>I&apos;m a hands-on leader who combines tactical analysis, data and creative storytelling to make sports content that people actually want to watch, share and come back to.</p>
+              <p className={`relative z-10 text-sm sm:text-base font-medium mb-5 sm:mb-6 ${isDark ? 'text-gray-300' : 'text-gray-800'}`}>For over a decade, I’ve been turning casual viewers into die-hard fans. Whether I'm skyrocketing FIFA's YouTube viewership to 127+ million, directing daily social coverage for FanCode, or scripting a two-season docuseries for Disney+ Hotstar, I live at the intersection of sports, data, and storytelling.</p>
+              <p className={`relative z-10 text-sm sm:text-base font-medium mb-5 sm:mb-6 ${isDark ? 'text-gray-300' : 'text-gray-800'}`}>I don't just post content—I engineer digital stadiums. By combining tactical analysis, metadata optimization, and thumb-stopping creative, I build sports media that fans actually want to watch, share, and come back to.</p>
               <div className={`relative z-10 p-4 sm:p-5 rounded-2xl border-l-4 border-teal-500 ${isDark ? 'bg-teal-500/10' : 'bg-teal-100/50'}`}>
-                <p className={`text-sm sm:text-base font-bold ${isDark ? 'text-teal-400' : 'text-teal-800'}`}>At the heart of everything I do is a simple idea: great sports content should make fans feel closer to the game.</p>
+                <p className={`text-sm sm:text-base font-bold italic ${isDark ? 'text-teal-400' : 'text-teal-800'}`}>"Great sports content doesn't just show the game—it pulls the fans onto the pitch."</p>
               </div>
             </div>
             
-            {/* Mobile-only Social Proof Strip (Single Line, Full Color) */}
-            <div className="pt-4 w-full border-t border-teal-500/10 block md:hidden text-center overflow-hidden">
+            {/* Mobile-only Social Proof Strip (Single Line, No Overflow Scroll) */}
+            <div className="pt-4 w-full border-t border-teal-500/10 block md:hidden text-center">
               <p className={`text-[10px] font-black uppercase tracking-widest mb-4 opacity-70 ${isDark ? 'text-gray-300' : 'text-gray-600'}`}>Where I've Worked</p>
-              <div className="flex items-center justify-start gap-5 overflow-x-auto [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none] pb-2 w-full">
+              <div className="flex flex-wrap items-center justify-center gap-5 w-full">
                 {partnerLogos.map((partner, pIdx) => (
                   <div key={pIdx} className="relative w-14 h-8 flex-shrink-0 flex items-center justify-center transition-transform hover:scale-105 drop-shadow-sm" title={partner.name}>
                     <Image src={partner.logo} alt={partner.name} fill className={`object-contain ${isDark ? 'drop-shadow-[0_0_8px_rgba(255,255,255,0.3)]' : ''}`} />
@@ -366,22 +347,6 @@ export default function Page() {
             </div>
 
           </div>
-        </section>
-
-        {/* Framer Motion Marquee Stat Ticker Ribbon */}
-        <section className="relative w-full overflow-hidden py-5 bg-gradient-to-r from-transparent via-teal-500/10 to-transparent border-y border-teal-500/20">
-          <motion.div 
-            className="flex whitespace-nowrap items-center w-max"
-            animate={{ x: ["0%", "-50%"] }}
-            transition={{ ease: "linear", duration: 25, repeat: Infinity }}
-          >
-            {[...marqueeBadges, ...marqueeBadges, ...marqueeBadges, ...marqueeBadges].map((badge, idx) => (
-              <div key={idx} className="flex items-center gap-5 px-8 text-teal-700 dark:text-teal-400 font-black text-sm sm:text-base tracking-widest uppercase">
-                <span>{badge}</span>
-                <FaStar className="text-[10px] opacity-30" />
-              </div>
-            ))}
-          </motion.div>
         </section>
 
         {/* Key Numbers Section */}
