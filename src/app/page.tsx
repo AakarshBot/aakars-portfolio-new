@@ -487,9 +487,6 @@ export default function Page() {
                   <a href={project.link} target="_blank" rel="noopener noreferrer" className={`rounded-[2rem] overflow-hidden flex flex-col h-full group ${tCard} block relative`}>
                     <div className={`w-full relative p-4 bg-transparent flex items-center justify-center ${isHorizontal ? "h-[280px] sm:h-[400px]" : "h-[380px] sm:h-[440px]"}`}>
                       <Image src={project.image} alt={project.title} fill className="object-contain p-2 bg-transparent group-hover:scale-105 transition-transform duration-500" />
-                      <div className="absolute top-6 right-6 w-10 h-10 rounded-full bg-teal-500 text-white flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity shadow-lg">
-                        <FaArrowUpRightFromSquare className="text-sm" />
-                      </div>
                     </div>
                     <div className="p-6 sm:p-8 flex flex-col justify-between flex-1">
                       <h4 className={`text-xl font-bold mb-2 flex items-center justify-between ${tHead}`}>
