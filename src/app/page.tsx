@@ -1,4 +1,88 @@
-// ... existing code ...
+"use client";
+
+import React, { useEffect, useRef, useState, useMemo } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import { FaVideo, FaChartLine, FaPenFancy, FaGlobe, FaXTwitter, FaDownload, FaMoon, FaSun, FaArrowUpRightFromSquare, FaClock, FaStar } from "react-icons/fa6";
+import Image from "next/image";
+
+// ---------- Data ----------
+const experience = [
+  { 
+    role: "Digital Content Manager", 
+    org: "Red Lantern Digital Media", 
+    period: "2026-current", 
+    logo: "/redlantern.png",
+    clients: [
+      { name: "FIFA", logo: "/fifa.png" },
+      { name: "FanCode", logo: "/fancode.png" },
+      { name: "Premier League India", logo: "/pl-india.png" },
+      { name: "Liverpool India", logo: "/lfc-india.png" }
+    ]
+  },
+  { role: "Media Manager", org: "Hyderabad FC", period: "2020–2025", logo: "/hfc.png" },
+  { role: "Content Analyst", org: "Microsoft (Bing Sports)", period: "2018–2020", logo: "/microsoft.png" },
+  { role: "Editor", org: "The 4th Official", period: "2016–2018", logo: "/4th-official.png" },
+  { role: "Freelance Writer", org: "Multiple Outlets", period: "2014–2020", logo: "/freelance.png" },
+];
+
+const achievements: Record<string, { text: string; icon: React.ReactNode; clientLogo?: string }[]> = {
+  "Digital Content Manager": [
+    { text: "FIFA: Oversaw the best year in FIFA YouTube history, leading the publishing strategy for the 2026 FIFA World Cup and managing HBS delivery workflows.", icon: <FaVideo />, clientLogo: "/fifa.png" },
+    { text: "FIFA: Managed daily global publishing operations throughout the entirety of 2026, ensuring consistent content delivery across international markets.", icon: <FaGlobe />, clientLogo: "/fifa.png" },
+    { text: "FIFA: Directed thumbnail design and visual packaging for the complete 2026 FIFA World Cup content slate, maximizing click-through rates.", icon: <FaPenFancy />, clientLogo: "/fifa.png" },
+    { text: "FIFA: Grew channel subscribers from 27.18 million to 35.33 million and increased watch time to 64.95 million hours within a single reporting period.", icon: <FaChartLine />, clientLogo: "/fifa.png" },
+    { text: "FanCode: Managed daily social media content publishing for major sports leagues including the ISL and La Liga.", icon: <FaGlobe />, clientLogo: "/fancode.png" },
+    { text: "FanCode: Formulated comprehensive weekly content plans and performance reports to drive engagement strategy.", icon: <FaChartLine />, clientLogo: "/fancode.png" },
+    { text: "FanCode: Produced and edited high-performing social media content utilizing raw broadcast assets.", icon: <FaVideo />, clientLogo: "/fancode.png" },
+  ],
+  "Media Manager": [
+    { text: "Directed media strategy, increasing engagement by 35% YoY.", icon: <FaVideo /> },
+    { text: "Produced and scripted a two-season documentary on Disney+ Hotstar.", icon: <FaVideo /> },
+    { text: "Managed daily content across social platforms and live coverage.", icon: <FaGlobe /> },
+    { text: "Created fan campaigns that boosted stadium attendance and loyalty.", icon: <FaChartLine /> },
+    { text: "Collabs with the biggest celebrities and influencers to increase engagement.", icon: <FaVideo /> },
+    { text: "Co-ordinating sponsorships from the biggest global brands like Hummel, EA Sports and more.", icon: <FaVideo /> },
+  ],
+  "Content Analyst": [
+    { text: "Built predictive models for Premier League & Champions League outcomes.", icon: <FaChartLine /> },
+    { text: "Enhanced Bing Sports UX with improved live coverage and personalization.", icon: <FaGlobe /> },
+    { text: "Streamlined API integrations for real-time match data.", icon: <FaChartLine /> },
+  ],
+  Editor: [
+    { text: "Led a team of 10 writers, publishing 20+ articles daily.", icon: <FaPenFancy /> },
+    { text: "Strengthened workflows for quick and reliable match-day coverage.", icon: <FaPenFancy /> },
+    { text: "Expanded reach through consistent, high-quality analysis.", icon: <FaGlobe /> },
+  ],
+  "Freelance Writer": [
+    { text: "Authored 15,000+ football articles across global platforms.", icon: <FaPenFancy /> },
+    { text: "Only Indian columnist at RousingTheKop (Liverpool FC fan site).", icon: <FaGlobe /> },
+    { text: "Built a readership of 500,000+ with in-depth football analysis.", icon: <FaChartLine /> },
+  ],
+};
+
+const impactData = [
+  { client: "FIFA", logo: "/fifa.png", stats: [{ value: "+8M", label: "Subscribers (40 Days)" }, { value: "4.4B", label: "Total Views (40 Days)" }, { value: "61.8M", label: "Hours Watch Time (40 Days)" }] },
+  { client: "FanCode", logo: "/fancode.png", stats: [{ value: "Daily", label: "Content Output" }, { value: "Live Digital", label: "Coverage of top leagues" }, { value: "Weekly", label: "Strategy Reports" }] },
+  { client: "Hyderabad FC", logo: "/hfc.png", stats: [{ value: "+35%", label: "YoY Engagement" }, { value: "2", label: "Docuseries Seasons" }, { value: "Tier 1", label: "Brand Collabs" }] }
+];
+
+const marqueeBadges = [
+  "★ 4.4B World Cup Views",
+  "⚽ ISL Winning Media Manager",
+  "📺 Disney+ Hotstar Creator",
+  "🔥 +8M FIFA YouTube Subscribers",
+  "🚀 10+ Years Sports Media Leadership"
+];
+
+const partnerLogos = [
+  { name: "FIFA", logo: "/fifa.png" },
+  { name: "FanCode", logo: "/fancode.png" },
+  { name: "Hyderabad FC", logo: "/hfc.png" },
+  { name: "Microsoft", logo: "/microsoft.png" },
+  { name: "Premier League India", logo: "/pl-india.png" },
+  { name: "Liverpool India", logo: "/lfc-india.png" }
+];
+
 const projects = [
   { title: "FIFA YT Publishing", description: "Oversaw the best year in FIFA YouTube history, driving record-breaking subscriber growth and watch time during the 2026 World Cup.", image: "/fifa-yt.jpg", layout: "horizontal", link: "https://youtube.com/@fifa" },
   { title: "FanCode ISL & LALIGA", description: "Produced and managed everyday social media content on FanCode for top-tier global football leagues.", image: "/fancode-content.jpg", layout: "vertical", link: "https://fancode.com" },
@@ -9,7 +93,379 @@ const projects = [
 ];
 
 const skills = ["Content Strategy", "Video Production", "Sports Analytics", "Editorial Leadership", "Social Media Growth", "Storytelling", "Digital Marketing", "SEO & SEM", "Data Visualization", "Brand Management", "Media Relations", "Public Speaking"];
-// ... existing code ...
+
+// ---------- Typewriter Engine ----------
+function useTypewriter(words: string[], speed = 80, pause = 1200) {
+  const [i, setI] = useState(0);
+  const [sub, setSub] = useState(0);
+  const [del, setDel] = useState(false);
+  const [txt, setTxt] = useState("");
+
+  useEffect(() => {
+    const word = words[i % words.length];
+    let t = setTimeout(() => {
+      if (!del && sub < word.length) { setTxt(word.substring(0, sub + 1)); setSub((s) => s + 1); } 
+      else if (del && sub > 0) { setTxt(word.substring(0, sub - 1)); setSub((s) => s - 1); } 
+      else if (!del && sub === word.length) { setDel(true); clearTimeout(t); t = setTimeout(() => setDel(true), pause); } 
+      else if (del && sub === 0) { setDel(false); setI((x) => x + 1); }
+    }, del ? speed / 2 : speed);
+    return () => clearTimeout(t);
+  }, [sub, i, del, words, speed, pause]);
+  return txt;
+}
+
+// ---------- Main Page Component ----------
+export default function Page() {
+  const [isDark, setIsDark] = useState(false);
+  const [showWelcomeModal, setShowWelcomeModal] = useState(true);
+  const [active, setActive] = useState("about");
+  const [progress, setProgress] = useState(0);
+  const [showNav, setShowNav] = useState(true);
+  const [time, setTime] = useState("");
+  const [timeGreeting, setTimeGreeting] = useState("Welcome");
+  const lastScrollY = useRef(0);
+
+  const aboutRef = useRef<HTMLElement>(null);
+  const impactRef = useRef<HTMLElement>(null);
+  const experienceRef = useRef<HTMLElement>(null);
+  const projectsRef = useRef<HTMLElement>(null);
+  const skillsRef = useRef<HTMLElement>(null);
+  const contactRef = useRef<HTMLElement>(null);
+
+  const refs = useMemo(() => ({
+    about: aboutRef, impact: impactRef, experience: experienceRef, highlights: projectsRef, skills: skillsRef, contact: contactRef,
+  }), []);
+
+  const typeText = useTypewriter(["Media Manager", "Content Creator", "Sports Analyst"], 70, 1000);
+
+  // Live Local Time ticker & Personalized Time Greeting for Hyderabad, India
+  useEffect(() => {
+    const updateTimeAndGreeting = () => {
+      const now = new Date();
+      const options: Intl.DateTimeFormatOptions = { timeZone: 'Asia/Kolkata', hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: true };
+      setTime(new Intl.DateTimeFormat([], options).format(now));
+
+      const hour = parseInt(new Intl.DateTimeFormat('en-US', { timeZone: 'Asia/Kolkata', hour: 'numeric', hour12: false }).format(now));
+      if (hour < 12) setTimeGreeting("Good morning from Hyderabad");
+      else if (hour < 17) setTimeGreeting("Good afternoon from Hyderabad");
+      else setTimeGreeting("Good evening from Hyderabad");
+    };
+    updateTimeAndGreeting();
+    const interval = setInterval(updateTimeAndGreeting, 1000);
+    return () => clearInterval(interval);
+  }, []);
+
+  // Scroll handler for progress bar and dynamic hiding/showing navbar
+  useEffect(() => {
+    const handleScroll = () => {
+      const currentScrollY = window.scrollY;
+      const height = document.documentElement.scrollHeight - window.innerHeight;
+      setProgress((currentScrollY / height) * 100);
+
+      if (currentScrollY > lastScrollY.current && currentScrollY > 80) {
+        setShowNav(false);
+      } else {
+        setShowNav(true);
+      }
+      lastScrollY.current = currentScrollY;
+    };
+
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((e) => { if (e.isIntersecting) setActive(e.target.id); });
+    }, { rootMargin: "-40% 0px -40% 0px" });
+    Object.values(refs).forEach((r) => r.current && observer.observe(r.current));
+    return () => observer.disconnect();
+  }, [refs]);
+
+  const scrollTo = (r: React.RefObject<HTMLElement>) => r.current?.scrollIntoView({ behavior: "smooth" });
+
+  // Glassmorphism Theme Classes with professional gradient background and focus accessibility
+  const tBg = isDark 
+    ? "bg-gradient-to-br from-[#050a14] via-[#091224] to-[#03060c] text-gray-100" 
+    : "bg-gradient-to-br from-[#f8fafc] via-[#f1f5f9] to-[#e2e8f0] text-gray-800";
+    
+  const tCard = isDark 
+    ? "bg-white/[0.04] backdrop-blur-2xl border border-white/10 shadow-[0_8px_32px_0_rgba(0,0,0,0.37)] hover:bg-white/[0.07]" 
+    : "bg-white/60 backdrop-blur-2xl border border-white/70 shadow-[0_8px_32px_0_rgba(31,38,135,0.07)] hover:bg-white/80";
+    
+  const tNav = isDark 
+    ? "bg-gray-900/80 backdrop-blur-2xl border-white/10 text-gray-300 shadow-[0_10px_30px_rgba(0,0,0,0.5)]" 
+    : "bg-white/80 backdrop-blur-2xl border-white/80 text-gray-700 shadow-[0_10px_30px_rgba(31,38,135,0.1)]";
+    
+  const tHead = isDark ? "text-white" : "text-gray-900";
+  const tSub = isDark ? "text-gray-300" : "text-gray-700";
+  const tBadge = isDark ? "bg-gray-800/80 border-gray-700 text-gray-300" : "bg-white/80 border-gray-200 text-gray-700";
+  const tClient = isDark ? "bg-white/[0.02] border-white/5 backdrop-blur-md" : "bg-white/40 border-white/60 backdrop-blur-md";
+  const tIconBox = isDark ? "bg-teal-500/10 text-teal-400" : "bg-teal-50 text-teal-600";
+
+  return (
+    <div className={`min-h-screen font-sans selection:bg-teal-500 selection:text-white transition-colors duration-700 ${tBg} relative focus:outline-none`}>
+      
+      {/* Professional Opaque Screen & Quirky Welcome Modal on Load */}
+      <AnimatePresence>
+        {showWelcomeModal && (
+          <motion.div 
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 z-50 bg-black/75 backdrop-blur-md flex items-center justify-center p-4"
+          >
+            <motion.div 
+              initial={{ scale: 0.9, y: 20 }}
+              animate={{ scale: 1, y: 0 }}
+              exit={{ scale: 0.9, y: 20 }}
+              className="bg-gradient-to-br from-gray-900 to-gray-950 text-white p-8 sm:p-10 rounded-[2.5rem] shadow-2xl border border-white/15 max-w-md w-full text-center relative overflow-hidden"
+              onClick={(e) => e.stopPropagation()}
+            >
+              <div className="absolute top-0 right-0 w-32 h-32 bg-teal-500/20 blur-3xl rounded-full pointer-events-none"></div>
+              
+              <span className="text-xs font-black text-teal-400 uppercase tracking-widest block mb-3">⚡ Quick Vibe Check</span>
+              <h3 className="text-2xl sm:text-3xl font-extrabold mb-3">How do you like your pixels?</h3>
+              <p className="text-sm text-gray-300 mb-8 leading-relaxed">Choose your aesthetic vibe before diving into a decade of football storytelling, epic docuseries, and viral stats.</p>
+              
+              <div className="grid grid-cols-2 gap-4">
+                <button 
+                  onClick={() => { setIsDark(false); setShowWelcomeModal(false); }}
+                  className="flex items-center justify-center gap-2 py-3.5 px-5 rounded-2xl bg-white text-gray-900 font-bold hover:bg-teal-50 transition-all shadow-lg group cursor-pointer focus:ring-4 focus:ring-teal-400"
+                >
+                  <FaSun className="text-amber-500 group-hover:rotate-45 transition-transform" /> Light Mode
+                </button>
+                <button 
+                  onClick={() => { setIsDark(true); setShowWelcomeModal(false); }}
+                  className="flex items-center justify-center gap-2 py-3.5 px-5 rounded-2xl bg-gray-800 text-teal-300 border border-teal-500/40 font-bold hover:bg-gray-750 transition-all shadow-lg group cursor-pointer focus:ring-4 focus:ring-teal-400"
+                >
+                  <FaMoon className="text-teal-400 group-hover:-rotate-12 transition-transform" /> Dark Mode
+                </button>
+              </div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      {/* Background Animated Gradient Mesh Orbs */}
+      <div className="fixed inset-0 -z-10 overflow-hidden pointer-events-none">
+        <motion.div animate={{ x: [0, 120, 0], y: [0, -80, 0], scale: [1, 1.2, 1] }} transition={{ duration: 18, repeat: Infinity, ease: "easeInOut" }} className={`absolute top-[-15%] left-[-10%] w-[55vw] h-[55vw] rounded-full blur-[150px] transition-colors duration-700 ${isDark ? 'bg-teal-500/15' : 'bg-teal-400/15'}`} />
+        <motion.div animate={{ x: [0, -120, 0], y: [0, 100, 0], scale: [1, 1.3, 1] }} transition={{ duration: 22, repeat: Infinity, ease: "easeInOut" }} className={`absolute bottom-[-15%] right-[-10%] w-[65vw] h-[65vw] rounded-full blur-[180px] transition-colors duration-700 ${isDark ? 'bg-pink-600/15' : 'bg-blue-500/15'}`} />
+      </div>
+
+      {/* Progress bar */}
+      <div className="fixed top-0 left-0 right-0 h-1.5 z-50 bg-white/15 backdrop-blur-sm">
+        <div className="h-full bg-gradient-to-r from-teal-400 via-pink-400 to-amber-400 rounded-r-full shadow-[0_0_10px_rgba(45,212,191,0.5)]" style={{ width: `${progress}%` }} />
+      </div>
+
+      {/* Dynamic Floating Island Navbar with Live Time Badge */}
+      <header className={`fixed top-4 left-0 right-0 z-40 px-3 sm:px-6 transition-transform duration-500 ease-in-out ${showNav ? 'translate-y-0' : '-translate-y-28'}`}>
+        <div className={`max-w-4xl mx-auto flex flex-wrap justify-between items-center rounded-full px-5 py-2.5 gap-3 transition-colors duration-500 border ${tNav}`}>
+          
+          {/* Live Time Indicator */}
+          <div className="hidden lg:flex items-center gap-2 px-3 py-1 rounded-full bg-teal-500/10 text-teal-600 dark:text-teal-400 text-xs font-bold border border-teal-500/20">
+            <FaClock className="animate-spin-slow" />
+            <span>Hyderabad, IN: {time}</span>
+          </div>
+
+          <div className="flex flex-wrap justify-center items-center gap-1 sm:gap-2 flex-1">
+            {Object.keys(refs).map((key) => (
+              <button key={key} onClick={() => scrollTo(refs[key as keyof typeof refs])} className={`px-3 py-1.5 rounded-full text-xs font-bold transition-all duration-300 cursor-pointer focus:outline-none focus:ring-2 focus:ring-teal-400 ${active === key ? "bg-teal-500 text-white shadow-[0_4px_14px_rgba(20,184,166,0.4)] scale-105" : "hover:text-teal-500 hover:bg-white/10"}`}>
+                {key === "highlights" ? "Highlights" : key[0].toUpperCase() + key.slice(1)}
+              </button>
+            ))}
+          </div>
+          
+          <div className="relative flex items-center gap-2">
+            <button 
+              onClick={(e) => { 
+                e.stopPropagation(); 
+                setIsDark(!isDark); 
+              }} 
+              className="p-2.5 rounded-full bg-teal-500/20 hover:bg-teal-500/30 text-teal-500 border-2 border-teal-500 transition-all shadow-md flex-shrink-0 scale-105 cursor-pointer focus:outline-none focus:ring-4 focus:ring-teal-400"
+              title="Toggle Theme"
+            >
+              {isDark ? <FaSun className="text-amber-300 text-lg" /> : <FaMoon className="text-teal-700 text-lg" />}
+            </button>
+          </div>
+        </div>
+      </header>
+
+      <main className="max-w-6xl mx-auto px-4 py-16 space-y-16 sm:space-y-24 relative">
+        
+        {/* Hero Section */}
+        <section id="about" ref={refs.about} className="min-h-[80vh] flex flex-col justify-center pt-10 md:pt-0">
+          <div className="grid md:grid-cols-2 gap-10 md:gap-16 items-center w-full">
+            <div className="flex flex-col items-center md:items-start text-center md:text-left space-y-6 sm:space-y-8">
+              
+              {/* Personalized Time Greeting Badge */}
+              <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-teal-500/10 text-teal-600 dark:text-teal-400 text-xs font-bold border border-teal-500/20 shadow-sm">
+                <span>👋 {timeGreeting}</span>
+              </div>
+
+              <motion.div animate={{ y: [-5, 5, -5] }} transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }} className="relative w-48 h-48 sm:w-72 sm:h-72 rounded-full shadow-[0_20px_50px_rgba(20,184,166,0.2)] overflow-hidden flex-shrink-0 border-4 border-teal-500/30 backdrop-blur-sm p-1">
+                <div className="relative w-full h-full rounded-full overflow-hidden bg-transparent">
+                  <Image src="/profile.jpg" alt="Aakarsh Bommakanti" fill className="object-cover hover:scale-105 transition-transform duration-500" />
+                </div>
+              </motion.div>
+
+              <div>
+                <h1 className="text-3xl sm:text-5xl lg:text-6xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-teal-500 to-teal-700 tracking-tight pb-2">
+                  Aakarsh Bommakanti
+                </h1>
+                <p className="text-lg sm:text-2xl font-bold h-8 mt-2" style={{ color: isDark ? '#ffffff' : '#000000' }}>
+                  {typeText}
+                  <span className="inline-block w-1 h-5 sm:h-6 bg-pink-400 animate-pulse ml-1 align-middle rounded-full"></span>
+                </p>
+              </div>
+
+              <div className="flex flex-col sm:flex-row gap-4 w-full justify-center md:justify-start pt-2">
+                <motion.div className="relative group w-full sm:w-auto" onClick={() => scrollTo(refs.experience)} whileTap={{ scale: 0.95 }}>
+                  <button className="w-full bg-gradient-to-r from-teal-500 to-teal-400 text-white px-8 py-3.5 rounded-full shadow-[0_8px_20px_rgba(20,184,166,0.3)] font-semibold transition-all group-hover:shadow-[0_8px_25px_rgba(20,184,166,0.5)] flex items-center justify-center gap-2 cursor-pointer focus:outline-none focus:ring-4 focus:ring-teal-400">Explore more ↓</button>
+                </motion.div>
+                <motion.div className="relative group w-full sm:w-auto" whileTap={{ scale: 0.95 }}>
+                  <a href="/AakarshBommakanti-Resume.pdf" download="AakarshBommakanti-Resume.pdf" className={`w-full flex items-center justify-center gap-2 px-8 py-3.5 rounded-full shadow-lg border font-semibold transition-all group-hover:bg-teal-500 group-hover:text-white group-hover:border-teal-500 focus:outline-none focus:ring-4 focus:ring-teal-400 ${isDark ? 'bg-white/10 border-white/20 text-teal-400' : 'bg-white/80 border-white/80 text-teal-700'}`}>
+                    <FaDownload /> Download CV
+                  </a>
+                </motion.div>
+              </div>
+            </div>
+
+            <div className={`p-6 sm:p-10 rounded-[2rem] transition-all duration-500 relative overflow-hidden ${tCard}`}>
+              <div className="absolute top-0 right-0 w-32 h-32 bg-teal-500/10 blur-3xl rounded-full pointer-events-none"></div>
+              <p className={`relative z-10 text-sm sm:text-base font-medium mb-5 sm:mb-6 ${isDark ? 'text-gray-300' : 'text-gray-800'}`}>For over a decade, I&apos;ve worked at the intersection of sport, media and storytelling, helping bring fans closer to the teams, players and moments they care about.</p>
+              <p className={`relative z-10 text-sm sm:text-base font-medium mb-5 sm:mb-6 ${isDark ? 'text-gray-300' : 'text-gray-800'}`}>As a media manager and content creator, I&apos;ve built fan communities from the ground up, scripted a two-season documentary series for Disney+ Hotstar, and led YouTube publishing for the 2026 FIFA World Cup.</p>
+              <p className={`relative z-10 text-sm sm:text-base font-medium mb-5 sm:mb-6 ${isDark ? 'text-gray-300' : 'text-gray-800'}`}>I&apos;m a hands-on leader who combines tactical analysis, data and creative storytelling to make sports content that people actually want to watch, share and come back to.</p>
+              <div className={`relative z-10 p-4 sm:p-5 rounded-2xl border-l-4 border-teal-500 ${isDark ? 'bg-teal-500/10' : 'bg-teal-100/50'}`}>
+                <p className={`text-sm sm:text-base font-bold ${isDark ? 'text-teal-400' : 'text-teal-800'}`}>At the heart of everything I do is a simple idea: great sports content should make fans feel closer to the game.</p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* Marquee Stat Ticker Ribbon (Point 4) */}
+        <section className="relative w-full overflow-hidden py-4 rounded-2xl bg-teal-500/10 border border-teal-500/20 backdrop-blur-sm">
+          <div className="flex whitespace-nowrap animate-marquee gap-12 items-center">
+            {[...marqueeBadges, ...marqueeBadges].map((badge, idx) => (
+              <div key={idx} className="flex items-center gap-3 text-teal-600 dark:text-teal-300 font-bold text-sm sm:text-base tracking-wide">
+                <span>{badge}</span>
+                <span className="w-1.5 h-1.5 rounded-full bg-teal-500 opacity-60"></span>
+              </div>
+            ))}
+          </div>
+        </section>
+
+        {/* Infinite Client Logo Marquee Carousel (Point 6) */}
+        <section className="relative w-full overflow-hidden py-6">
+          <div className="text-center mb-4">
+            <span className="text-[10px] font-black uppercase tracking-widest opacity-60">Trusted by Global Sports Leaders & Brands</span>
+          </div>
+          <div className="flex justify-center items-center flex-wrap gap-8 sm:gap-16 opacity-80 hover:opacity-100 transition-opacity">
+            {partnerLogos.map((partner, pIdx) => (
+              <div key={pIdx} className="relative w-16 h-12 sm:w-24 sm:h-16 flex items-center justify-center grayscale hover:grayscale-0 transition-all">
+                <Image src={partner.logo} alt={partner.name} fill className="object-contain" />
+              </div>
+            ))}
+          </div>
+        </section>
+
+        {/* Key Numbers Section */}
+        <section id="impact" ref={refs.impact} className="scroll-mt-28 relative z-10">
+          <div className="text-center md:text-left mb-8 sm:mb-10">
+            <span className="text-xs font-black text-teal-500 uppercase tracking-widest block mb-2">Quantifiable Results</span>
+            <h3 className={`text-3xl sm:text-4xl font-extrabold ${tHead}`}>Key Numbers</h3>
+          </div>
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 sm:gap-8">
+            {impactData.map((clientData, idx) => (
+              <motion.div 
+                key={idx} 
+                onClick={() => scrollTo(refs.experience)}
+                initial={{ opacity: 0, y: 30 }} 
+                whileInView={{ opacity: 1, y: 0 }} 
+                viewport={{ once: true }} 
+                transition={{ delay: idx * 0.1 }} 
+                className={`flex flex-col rounded-[2rem] transition-all duration-300 overflow-hidden cursor-pointer hover:scale-[1.02] ${tCard}`}
+              >
+                <div className="bg-transparent flex items-center justify-center p-6 sm:p-8 border-b border-white/10">
+                  <div className="relative w-20 h-20 sm:w-24 sm:h-24 bg-transparent rounded-2xl p-4 flex items-center justify-center">
+                    <Image src={clientData.logo} alt={clientData.client} fill className="object-contain p-2 bg-transparent" />
+                  </div>
+                </div>
+                <div className="p-6 sm:p-8 flex-1 flex flex-col justify-center space-y-5 sm:space-y-6">
+                  {clientData.stats.map((stat, sIdx) => (
+                    <div key={sIdx} className="text-center">
+                      <h4 className="text-2xl sm:text-3xl font-black text-teal-500 mb-1">{stat.value}</h4>
+                      <p className={`text-xs font-bold uppercase tracking-wider ${isDark ? 'text-gray-400' : 'text-gray-600'}`}>{stat.label}</p>
+                    </div>
+                  ))}
+                </div>
+              </motion.div>
+            ))}
+          </div>
+        </section>
+
+        {/* Experience Section */}
+        <section id="experience" ref={refs.experience} className="scroll-mt-28 relative z-10">
+          <div className="text-center md:text-left mb-8 sm:mb-10">
+            <span className="text-xs font-black text-teal-500 uppercase tracking-widest block mb-2">Career Journey</span>
+            <h3 className={`text-3xl sm:text-4xl font-extrabold ${tHead}`}>Professional Experience</h3>
+          </div>
+          <div className="space-y-8 sm:space-y-12">
+            {experience.map((item, index) => (
+              <motion.div key={index} initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, amount: 0.2 }} transition={{ duration: 0.5, delay: index * 0.1 }}>
+                <div className={`rounded-[2rem] p-6 sm:p-10 flex flex-col md:flex-row gap-8 lg:gap-12 items-start group transition-all duration-500 relative overflow-hidden ${tCard}`}>
+                  <div className="absolute top-0 left-0 h-full w-2 bg-gradient-to-b from-teal-400 via-pink-400 to-amber-400 opacity-80"></div>
+                  
+                  {/* Left Side */}
+                  <div className="flex flex-col items-center md:items-start text-center md:text-left w-full md:w-1/3 flex-shrink-0 pt-2 z-10">
+                    <div className="relative w-24 h-24 sm:w-36 sm:h-36 bg-transparent rounded-3xl p-5 flex items-center justify-center mb-5 sm:mb-6">
+                      <Image src={item.logo} alt={`${item.org} logo`} fill className="object-contain p-4 bg-transparent drop-shadow-md" />
+                    </div>
+                    <h4 className={`text-xl sm:text-3xl font-extrabold leading-tight mb-2 ${tHead}`}>{item.role}</h4>
+                    <p className="text-lg sm:text-xl font-bold text-teal-500 mb-4 sm:mb-5">{item.org}</p>
+                    <span className={`inline-block px-4 py-1.5 sm:px-5 sm:py-2 text-xs sm:text-sm font-bold rounded-full tracking-wide border ${tBadge}`}>{item.period}</span>
+
+                    {item.clients && (
+                      <div className={`mt-6 sm:mt-8 w-full p-4 sm:p-5 rounded-2xl border ${tClient}`}>
+                        <p className={`text-xs font-black uppercase tracking-widest mb-3 sm:mb-4 text-center md:text-left ${isDark ? 'text-gray-400' : 'text-gray-600'}`}>Key Clients</p>
+                        <div className="flex flex-wrap justify-center md:justify-start gap-3 sm:gap-4">
+                          {item.clients.map((client, cIdx) => (
+                            <div key={cIdx} className="relative group/client flex items-center justify-center cursor-help">
+                              <div className="relative w-14 h-14 sm:w-20 sm:h-20 bg-transparent rounded-2xl flex items-center justify-center transition-transform hover:-translate-y-1">
+                                <Image src={client.logo} alt={client.name} fill className="object-contain p-2 sm:p-3 bg-transparent drop-shadow-sm" />
+                              </div>
+                              <div className="absolute -bottom-10 opacity-0 group-hover/client:opacity-100 transition-opacity bg-gray-900/90 text-white text-xs font-bold px-3 py-1.5 rounded-lg whitespace-nowrap z-20">{client.name}</div>
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+                    )}
+                  </div>
+
+                  {/* Right Side */}
+                  <div className="w-full md:w-2/3 flex flex-col justify-center h-full z-10">
+                    <h5 className="text-xs sm:text-sm font-black text-teal-600/70 uppercase tracking-widest mb-4 sm:mb-6 pb-2 border-b border-teal-500/10">Key Contributions</h5>
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-5">
+                      {achievements[item.role]?.map((a, i) => (
+                        <div key={i} className={`flex items-start gap-3 sm:gap-4 p-4 sm:p-5 rounded-2xl border transition-all shadow-sm hover:shadow-md ${isDark ? 'bg-white/[0.03] border-white/5 hover:bg-white/[0.07]' : 'bg-white/70 border-white/60 hover:bg-white/90'}`}>
+                          {a.clientLogo ? (
+                            <div className="relative w-8 h-8 sm:w-10 sm:h-10 flex-shrink-0 bg-transparent rounded-xl p-1.5 flex items-center justify-center">
+                              <Image src={a.clientLogo} alt="client logo" fill className="object-contain p-1 bg-transparent drop-shadow-sm" />
+                            </div>
+                          ) : (
+                            <div className={`text-xl sm:text-2xl mt-0.5 flex-shrink-0 w-8 h-8 sm:w-10 sm:h-10 flex items-center justify-center rounded-xl ${tIconBox}`}>{a.icon}</div>
+                          )}
+                          <p className={`text-xs sm:text-sm leading-relaxed font-semibold ${tSub}`}>{a.text}</p>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+              </motion.div>
+            ))}
+          </div>
+        </section>
+
         {/* Highlights Gallery Section with Interactive Preview Links */}
         <section id="highlights" ref={refs.highlights} className="scroll-mt-28 relative z-10">
           <div className="text-center md:text-left mb-8 sm:mb-10">
@@ -36,7 +492,7 @@ const skills = ["Content Strategy", "Video Production", "Sports Analytics", "Edi
                       </div>
                     </div>
                     <div className="p-6 sm:p-8 flex flex-col justify-between flex-1">
-                      <h4 className={`text-xl font-bold mb-2 ${tHead}`}>
+                      <h4 className={`text-xl font-bold mb-2 flex items-center justify-between ${tHead}`}>
                         {project.title}
                       </h4>
                       <p className={`text-xs sm:text-sm leading-relaxed opacity-80 ${tSub}`}>{project.description}</p>
@@ -49,5 +505,51 @@ const skills = ["Content Strategy", "Video Production", "Sports Analytics", "Edi
         </section>
 
         {/* Skills */}
-// ... existing code ...
+        <section id="skills" ref={refs.skills} className="scroll-mt-28 relative z-10">
+          <div className="text-center md:text-left mb-8 sm:mb-10">
+            <span className="text-xs font-black text-teal-500 uppercase tracking-widest block mb-2">Expertise</span>
+            <h3 className={`text-3xl sm:text-4xl font-extrabold ${tHead}`}>Core Skills</h3>
+          </div>
+          <div className={`flex flex-wrap gap-2.5 sm:gap-4 p-6 sm:p-8 rounded-[2rem] ${tCard}`}>
+            {skills.map((skill, index) => (
+              <span key={index} className={`px-4 py-2 sm:px-6 sm:py-3 backdrop-blur-md rounded-xl shadow-sm border text-xs sm:text-sm font-bold hover:-translate-y-1 hover:shadow-md transition-all cursor-default ${isDark ? 'bg-white/5 border-white/10 text-teal-400' : 'bg-white/80 border-white text-teal-800 hover:text-teal-600'}`}>{skill}</span>
+            ))}
+          </div>
+        </section>
+
+        {/* Contact */}
+        <section id="contact" ref={refs.contact} className="pb-20 scroll-mt-28 relative z-10">
+          <div className="bg-gradient-to-br from-teal-600 to-teal-950 rounded-[2.5rem] sm:rounded-[3rem] p-8 sm:p-16 text-white shadow-2xl relative overflow-hidden border border-teal-500/30">
+            <div className="absolute -top-24 -right-24 w-72 h-72 bg-white/10 backdrop-blur-3xl rounded-full pointer-events-none"></div>
+            <div className="absolute -bottom-24 -left-24 w-72 h-72 bg-teal-400/20 backdrop-blur-3xl rounded-full pointer-events-none"></div>
+            
+            <div className="mb-8 sm:mb-10 relative z-10">
+              <span className="text-xs font-black text-teal-300 uppercase tracking-widest block mb-2">Get In Touch</span>
+              <h3 className="text-3xl sm:text-4xl font-extrabold">Let&apos;s Connect</h3>
+            </div>
+            
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-8 relative z-10">
+              <a href="mailto:aakarshbommakanti@gmail.com" className="flex items-center gap-4 sm:gap-5 bg-white/10 hover:bg-white/20 backdrop-blur-md p-4 sm:p-5 rounded-2xl transition-all border border-white/10 hover:border-white/30">
+                <span className="w-10 h-10 sm:w-12 sm:h-12 flex items-center justify-center bg-white text-teal-700 rounded-xl text-xl sm:text-2xl shadow-lg flex-shrink-0">📧</span>
+                <span className="font-bold text-sm sm:text-lg truncate">aakarshbommakanti@gmail.com</span>
+              </a>
+              <div className="flex items-center gap-4 sm:gap-5 bg-white/10 backdrop-blur-md p-4 sm:p-5 rounded-2xl border border-white/5">
+                <span className="w-10 h-10 sm:w-12 sm:h-12 flex items-center justify-center bg-white text-teal-700 rounded-xl text-xl sm:text-2xl shadow-lg flex-shrink-0">📱</span>
+                <span className="font-bold text-sm sm:text-lg">+91 81214 02101</span>
+              </div>
+              <a href="https://twitter.com/aakarsh_ab" target="_blank" rel="noopener noreferrer" className="flex items-center gap-4 sm:gap-5 bg-white/10 hover:bg-white/20 backdrop-blur-md p-4 sm:p-5 rounded-2xl transition-all border border-white/10 hover:border-white/30">
+                <span className="w-10 h-10 sm:w-12 sm:h-12 flex items-center justify-center bg-white text-teal-700 rounded-xl text-xl sm:text-2xl shadow-lg flex-shrink-0"><FaXTwitter /></span>
+                <span className="font-bold text-sm sm:text-lg">@aakarsh_ab</span>
+              </a>
+              <div className="flex items-center gap-4 sm:gap-5 bg-white/10 backdrop-blur-md p-4 sm:p-5 rounded-2xl border border-white/5">
+                <span className="w-10 h-10 sm:w-12 sm:h-12 flex items-center justify-center bg-white text-teal-700 rounded-xl text-xl sm:text-2xl shadow-lg flex-shrink-0">📍</span>
+                <span className="font-bold text-lg">Hyderabad, India</span>
+              </div>
+            </div>
+          </div>
+        </section>
+      </main>
+    </div>
+  );
+}
 ```eof
