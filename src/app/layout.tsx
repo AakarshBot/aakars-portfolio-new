@@ -1,10 +1,10 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
 import "./globals.css";
 
-const inter = Inter({ subsets: ["latin"], display: "swap" });
+const siteUrl = "https://aakarshbommakanti.com";
 
 export const metadata: Metadata = {
+  metadataBase: new URL(siteUrl),
   title: "Aakarsh Bommakanti | Sports Media & Content Leader",
   description:
     "Aakarsh Bommakanti is a sports media and content leader with 10+ years of experience across FIFA, FanCode, Hyderabad FC, Microsoft and global football publishing.",
@@ -25,6 +25,7 @@ export const metadata: Metadata = {
   creator: "Aakarsh Bommakanti",
   publisher: "Aakarsh Bommakanti",
   category: "Sports Media",
+  alternates: { canonical: "/" },
   formatDetection: {
     email: false,
     address: false,
@@ -37,12 +38,15 @@ export const metadata: Metadata = {
     type: "website",
     locale: "en_IN",
     siteName: "Aakarsh Bommakanti",
+    url: siteUrl,
+    images: [{ url: "/profile.jpg", alt: "Aakarsh Bommakanti" }],
   },
   twitter: {
     card: "summary_large_image",
     title: "Aakarsh Bommakanti | Sports Media & Content Leader",
     description:
       "Sports media, content strategy, storytelling and audience growth across global football and sports platforms.",
+    images: ["/profile.jpg"],
   },
   robots: {
     index: true,
@@ -57,6 +61,25 @@ export const metadata: Metadata = {
   },
 };
 
+const personSchema = {
+  "@context": "https://schema.org",
+  "@type": "Person",
+  name: "Aakarsh Bommakanti",
+  url: siteUrl,
+  jobTitle: "Sports Media & Content Leader",
+  description:
+    "Sports media and content leader specialising in content strategy, storytelling, publishing and audience growth.",
+  sameAs: ["https://x.com/aakarsh_ab"],
+  knowsAbout: [
+    "Sports Media",
+    "Content Strategy",
+    "YouTube Publishing",
+    "Sports Storytelling",
+    "Audience Development",
+    "Digital Media",
+  ],
+};
+
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -64,7 +87,13 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={inter.className}>{children}</body>
+      <body>
+        {children}
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(personSchema) }}
+        />
+      </body>
     </html>
   );
 }
