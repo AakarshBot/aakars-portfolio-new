@@ -1,8 +1,8 @@
 "use client";
 
 import React, { useEffect, useRef, useState, useMemo } from "react";
-import { motion, AnimatePresence } from "framer-motion";
-import { FaVideo, FaChartLine, FaPenFancy, FaGlobe, FaXTwitter, FaDownload, FaMoon, FaSun, FaArrowUpRightFromSquare } from "react-icons/fa6";
+import { motion } from "framer-motion";
+import { FaVideo, FaChartLine, FaPenFancy, FaGlobe, FaXTwitter, FaDownload, FaMoon, FaSun } from "react-icons/fa6";
 import Image from "next/image";
 
 // ---------- Data ----------
@@ -71,7 +71,7 @@ const projects = [
   { title: "Future Is Us Docuseries", description: "First-of-its-kind sports docuseries following the journey of Hyderabad FC, scripted and produced for Disney+ Hotstar.", image: "/future-is-us.jpg", layout: "vertical", link: "https://hotstar.com" },
   { title: "Hyderabad FC Trophy Win", description: "Led the digital media strategy and coverage as Media Manager when Hyderabad FC won the ISL championship.", image: "/hfc-trophy.jpg", layout: "horizontal", link: "https://hyderabadfc.co.in" },
   { title: "Microsoft Bing UI", description: "Helped improve the Bing homepage user interface and user experience for real-time sports searches.", image: "/bing-ui.jpg", layout: "vertical", link: "https://bing.com" },
-  { title: "Sports Writer & Editor", description: "Wrote and published over 15,000 articles across global platforms, building a readership of half a million.", image: "/writer.jpg", layout: "vertical", link: "#" },
+  { title: "Sports Writer & Editor", description: "Wrote and published over 15,000 articles across global platforms, building a readership of half a million.", image: "/writer.jpg", layout: "vertical", link: "https://www.rousingthekop.com/" },
 ];
 
 const skills = ["Content Strategy", "Video Production", "Sports Analytics", "Editorial Leadership", "Social Media Growth", "Storytelling", "Digital Marketing", "SEO & SEM", "Data Visualization", "Brand Management", "Media Relations", "Public Speaking"];
@@ -82,17 +82,33 @@ function useTypewriter(words: string[], speed = 80, pause = 1200) {
   const [sub, setSub] = useState(0);
   const [del, setDel] = useState(false);
   const [txt, setTxt] = useState("");
+  const word = words[i % words.length] ?? "";
 
   useEffect(() => {
-    const word = words[i % words.length];
-    let t = setTimeout(() => {
-      if (!del && sub < word.length) { setTxt(word.substring(0, sub + 1)); setSub((s) => s + 1); } 
-      else if (del && sub > 0) { setTxt(word.substring(0, sub - 1)); setSub((s) => s - 1); } 
-      else if (!del && sub === word.length) { setDel(true); clearTimeout(t); t = setTimeout(() => setDel(true), pause); } 
-      else if (del && sub === 0) { setDel(false); setI((x) => x + 1); }
-    }, del ? speed / 2 : speed);
-    return () => clearTimeout(t);
-  }, [sub, i, del, words, speed, pause]);
+    if (!word) return;
+
+    let timeout: ReturnType<typeof setTimeout>;
+
+    if (!del && sub < word.length) {
+      timeout = setTimeout(() => {
+        setTxt(word.substring(0, sub + 1));
+        setSub((value) => value + 1);
+      }, speed);
+    } else if (!del) {
+      timeout = setTimeout(() => setDel(true), pause);
+    } else if (sub > 0) {
+      timeout = setTimeout(() => {
+        setTxt(word.substring(0, sub - 1));
+        setSub((value) => value - 1);
+      }, speed / 2);
+    } else {
+      setDel(false);
+      setI((value) => value + 1);
+    }
+
+    return () => clearTimeout(timeout);
+  }, [del, i, pause, speed, sub, word]);
+
   return txt;
 }
 
@@ -123,7 +139,8 @@ export default function Page() {
     const handleScroll = () => {
       const currentScrollY = window.scrollY;
       const height = document.documentElement.scrollHeight - window.innerHeight;
-      setProgress((currentScrollY / height) * 100);
+      const nextProgress = height > 0 ? (currentScrollY / height) * 100 : 0;
+      setProgress(Math.min(100, Math.max(0, nextProgress)));
 
       if (currentScrollY > lastScrollY.current && currentScrollY > 80) {
         setShowNav(false);
@@ -169,48 +186,8 @@ export default function Page() {
   return (
     <div className={`min-h-screen font-sans selection:bg-teal-500 selection:text-white transition-colors duration-700 ${tBg} relative focus:outline-none`}>
       
-      {/* Professional Opaque Screen & Quirky Welcome Modal on Load */}
-      <AnimatePresence>
-        {showWelcomeModal && (
-          <motion.div 
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            className="fixed inset-0 z-50 bg-black/75 backdrop-blur-md flex items-center justify-center p-4"
-          >
-            <motion.div 
-              initial={{ scale: 0.9, y: 20 }}
-              animate={{ scale: 1, y: 0 }}
-              exit={{ scale: 0.9, y: 20 }}
-              className="bg-gradient-to-br from-gray-900 to-gray-950 text-white p-8 sm:p-10 rounded-[2.5rem] shadow-2xl border border-white/15 max-w-md w-full text-center relative overflow-hidden"
-              onClick={(e) => e.stopPropagation()}
-            >
-              <div className="absolute top-0 right-0 w-32 h-32 bg-teal-500/20 blur-3xl rounded-full pointer-events-none"></div>
-              
-              <span className="text-xs font-black text-teal-400 uppercase tracking-widest block mb-3">⚡ Quick Vibe Check</span>
-              <h3 className="text-2xl sm:text-3xl font-extrabold mb-3">How do you like your pixels?</h3>
-              <p className="text-sm text-gray-300 mb-8 leading-relaxed">Choose your aesthetic vibe before diving into a decade of football storytelling, epic docuseries, and viral stats.</p>
-              
-              <div className="grid grid-cols-2 gap-4">
-                <button 
-                  onClick={() => { setIsDark(false); setShowWelcomeModal(false); }}
-                  className="flex items-center justify-center gap-2 py-3.5 px-5 rounded-2xl bg-white text-gray-900 font-bold hover:bg-teal-50 transition-all shadow-lg group cursor-pointer focus:ring-4 focus:ring-teal-400"
-                >
-                  <FaSun className="text-amber-500 group-hover:rotate-45 transition-transform" /> Light Mode
-                </button>
-                <button 
-                  onClick={() => { setIsDark(true); setShowWelcomeModal(false); }}
-                  className="flex items-center justify-center gap-2 py-3.5 px-5 rounded-2xl bg-gray-800 text-teal-300 border border-teal-500/40 font-bold hover:bg-gray-750 transition-all shadow-lg group cursor-pointer focus:ring-4 focus:ring-teal-400"
-                >
-                  <FaMoon className="text-teal-400 group-hover:-rotate-12 transition-transform" /> Dark Mode
-                </button>
-              </div>
-            </motion.div>
-          </motion.div>
-        )}
-      </AnimatePresence>
-
-      {/* Background Animated Gradient Mesh Orbs */}
+      {
+{/* Background Animated Gradient Mesh Orbs */}
       <div className="fixed inset-0 -z-10 overflow-hidden pointer-events-none">
         <motion.div animate={{ x: [0, 120, 0], y: [0, -80, 0], scale: [1, 1.2, 1] }} transition={{ duration: 18, repeat: Infinity, ease: "easeInOut" }} className={`absolute top-[-15%] left-[-10%] w-[55vw] h-[55vw] rounded-full blur-[150px] transition-colors duration-700 ${isDark ? 'bg-teal-500/15' : 'bg-teal-400/15'}`} />
         <motion.div animate={{ x: [0, -120, 0], y: [0, 100, 0], scale: [1, 1.3, 1] }} transition={{ duration: 22, repeat: Infinity, ease: "easeInOut" }} className={`absolute bottom-[-15%] right-[-10%] w-[65vw] h-[65vw] rounded-full blur-[180px] transition-colors duration-700 ${isDark ? 'bg-pink-600/15' : 'bg-blue-500/15'}`} />
@@ -227,7 +204,7 @@ export default function Page() {
           
           <div className="flex flex-wrap justify-center items-center gap-1 sm:gap-2 flex-1">
             {Object.keys(refs).map((key) => (
-              <button key={key} onClick={() => scrollTo(refs[key as keyof typeof refs])} className={`px-3 py-1.5 rounded-full text-xs font-bold transition-all duration-300 cursor-pointer focus:outline-none focus:ring-2 focus:ring-teal-400 ${active === key ? "bg-teal-500 text-white shadow-[0_4px_14px_rgba(20,184,166,0.4)] scale-105" : "hover:text-teal-500 hover:bg-white/10"}`}>
+              <button type="button" key={key} onClick={() => scrollTo(refs[key as keyof typeof refs])} className={`px-3 py-1.5 rounded-full text-xs font-bold transition-all duration-300 cursor-pointer focus:outline-none focus:ring-2 focus:ring-teal-400 ${active === key ? "bg-teal-500 text-white shadow-[0_4px_14px_rgba(20,184,166,0.4)] scale-105" : "hover:text-teal-500 hover:bg-white/10"}`}>
                 {key === "highlights" ? "Highlights" : key[0].toUpperCase() + key.slice(1)}
               </button>
             ))}
@@ -235,6 +212,8 @@ export default function Page() {
           
           <div className="relative flex items-center gap-2">
             <button 
+              type="button"
+              aria-label={isDark ? "Switch to light mode" : "Switch to dark mode"}
               onClick={(e) => { 
                 e.stopPropagation(); 
                 setIsDark(!isDark); 
@@ -257,7 +236,7 @@ export default function Page() {
               
               <motion.div animate={{ y: [-5, 5, -5] }} transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }} className="relative w-48 h-48 sm:w-72 sm:h-72 rounded-full shadow-[0_20px_50px_rgba(20,184,166,0.2)] overflow-hidden flex-shrink-0 border-4 border-teal-500/30 backdrop-blur-sm p-1">
                 <div className="relative w-full h-full rounded-full overflow-hidden bg-transparent">
-                  <Image src="/profile.jpg" alt="Aakarsh Bommakanti" fill className="object-cover hover:scale-105 transition-transform duration-500" />
+                  <Image src="/profile.jpg" alt="Aakarsh Bommakanti" fill priority sizes="(min-width: 768px) 288px, 192px" className="object-cover hover:scale-105 transition-transform duration-500" />
                 </div>
               </motion.div>
 
@@ -273,7 +252,7 @@ export default function Page() {
 
               <div className="flex flex-col sm:flex-row gap-4 w-full justify-center md:justify-start pt-2">
                 <motion.div className="relative group w-full sm:w-auto" onClick={() => scrollTo(refs.experience)} whileTap={{ scale: 0.95 }}>
-                  <button className="w-full bg-gradient-to-r from-teal-500 to-teal-400 text-white px-8 py-3.5 rounded-full shadow-[0_8px_20px_rgba(20,184,166,0.3)] font-semibold transition-all group-hover:shadow-[0_8px_25px_rgba(20,184,166,0.5)] flex items-center justify-center gap-2 cursor-pointer focus:outline-none focus:ring-4 focus:ring-teal-400">Explore more ↓</button>
+                  <button type="button" className="w-full bg-gradient-to-r from-teal-500 to-teal-400 text-white px-8 py-3.5 rounded-full shadow-[0_8px_20px_rgba(20,184,166,0.3)] font-semibold transition-all group-hover:shadow-[0_8px_25px_rgba(20,184,166,0.5)] flex items-center justify-center gap-2 cursor-pointer focus:outline-none focus:ring-4 focus:ring-teal-400">Explore more ↓</button>
                 </motion.div>
                 <motion.div className="relative group w-full sm:w-auto" whileTap={{ scale: 0.95 }}>
                   <a href="/AakarshBommakanti-Resume.pdf" download="AakarshBommakanti-Resume.pdf" className={`w-full flex items-center justify-center gap-2 px-8 py-3.5 rounded-full shadow-lg border font-semibold transition-all group-hover:bg-teal-500 group-hover:text-white group-hover:border-teal-500 focus:outline-none focus:ring-4 focus:ring-teal-400 ${isDark ? 'bg-white/10 border-white/20 text-teal-400' : 'bg-white/80 border-white/80 text-teal-700'}`}>
@@ -288,7 +267,7 @@ export default function Page() {
                 <div className="flex flex-wrap items-center gap-6 lg:gap-8 w-full justify-start">
                   {partnerLogos.map((partner, pIdx) => (
                     <div key={pIdx} className="relative w-16 h-10 lg:w-20 lg:h-12 flex-shrink-0 flex items-center justify-center transition-transform hover:scale-110 drop-shadow-sm" title={partner.name}>
-                      <Image src={partner.logo} alt={partner.name} fill className={`object-contain ${isDark ? 'drop-shadow-[0_0_8px_rgba(255,255,255,0.3)]' : ''}`} />
+                      <Image src={partner.logo} alt={partner.name} fill sizes="(min-width: 768px) 80px, 56px" className={`object-contain ${isDark ? 'drop-shadow-[0_0_8px_rgba(255,255,255,0.3)]' : ''}`} />
                     </div>
                   ))}
                 </div>
@@ -323,7 +302,7 @@ export default function Page() {
         <section id="impact" ref={refs.impact} className="scroll-mt-28 relative z-10">
           <div className="text-center md:text-left mb-8 sm:mb-10">
             <span className="text-xs font-black text-teal-500 uppercase tracking-widest block mb-2">Quantifiable Results</span>
-            <h3 className={`text-3xl sm:text-4xl font-extrabold ${tHead}`}>Key Numbers</h3>
+            <h2 className={`text-3xl sm:text-4xl font-extrabold ${tHead}`}>Key Numbers</h2>
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 sm:gap-8">
             {impactData.map((clientData, idx) => (
@@ -338,7 +317,7 @@ export default function Page() {
               >
                 <div className="bg-transparent flex items-center justify-center p-6 sm:p-8 border-b border-white/10">
                   <div className="relative w-20 h-20 sm:w-24 sm:h-24 bg-transparent rounded-2xl p-4 flex items-center justify-center">
-                    <Image src={clientData.logo} alt={clientData.client} fill className="object-contain p-2 bg-transparent" />
+                    <Image src={clientData.logo} alt={clientData.client} fill sizes="(min-width: 768px) 96px, 80px" className="object-contain p-2 bg-transparent" />
                   </div>
                 </div>
                 <div className="p-6 sm:p-8 flex-1 flex flex-col justify-center space-y-5 sm:space-y-6">
@@ -358,7 +337,7 @@ export default function Page() {
         <section id="experience" ref={refs.experience} className="scroll-mt-28 relative z-10">
           <div className="text-center md:text-left mb-8 sm:mb-10">
             <span className="text-xs font-black text-teal-500 uppercase tracking-widest block mb-2">Career Journey</span>
-            <h3 className={`text-3xl sm:text-4xl font-extrabold ${tHead}`}>Professional Experience</h3>
+            <h2 className={`text-3xl sm:text-4xl font-extrabold ${tHead}`}>Professional Experience</h2>
           </div>
           <div className="space-y-8 sm:space-y-12">
             {experience.map((item, index) => (
@@ -369,7 +348,7 @@ export default function Page() {
                   {/* Left Side */}
                   <div className="flex flex-col items-center md:items-start text-center md:text-left w-full md:w-1/3 flex-shrink-0 pt-2 z-10">
                     <div className="relative w-24 h-24 sm:w-36 sm:h-36 bg-transparent rounded-3xl p-5 flex items-center justify-center mb-5 sm:mb-6">
-                      <Image src={item.logo} alt={`${item.org} logo`} fill className="object-contain p-4 bg-transparent drop-shadow-md" />
+                      <Image src={item.logo} alt={`${item.org} logo`} fill sizes="(min-width: 640px) 144px, 96px" className="object-contain p-4 bg-transparent drop-shadow-md" />
                     </div>
                     <h4 className={`text-xl sm:text-3xl font-extrabold leading-tight mb-2 ${tHead}`}>{item.role}</h4>
                     <p className="text-lg sm:text-xl font-bold text-teal-500 mb-4 sm:mb-5">{item.org}</p>
@@ -382,7 +361,7 @@ export default function Page() {
                           {item.clients.map((client, cIdx) => (
                             <div key={cIdx} className="relative group/client flex items-center justify-center cursor-help">
                               <div className="relative w-14 h-14 sm:w-20 sm:h-20 bg-transparent rounded-2xl flex items-center justify-center transition-transform hover:-translate-y-1">
-                                <Image src={client.logo} alt={client.name} fill className="object-contain p-2 sm:p-3 bg-transparent drop-shadow-sm" />
+                                <Image src={client.logo} alt={client.name} fill sizes="(min-width: 640px) 80px, 56px" className="object-contain p-2 sm:p-3 bg-transparent drop-shadow-sm" />
                               </div>
                               <div className="absolute -bottom-10 opacity-0 group-hover/client:opacity-100 transition-opacity bg-gray-900/90 text-white text-xs font-bold px-3 py-1.5 rounded-lg whitespace-nowrap z-20">{client.name}</div>
                             </div>
@@ -394,13 +373,13 @@ export default function Page() {
 
                   {/* Right Side */}
                   <div className="w-full md:w-2/3 flex flex-col justify-center h-full z-10">
-                    <h5 className="text-xs sm:text-sm font-black text-teal-600/70 uppercase tracking-widest mb-4 sm:mb-6 pb-2 border-b border-teal-500/10">Key Contributions</h5>
+                    <h3 className="text-xs sm:text-sm font-black text-teal-600/70 uppercase tracking-widest mb-4 sm:mb-6 pb-2 border-b border-teal-500/10">Key Contributions</h3>
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-5">
                       {achievements[item.role]?.map((a, i) => (
                         <div key={i} className={`flex items-start gap-3 sm:gap-4 p-4 sm:p-5 rounded-2xl border transition-all shadow-sm hover:shadow-md ${isDark ? 'bg-white/[0.03] border-white/5 hover:bg-white/[0.07]' : 'bg-white/70 border-white/60 hover:bg-white/90'}`}>
                           {a.clientLogo ? (
                             <div className="relative w-8 h-8 sm:w-10 sm:h-10 flex-shrink-0 bg-transparent rounded-xl p-1.5 flex items-center justify-center">
-                              <Image src={a.clientLogo} alt="client logo" fill className="object-contain p-1 bg-transparent drop-shadow-sm" />
+                              <Image src={a.clientLogo} alt="Client logo" aria-hidden="true" fill sizes="40px" className="object-contain p-1 bg-transparent drop-shadow-sm" />
                             </div>
                           ) : (
                             <div className={`text-xl sm:text-2xl mt-0.5 flex-shrink-0 w-8 h-8 sm:w-10 sm:h-10 flex items-center justify-center rounded-xl ${tIconBox}`}>{a.icon}</div>
@@ -420,7 +399,7 @@ export default function Page() {
         <section id="highlights" ref={refs.highlights} className="scroll-mt-28 relative z-10">
           <div className="text-center md:text-left mb-8 sm:mb-10">
             <span className="text-xs font-black text-teal-500 uppercase tracking-widest block mb-2">Portfolio Showcase</span>
-            <h3 className={`text-3xl sm:text-4xl font-extrabold ${tHead}`}>Highlights</h3>
+            <h2 className={`text-3xl sm:text-4xl font-extrabold ${tHead}`}>Highlights</h2>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-8">
             {projects.map((project, index) => {
@@ -434,9 +413,9 @@ export default function Page() {
                   transition={{ delay: index * 0.1 }}
                   className={`${isHorizontal ? "md:col-span-2" : "md:col-span-1"}`}
                 >
-                  <a href={project.link} target="_blank" rel="noopener noreferrer" className={`rounded-[2rem] overflow-hidden flex flex-col h-full group ${tCard} block relative`}>
+                  <a href={project.link} target="_blank" rel="noopener noreferrer" className={`rounded-[2rem] overflow-hidden flex flex-col h-full group ${tCard} block relative focus:outline-none focus:ring-4 focus:ring-teal-400`}>
                     <div className={`w-full relative p-4 bg-transparent flex items-center justify-center ${isHorizontal ? "h-[280px] sm:h-[400px]" : "h-[380px] sm:h-[440px]"}`}>
-                      <Image src={project.image} alt={project.title} fill className="object-contain p-2 bg-transparent group-hover:scale-105 transition-transform duration-500" />
+                      <Image src={project.image} alt={project.title} fill sizes="(min-width: 768px) 50vw, 100vw" className="object-contain p-2 bg-transparent group-hover:scale-105 transition-transform duration-500" />
                     </div>
                     <div className="p-6 sm:p-8 flex flex-col justify-between flex-1">
                       <h4 className={`text-xl font-bold mb-2 flex items-center justify-between ${tHead}`}>
@@ -455,7 +434,7 @@ export default function Page() {
         <section id="skills" ref={refs.skills} className="scroll-mt-28 relative z-10">
           <div className="text-center md:text-left mb-8 sm:mb-10">
             <span className="text-xs font-black text-teal-500 uppercase tracking-widest block mb-2">Expertise</span>
-            <h3 className={`text-3xl sm:text-4xl font-extrabold ${tHead}`}>Core Skills</h3>
+            <h2 className={`text-3xl sm:text-4xl font-extrabold ${tHead}`}>Core Skills</h2>
           </div>
           <div className={`flex flex-wrap gap-2.5 sm:gap-4 p-6 sm:p-8 rounded-[2rem] ${tCard}`}>
             {skills.map((skill, index) => (
@@ -472,7 +451,7 @@ export default function Page() {
             
             <div className="mb-8 sm:mb-10 relative z-10">
               <span className="text-xs font-black text-teal-300 uppercase tracking-widest block mb-2">Get In Touch</span>
-              <h3 className="text-3xl sm:text-4xl font-extrabold">Let&apos;s Connect</h3>
+              <h2 className="text-3xl sm:text-4xl font-extrabold">Let&apos;s Connect</h2>
             </div>
             
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-8 relative z-10">
