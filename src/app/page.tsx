@@ -185,8 +185,7 @@ export default function Page() {
   return (
     <div className={`min-h-screen font-sans selection:bg-teal-500 selection:text-white transition-colors duration-700 ${tBg} relative focus:outline-none`}>
       
-      {
-{/* Background Animated Gradient Mesh Orbs */}
+      {/* Background Animated Gradient Mesh Orbs */}
       <div className="fixed inset-0 -z-10 overflow-hidden pointer-events-none">
         <motion.div animate={{ x: [0, 120, 0], y: [0, -80, 0], scale: [1, 1.2, 1] }} transition={{ duration: 18, repeat: Infinity, ease: "easeInOut" }} className={`absolute top-[-15%] left-[-10%] w-[55vw] h-[55vw] rounded-full blur-[150px] transition-colors duration-700 ${isDark ? 'bg-teal-500/15' : 'bg-teal-400/15'}`} />
         <motion.div animate={{ x: [0, -120, 0], y: [0, 100, 0], scale: [1, 1.3, 1] }} transition={{ duration: 22, repeat: Infinity, ease: "easeInOut" }} className={`absolute bottom-[-15%] right-[-10%] w-[65vw] h-[65vw] rounded-full blur-[180px] transition-colors duration-700 ${isDark ? 'bg-pink-600/15' : 'bg-blue-500/15'}`} />
