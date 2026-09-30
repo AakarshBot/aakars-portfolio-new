@@ -115,7 +115,6 @@ function useTypewriter(words: string[], speed = 80, pause = 1200) {
 // ---------- Main Page Component ----------
 export default function Page() {
   const [isDark, setIsDark] = useState(false);
-  const [showWelcomeModal, setShowWelcomeModal] = useState(true);
   const [active, setActive] = useState("about");
   const [progress, setProgress] = useState(0);
   const [showNav, setShowNav] = useState(true);
@@ -289,7 +288,7 @@ export default function Page() {
               <div className="flex flex-wrap items-center justify-center gap-5 w-full">
                 {partnerLogos.map((partner, pIdx) => (
                   <div key={pIdx} className="relative w-14 h-8 flex-shrink-0 flex items-center justify-center transition-transform hover:scale-105 drop-shadow-sm" title={partner.name}>
-                    <Image src={partner.logo} alt={partner.name} fill className={`object-contain ${isDark ? 'drop-shadow-[0_0_8px_rgba(255,255,255,0.3)]' : ''}`} />
+                    <Image src={partner.logo} alt={partner.name} fill sizes="(min-width: 768px) 80px, 56px" className={`object-contain ${isDark ? 'drop-shadow-[0_0_8px_rgba(255,255,255,0.3)]' : ''}`} />
                   </div>
                 ))}
               </div>
@@ -379,7 +378,7 @@ export default function Page() {
                         <div key={i} className={`flex items-start gap-3 sm:gap-4 p-4 sm:p-5 rounded-2xl border transition-all shadow-sm hover:shadow-md ${isDark ? 'bg-white/[0.03] border-white/5 hover:bg-white/[0.07]' : 'bg-white/70 border-white/60 hover:bg-white/90'}`}>
                           {a.clientLogo ? (
                             <div className="relative w-8 h-8 sm:w-10 sm:h-10 flex-shrink-0 bg-transparent rounded-xl p-1.5 flex items-center justify-center">
-                              <Image src={a.clientLogo} alt="Client logo" aria-hidden="true" fill sizes="40px" className="object-contain p-1 bg-transparent drop-shadow-sm" />
+                              <Image src={a.clientLogo} alt="" aria-hidden="true" fill sizes="40px" className="object-contain p-1 bg-transparent drop-shadow-sm" />
                             </div>
                           ) : (
                             <div className={`text-xl sm:text-2xl mt-0.5 flex-shrink-0 w-8 h-8 sm:w-10 sm:h-10 flex items-center justify-center rounded-xl ${tIconBox}`}>{a.icon}</div>
