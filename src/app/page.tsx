@@ -29,16 +29,24 @@ const achievements: Record<string, { text: string; icon: React.ReactNode; client
   "Digital Content Manager": [
     { text: "Led the YouTube publishing and optimization strategy for FIFA, driving channel views from 66.18 million to over 127.33 million within a single reporting period.", icon: <FaChartLine />, clientLogo: "/fifa.png" },
     { text: "Engineered aggressive A/B testing, metadata refinement, and thumbnail packaging for massive international football archives.", icon: <FaPenFancy />, clientLogo: "/fifa.png" },
+    { text: "Headed YouTube publishing for the FIFA U17 Women's World Cup and the FIFA ASEAN Cup.", icon: <FaVideo />, clientLogo: "/fifa.png" },
+    { text: "Created and led social media campaigns for new tournament launches and in-tournament marketing for FanCode.", icon: <FaGlobe />, clientLogo: "/fancode.png" },
+    { text: "Created regional memes and graphics for Premier League India weekly updates, using relevant viral trends to keep the community engaged.", icon: <FaPenFancy />, clientLogo: "/pl-india.png" },
+    { text: "Created regional content for geo-targeted posts from the official Liverpool account.", icon: <FaPenFancy />, clientLogo: "/lfc-india.png" },
     { text: "Directed daily live social coverage, promotional graphics, and tune-in campaigns for FanCode across top-tier properties, including the ISL, La Liga, and the 2026 Masters golf tournament.", icon: <FaGlobe />, clientLogo: "/fancode.png" },
   ],
   "Media Manager": [
     { text: "Architected the digital media strategy that defined Hyderabad FC's ISL Championship-winning era.", icon: <FaGlobe /> },
     { text: "Scripted and produced 'Future Is Us'—a groundbreaking, two-season sports documentary series for Disney+ Hotstar.", icon: <FaVideo /> },
     { text: "Led high-impact brand collaborations and fan-loyalty campaigns that significantly boosted stadium attendance and YoY engagement.", icon: <FaChartLine /> },
+    { text: "Managed the club's day-to-day digital content across social, web, broadcast and print, leading a six-member media team.", icon: <FaGlobe /> },
+    { text: "Built content workflows and match-day operations across multiple platforms while working with partners including hummel, EA Sports, Dream11, Dafa News and Decathlon.", icon: <FaChartLine /> },
   ],
   "Content Analyst": [
     { text: "Enhanced the Bing Sports UI/UX, streamlining API integrations to deliver real-time match data to millions of users.", icon: <FaGlobe /> },
     { text: "Built predictive data models for Premier League and Champions League outcomes to drive personalized user experiences.", icon: <FaChartLine /> },
+    { text: "Analysed sports data, search behaviour and editorial requirements to improve the relevance of live scores, fixtures and match content.", icon: <FaChartLine /> },
+    { text: "Worked across editorial and product teams to identify content opportunities and improve the presentation of real-time sports information.", icon: <FaGlobe /> },
   ],
   Editor: [
     { text: "Led a team of 10 writers, publishing 20+ articles daily while strengthening workflows for quick, reliable match-day coverage.", icon: <FaPenFancy /> },
@@ -74,27 +82,7 @@ const projects = [
   { title: "Sports Writer & Editor", description: "Wrote and published over 15,000 articles across global platforms, building a readership of half a million.", image: "/writer.jpg", layout: "vertical", link: "#" },
 ];
 
-const skills = ["Content Strategy", "Video Production", "Sports Analytics", "Editorial Leadership", "Social Media Growth", "Storytelling", "Digital Marketing", "SEO & SEM", "Data Visualization", "Brand Management", "Media Relations", "Public Speaking"];
-
-// ---------- Typewriter Engine ----------
-function useTypewriter(words: string[], speed = 80, pause = 1200) {
-  const [i, setI] = useState(0);
-  const [sub, setSub] = useState(0);
-  const [del, setDel] = useState(false);
-  const [txt, setTxt] = useState("");
-
-  useEffect(() => {
-    const word = words[i % words.length];
-    let t = setTimeout(() => {
-      if (!del && sub < word.length) { setTxt(word.substring(0, sub + 1)); setSub((s) => s + 1); } 
-      else if (del && sub > 0) { setTxt(word.substring(0, sub - 1)); setSub((s) => s - 1); } 
-      else if (!del && sub === word.length) { setDel(true); clearTimeout(t); t = setTimeout(() => setDel(true), pause); } 
-      else if (del && sub === 0) { setDel(false); setI((x) => x + 1); }
-    }, del ? speed / 2 : speed);
-    return () => clearTimeout(t);
-  }, [sub, i, del, words, speed, pause]);
-  return txt;
-}
+const skills = ["Content Strategy", "Video Production", "Sports Analytics", "Editorial Leadership", "Social Media Growth", "Storytelling", "Digital Marketing", "SEO & SEM", "Data Visualization", "Brand Management", "Media Relations", "Public Speaking", "Content Writing", "Copy Editing", "Research & Fact-Checking", "Article Writing"];
 
 // ---------- Main Page Component ----------
 export default function Page() {
@@ -115,8 +103,6 @@ export default function Page() {
   const refs = useMemo(() => ({
     about: aboutRef, impact: impactRef, experience: experienceRef, highlights: projectsRef, skills: skillsRef, contact: contactRef,
   }), []);
-
-  const typeText = useTypewriter(["Media Manager", "Content Creator", "Sports Analyst"], 70, 1000);
 
   // Scroll handler for progress bar and dynamic hiding/showing navbar
   useEffect(() => {
@@ -265,10 +251,9 @@ export default function Page() {
                 <h1 className="text-3xl sm:text-5xl lg:text-6xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-teal-500 to-teal-700 tracking-tight pb-2">
                   Aakarsh Bommakanti
                 </h1>
-                <p className="text-lg sm:text-2xl font-bold h-8 mt-2" style={{ color: isDark ? '#ffffff' : '#000000' }}>
-                  {typeText}
-                  <span className="inline-block w-1 h-5 sm:h-6 bg-pink-400 animate-pulse ml-1 align-middle rounded-full"></span>
-                </p>
+                <h2 className="text-lg sm:text-2xl lg:text-3xl font-bold leading-tight mt-2 max-w-xl" style={{ color: isDark ? '#ffffff' : '#000000' }}>
+                  I build what I’d want to see as a fan
+                </h2>
               </div>
 
               <div className="flex flex-col sm:flex-row gap-4 w-full justify-center md:justify-start pt-2">
@@ -297,11 +282,7 @@ export default function Page() {
 
             <div className={`p-6 sm:p-10 rounded-[2rem] transition-all duration-500 relative overflow-hidden ${tCard}`}>
               <div className="absolute top-0 right-0 w-32 h-32 bg-teal-500/10 blur-3xl rounded-full pointer-events-none"></div>
-              <p className={`relative z-10 text-sm sm:text-base font-medium mb-5 sm:mb-6 ${isDark ? 'text-gray-300' : 'text-gray-800'}`}>For over a decade, I’ve been turning casual viewers into die-hard fans. Whether I'm skyrocketing FIFA's YouTube viewership to 127+ million, directing daily social coverage for FanCode, or scripting a two-season docuseries for Disney+ Hotstar, I live at the intersection of sports, data, and storytelling.</p>
-              <p className={`relative z-10 text-sm sm:text-base font-medium mb-5 sm:mb-6 ${isDark ? 'text-gray-300' : 'text-gray-800'}`}>I don't just post content—I engineer digital stadiums. By combining tactical analysis, metadata optimization, and thumb-stopping creative, I build sports media that fans actually want to watch, share, and come back to.</p>
-              <div className={`relative z-10 p-4 sm:p-5 rounded-2xl border-l-4 border-teal-500 ${isDark ? 'bg-teal-500/10' : 'bg-teal-100/50'}`}>
-                <p className={`text-sm sm:text-base font-bold italic ${isDark ? 'text-teal-400' : 'text-teal-800'}`}>"Great sports content doesn't just show the game—it pulls the fans onto the pitch."</p>
-              </div>
+              <p className={`relative z-10 text-sm sm:text-base font-medium leading-relaxed ${isDark ? 'text-gray-300' : 'text-gray-800'}`}>I started in sports media as a fan with a keyboard. Over time, that has taken me from researching and writing articles to driving digital growth for Hyderabad FC, managing global YouTube content for FIFA, and navigating the matchday rush with FanCode. Through it all, my philosophy has stayed the same — the best way to build an audience isn't through quick viral moments, but by packaging authentic content that builds genuine loyalty and keeps fans close to the action.</p>
             </div>
             
             {/* Mobile-only Social Proof Strip (Single Line, No Overflow Scroll) */}
