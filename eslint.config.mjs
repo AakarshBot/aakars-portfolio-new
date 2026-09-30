@@ -1,10 +1,9 @@
-import type { NextConfig } from "next";
+import { defineConfig, globalIgnores } from "eslint/config";
+import nextVitals from "eslint-config-next/core-web-vitals";
+import nextTs from "eslint-config-next/typescript";
 
-const nextConfig: NextConfig = {
-  eslint: {
-    // This tells Vercel to ignore ESLint errors and just build the website!
-    ignoreDuringBuilds: true,
-  },
-};
-
-export default nextConfig;
+export default defineConfig([
+  ...nextVitals,
+  ...nextTs,
+  globalIgnores([".next/**", "out/**", "build/**", "node_modules/**", "next-env.d.ts"]),
+]);
