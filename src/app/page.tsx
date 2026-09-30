@@ -251,9 +251,9 @@ export default function Page() {
                 <h1 className="text-3xl sm:text-5xl lg:text-6xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-teal-500 to-teal-700 tracking-tight pb-2">
                   Aakarsh Bommakanti
                 </h1>
-                <p className="text-lg sm:text-2xl lg:text-3xl font-bold leading-tight mt-2 max-w-xl" style={{ color: isDark ? '#ffffff' : '#000000' }}>
+                <h2 className="text-lg sm:text-2xl lg:text-3xl font-bold leading-tight mt-2 max-w-xl" style={{ color: isDark ? '#ffffff' : '#000000' }}>
                   I build what I’d want to see as a fan
-                </p>
+                </h2>
               </div>
 
               <div className="flex flex-col sm:flex-row gap-4 w-full justify-center md:justify-start pt-2">
@@ -282,8 +282,7 @@ export default function Page() {
 
             <div className={`p-6 sm:p-10 rounded-[2rem] transition-all duration-500 relative overflow-hidden ${tCard}`}>
               <div className="absolute top-0 right-0 w-32 h-32 bg-teal-500/10 blur-3xl rounded-full pointer-events-none"></div>
-              <p className={`relative z-10 text-sm sm:text-base font-medium mb-5 sm:mb-6 ${isDark ? 'text-gray-300' : 'text-gray-800'}`}>I started in sports media as a fan with a keyboard. Over time, that has taken me from researching and writing articles to driving digital growth for Hyderabad FC, managing global YouTube content for FIFA, and navigating the matchday rush with FanCode.</p>
-              <p className={`relative z-10 text-sm sm:text-base font-medium ${isDark ? 'text-gray-300' : 'text-gray-800'}`}>Through it all, my philosophy has stayed the same</p>
+              <p className={`relative z-10 text-sm sm:text-base font-medium leading-relaxed ${isDark ? 'text-gray-300' : 'text-gray-800'}`}>I started in sports media as a fan with a keyboard. Over time, that has taken me from researching and writing articles to driving digital growth for Hyderabad FC, managing global YouTube content for FIFA, and navigating the matchday rush with FanCode. Through it all, my philosophy has stayed the same — the best way to build an audience isn't through quick viral moments, but by packaging authentic content that builds genuine loyalty and keeps fans close to the action.</p>
             </div>
             
             {/* Mobile-only Social Proof Strip (Single Line, No Overflow Scroll) */}
