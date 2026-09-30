@@ -84,26 +84,6 @@ const projects = [
 
 const skills = ["Content Strategy", "Video Production", "Sports Analytics", "Editorial Leadership", "Social Media Growth", "Storytelling", "Digital Marketing", "SEO & SEM", "Data Visualization", "Brand Management", "Media Relations", "Public Speaking", "Content Writing", "Copy Editing", "Research & Fact-Checking", "Article Writing"];
 
-// ---------- Typewriter Engine ----------
-function useTypewriter(words: string[], speed = 80, pause = 1200) {
-  const [i, setI] = useState(0);
-  const [sub, setSub] = useState(0);
-  const [del, setDel] = useState(false);
-  const [txt, setTxt] = useState("");
-
-  useEffect(() => {
-    const word = words[i % words.length];
-    let t = setTimeout(() => {
-      if (!del && sub < word.length) { setTxt(word.substring(0, sub + 1)); setSub((s) => s + 1); } 
-      else if (del && sub > 0) { setTxt(word.substring(0, sub - 1)); setSub((s) => s - 1); } 
-      else if (!del && sub === word.length) { setDel(true); clearTimeout(t); t = setTimeout(() => setDel(true), pause); } 
-      else if (del && sub === 0) { setDel(false); setI((x) => x + 1); }
-    }, del ? speed / 2 : speed);
-    return () => clearTimeout(t);
-  }, [sub, i, del, words, speed, pause]);
-  return txt;
-}
-
 // ---------- Main Page Component ----------
 export default function Page() {
   const [isDark, setIsDark] = useState(false);
@@ -123,8 +103,6 @@ export default function Page() {
   const refs = useMemo(() => ({
     about: aboutRef, impact: impactRef, experience: experienceRef, highlights: projectsRef, skills: skillsRef, contact: contactRef,
   }), []);
-
-  const typeText = useTypewriter(["Media Manager", "Content Creator", "Sports Analyst"], 70, 1000);
 
   // Scroll handler for progress bar and dynamic hiding/showing navbar
   useEffect(() => {
@@ -273,9 +251,8 @@ export default function Page() {
                 <h1 className="text-3xl sm:text-5xl lg:text-6xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-teal-500 to-teal-700 tracking-tight pb-2">
                   Aakarsh Bommakanti
                 </h1>
-                <p className="text-lg sm:text-2xl font-bold h-8 mt-2" style={{ color: isDark ? '#ffffff' : '#000000' }}>
-                  {typeText}
-                  <span className="inline-block w-1 h-5 sm:h-6 bg-pink-400 animate-pulse ml-1 align-middle rounded-full"></span>
+                <p className="text-lg sm:text-2xl lg:text-3xl font-bold leading-tight mt-2 max-w-xl" style={{ color: isDark ? '#ffffff' : '#000000' }}>
+                  I build what I’d want to see as a fan
                 </p>
               </div>
 
@@ -305,11 +282,8 @@ export default function Page() {
 
             <div className={`p-6 sm:p-10 rounded-[2rem] transition-all duration-500 relative overflow-hidden ${tCard}`}>
               <div className="absolute top-0 right-0 w-32 h-32 bg-teal-500/10 blur-3xl rounded-full pointer-events-none"></div>
-              <p className={`relative z-10 text-sm sm:text-base font-medium mb-5 sm:mb-6 ${isDark ? 'text-gray-300' : 'text-gray-800'}`}>For over a decade, I’ve been turning casual viewers into die-hard fans. Whether I'm skyrocketing FIFA's YouTube viewership to 127+ million, directing daily social coverage for FanCode, or scripting a two-season docuseries for Disney+ Hotstar, I live at the intersection of sports, data, and storytelling.</p>
-              <p className={`relative z-10 text-sm sm:text-base font-medium mb-5 sm:mb-6 ${isDark ? 'text-gray-300' : 'text-gray-800'}`}>I don't just post content—I engineer digital stadiums. By combining tactical analysis, metadata optimization, and thumb-stopping creative, I build sports media that fans actually want to watch, share, and come back to.</p>
-              <div className={`relative z-10 p-4 sm:p-5 rounded-2xl border-l-4 border-teal-500 ${isDark ? 'bg-teal-500/10' : 'bg-teal-100/50'}`}>
-                <p className={`text-sm sm:text-base font-bold italic ${isDark ? 'text-teal-400' : 'text-teal-800'}`}>"Great sports content doesn't just show the game—it pulls the fans onto the pitch."</p>
-              </div>
+              <p className={`relative z-10 text-sm sm:text-base font-medium mb-5 sm:mb-6 ${isDark ? 'text-gray-300' : 'text-gray-800'}`}>I started in sports media as a fan with a keyboard. Over time, that has taken me from researching and writing articles to driving digital growth for Hyderabad FC, managing global YouTube content for FIFA, and navigating the matchday rush with FanCode.</p>
+              <p className={`relative z-10 text-sm sm:text-base font-medium ${isDark ? 'text-gray-300' : 'text-gray-800'}`}>Through it all, my philosophy has stayed the same</p>
             </div>
             
             {/* Mobile-only Social Proof Strip (Single Line, No Overflow Scroll) */}
