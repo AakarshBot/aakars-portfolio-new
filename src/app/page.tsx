@@ -2,7 +2,7 @@
 
 import React, { useEffect, useRef, useState, useMemo } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { FaVideo, FaChartLine, FaPenFancy, FaGlobe, FaXTwitter, FaDownload, FaMoon, FaSun, FaArrowUpRightFromSquare, FaClock } from "react-icons/fa6";
+import { FaVideo, FaChartLine, FaPenFancy, FaGlobe, FaXTwitter, FaDownload, FaMoon, FaSun, FaArrowUpRightFromSquare } from "react-icons/fa6";
 import Image from "next/image";
 
 // ---------- Data ----------
@@ -103,8 +103,6 @@ export default function Page() {
   const [active, setActive] = useState("about");
   const [progress, setProgress] = useState(0);
   const [showNav, setShowNav] = useState(true);
-  const [time, setTime] = useState("");
-  const [timeGreeting, setTimeGreeting] = useState("Welcome");
   const lastScrollY = useRef(0);
 
   const aboutRef = useRef<HTMLElement>(null);
@@ -119,23 +117,6 @@ export default function Page() {
   }), []);
 
   const typeText = useTypewriter(["Media Manager", "Content Creator", "Sports Analyst"], 70, 1000);
-
-  // Live Local Time ticker & Personalized Time Greeting for Hyderabad, India
-  useEffect(() => {
-    const updateTimeAndGreeting = () => {
-      const now = new Date();
-      const options: Intl.DateTimeFormatOptions = { timeZone: 'Asia/Kolkata', hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: true };
-      setTime(new Intl.DateTimeFormat([], options).format(now));
-
-      const hour = parseInt(new Intl.DateTimeFormat('en-US', { timeZone: 'Asia/Kolkata', hour: 'numeric', hour12: false }).format(now));
-      if (hour < 12) setTimeGreeting("Good morning from Hyderabad");
-      else if (hour < 17) setTimeGreeting("Good afternoon from Hyderabad");
-      else setTimeGreeting("Good evening from Hyderabad");
-    };
-    updateTimeAndGreeting();
-    const interval = setInterval(updateTimeAndGreeting, 1000);
-    return () => clearInterval(interval);
-  }, []);
 
   // Scroll handler for progress bar and dynamic hiding/showing navbar
   useEffect(() => {
@@ -244,12 +225,6 @@ export default function Page() {
       <header className={`fixed top-4 left-0 right-0 z-40 px-3 sm:px-6 transition-transform duration-500 ease-in-out ${showNav ? 'translate-y-0' : '-translate-y-28'}`}>
         <div className={`max-w-4xl mx-auto flex flex-wrap justify-between items-center rounded-full px-5 py-2.5 gap-3 transition-colors duration-500 border ${tNav}`}>
           
-          {/* Live Time Indicator */}
-          <div className="hidden lg:flex items-center gap-2 px-3 py-1 rounded-full bg-teal-500/10 text-teal-600 dark:text-teal-400 text-xs font-bold border border-teal-500/20">
-            <FaClock className="animate-spin-slow" />
-            <span>Hyderabad, IN: {time}</span>
-          </div>
-
           <div className="flex flex-wrap justify-center items-center gap-1 sm:gap-2 flex-1">
             {Object.keys(refs).map((key) => (
               <button key={key} onClick={() => scrollTo(refs[key as keyof typeof refs])} className={`px-3 py-1.5 rounded-full text-xs font-bold transition-all duration-300 cursor-pointer focus:outline-none focus:ring-2 focus:ring-teal-400 ${active === key ? "bg-teal-500 text-white shadow-[0_4px_14px_rgba(20,184,166,0.4)] scale-105" : "hover:text-teal-500 hover:bg-white/10"}`}>
@@ -280,11 +255,6 @@ export default function Page() {
           <div className="grid md:grid-cols-2 gap-10 md:gap-16 items-center w-full">
             <div className="flex flex-col items-center md:items-start text-center md:text-left space-y-6 sm:space-y-8">
               
-              {/* Personalized Time Greeting Badge */}
-              <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-teal-500/10 text-teal-600 dark:text-teal-400 text-xs font-bold border border-teal-500/20 shadow-sm">
-                <span>👋 {timeGreeting}</span>
-              </div>
-
               <motion.div animate={{ y: [-5, 5, -5] }} transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }} className="relative w-48 h-48 sm:w-72 sm:h-72 rounded-full shadow-[0_20px_50px_rgba(20,184,166,0.2)] overflow-hidden flex-shrink-0 border-4 border-teal-500/30 backdrop-blur-sm p-1">
                 <div className="relative w-full h-full rounded-full overflow-hidden bg-transparent">
                   <Image src="/profile.jpg" alt="Aakarsh Bommakanti" fill className="object-cover hover:scale-105 transition-transform duration-500" />
