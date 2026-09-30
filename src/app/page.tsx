@@ -29,16 +29,24 @@ const achievements: Record<string, { text: string; icon: React.ReactNode; client
   "Digital Content Manager": [
     { text: "Led the YouTube publishing and optimization strategy for FIFA, driving channel views from 66.18 million to over 127.33 million within a single reporting period.", icon: <FaChartLine />, clientLogo: "/fifa.png" },
     { text: "Engineered aggressive A/B testing, metadata refinement, and thumbnail packaging for massive international football archives.", icon: <FaPenFancy />, clientLogo: "/fifa.png" },
+    { text: "Headed YouTube publishing for the FIFA U17 Women's World Cup and the FIFA ASEAN Cup.", icon: <FaVideo />, clientLogo: "/fifa.png" },
+    { text: "Created and led social media campaigns for new tournament launches and in-tournament marketing for FanCode.", icon: <FaGlobe />, clientLogo: "/fancode.png" },
+    { text: "Created regional memes and graphics for Premier League India weekly updates, using relevant viral trends to keep the community engaged.", icon: <FaPenFancy />, clientLogo: "/pl-india.png" },
+    { text: "Created regional content for geo-targeted posts from the official Liverpool account.", icon: <FaPenFancy />, clientLogo: "/lfc-india.png" },
     { text: "Directed daily live social coverage, promotional graphics, and tune-in campaigns for FanCode across top-tier properties, including the ISL, La Liga, and the 2026 Masters golf tournament.", icon: <FaGlobe />, clientLogo: "/fancode.png" },
   ],
   "Media Manager": [
     { text: "Architected the digital media strategy that defined Hyderabad FC's ISL Championship-winning era.", icon: <FaGlobe /> },
     { text: "Scripted and produced 'Future Is Us'—a groundbreaking, two-season sports documentary series for Disney+ Hotstar.", icon: <FaVideo /> },
     { text: "Led high-impact brand collaborations and fan-loyalty campaigns that significantly boosted stadium attendance and YoY engagement.", icon: <FaChartLine /> },
+    { text: "Managed the club's day-to-day digital content across social, web, broadcast and print, leading a six-member media team.", icon: <FaGlobe /> },
+    { text: "Built content workflows and match-day operations across multiple platforms while working with partners including hummel, EA Sports, Dream11, Dafa News and Decathlon.", icon: <FaChartLine /> },
   ],
   "Content Analyst": [
     { text: "Enhanced the Bing Sports UI/UX, streamlining API integrations to deliver real-time match data to millions of users.", icon: <FaGlobe /> },
     { text: "Built predictive data models for Premier League and Champions League outcomes to drive personalized user experiences.", icon: <FaChartLine /> },
+    { text: "Analysed sports data, search behaviour and editorial requirements to improve the relevance of live scores, fixtures and match content.", icon: <FaChartLine /> },
+    { text: "Worked across editorial and product teams to identify content opportunities and improve the presentation of real-time sports information.", icon: <FaGlobe /> },
   ],
   Editor: [
     { text: "Led a team of 10 writers, publishing 20+ articles daily while strengthening workflows for quick, reliable match-day coverage.", icon: <FaPenFancy /> },
@@ -74,7 +82,7 @@ const projects = [
   { title: "Sports Writer & Editor", description: "Wrote and published over 15,000 articles across global platforms, building a readership of half a million.", image: "/writer.jpg", layout: "vertical", link: "#" },
 ];
 
-const skills = ["Content Strategy", "Video Production", "Sports Analytics", "Editorial Leadership", "Social Media Growth", "Storytelling", "Digital Marketing", "SEO & SEM", "Data Visualization", "Brand Management", "Media Relations", "Public Speaking"];
+const skills = ["Content Strategy", "Video Production", "Sports Analytics", "Editorial Leadership", "Social Media Growth", "Storytelling", "Digital Marketing", "SEO & SEM", "Data Visualization", "Brand Management", "Media Relations", "Public Speaking", "Content Writing", "Copy Editing", "Research & Fact-Checking", "Article Writing"];
 
 // ---------- Typewriter Engine ----------
 function useTypewriter(words: string[], speed = 80, pause = 1200) {
