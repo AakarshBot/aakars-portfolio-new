@@ -1,8 +1,8 @@
 "use client";
 
 import React, { useEffect, useRef, useState, useMemo } from "react";
-import { motion, AnimatePresence } from "framer-motion";
-import { FaVideo, FaChartLine, FaPenFancy, FaGlobe, FaXTwitter, FaDownload, FaMoon, FaSun, FaArrowUpRightFromSquare } from "react-icons/fa6";
+import { motion } from "framer-motion";
+import { FaVideo, FaChartLine, FaPenFancy, FaGlobe, FaXTwitter, FaDownload, FaMoon, FaSun } from "react-icons/fa6";
 import Image from "next/image";
 
 // ---------- Data ----------
@@ -27,24 +27,24 @@ const experience = [
 
 const achievements: Record<string, { text: string; icon: React.ReactNode; clientLogo?: string }[]> = {
   "Digital Content Manager": [
-    { text: "Led the YouTube publishing and optimization strategy for FIFA, driving channel views from 66.18 million to over 127.33 million within a single reporting period.", icon: <FaChartLine />, clientLogo: "/fifa.png" },
+    { text: "Led the YouTube publishing and optimisation strategy for FIFA, driving channel views from 66.18 million to over 127.33 million within a single reporting period.", icon: <FaChartLine />, clientLogo: "/fifa.png" },
     { text: "Engineered aggressive A/B testing, metadata refinement, and thumbnail packaging for massive international football archives.", icon: <FaPenFancy />, clientLogo: "/fifa.png" },
     { text: "Headed YouTube publishing for the FIFA U17 Women's World Cup and the FIFA ASEAN Cup.", icon: <FaVideo />, clientLogo: "/fifa.png" },
-    { text: "Created and led social media campaigns for new tournament launches and in-tournament marketing for FanCode.", icon: <FaGlobe />, clientLogo: "/fancode.png" },
+    { text: "Created and led social media campaigns for tournament launches and in-tournament marketing across FanCode's global sports properties.", icon: <FaGlobe />, clientLogo: "/fancode.png" },
     { text: "Created regional memes and graphics for Premier League India weekly updates, using relevant viral trends to keep the community engaged.", icon: <FaPenFancy />, clientLogo: "/pl-india.png" },
     { text: "Created regional content for geo-targeted posts from the official Liverpool account.", icon: <FaPenFancy />, clientLogo: "/lfc-india.png" },
-    { text: "Directed daily live social coverage, promotional graphics, and tune-in campaigns for FanCode across top-tier properties, including the ISL, La Liga, and the 2026 Masters golf tournament.", icon: <FaGlobe />, clientLogo: "/fancode.png" },
+    { text: "Led launch and matchday social campaigns for FanCode across global sports properties including LALIGA, ISL and The Masters.", icon: <FaGlobe />, clientLogo: "/fancode.png" },
   ],
   "Media Manager": [
-    { text: "Architected the digital media strategy that defined Hyderabad FC's ISL Championship-winning era.", icon: <FaGlobe /> },
+    { text: "Led the club's digital media strategy through its ISL Championship-winning era, aligning storytelling with matchday and fan growth.", icon: <FaGlobe /> },
     { text: "Scripted and produced 'Future Is Us'—a groundbreaking, two-season sports documentary series for Disney+ Hotstar.", icon: <FaVideo /> },
-    { text: "Led high-impact brand collaborations and fan-loyalty campaigns that significantly boosted stadium attendance and YoY engagement.", icon: <FaChartLine /> },
+    { text: "Built fan-facing campaigns and partner activations that helped lift year-on-year digital engagement by 35%.", icon: <FaChartLine /> },
     { text: "Managed the club's day-to-day digital content across social, web, broadcast and print, leading a six-member media team.", icon: <FaGlobe /> },
     { text: "Built content workflows and match-day operations across multiple platforms while working with partners including hummel, EA Sports, Dream11, Dafa News and Decathlon.", icon: <FaChartLine /> },
   ],
   "Content Analyst": [
     { text: "Enhanced the Bing Sports UI/UX, streamlining API integrations to deliver real-time match data to millions of users.", icon: <FaGlobe /> },
-    { text: "Built predictive data models for Premier League and Champions League outcomes to drive personalized user experiences.", icon: <FaChartLine /> },
+    { text: "Built predictive data models for Premier League and Champions League outcomes to drive personalised user experiences.", icon: <FaChartLine /> },
     { text: "Analysed sports data, search behaviour and editorial requirements to improve the relevance of live scores, fixtures and match content.", icon: <FaChartLine /> },
     { text: "Worked across editorial and product teams to identify content opportunities and improve the presentation of real-time sports information.", icon: <FaGlobe /> },
   ],
@@ -59,9 +59,9 @@ const achievements: Record<string, { text: string; icon: React.ReactNode; client
 };
 
 const impactData = [
-  { client: "FIFA", logo: "/fifa.png", stats: [{ value: "127.3M", label: "Peak Monthly Views" }, { value: "4.95M", label: "Hours Watch Time" }, { value: "A/B Tested", label: "Metadata & Optimization" }] },
-  { client: "FanCode", logo: "/fancode.png", stats: [{ value: "Daily", label: "Live Social Coverage" }, { value: "Tier 1", label: "Global Events (e.g. Masters)" }, { value: "100%", label: "Data-Driven Strategy" }] },
-  { client: "Storytelling", logo: "/hfc.png", stats: [{ value: "15,000+", label: "Articles Published" }, { value: "500K+", label: "Engaged Readership" }, { value: "2 Seasons", label: "Disney+ Docuseries" }] }
+  { client: "FIFA", logo: "/fifa.png", stats: [{ value: "66.2M -> 127.3M", label: "Peak Monthly Views" }, { value: "7 -> 10", label: "Videos Published Per Day" }, { value: "40", label: "Archive Matches Livestreamed" }] },
+  { client: "FanCode", logo: "/fancode.png", stats: [{ value: "Daily", label: "Live Social Coverage" }, { value: "3+", label: "LALIGA, ISL & The Masters" }, { value: "Launch + Matchday", label: "Campaigns Led" }] },
+  { client: "Hyderabad FC", logo: "/hfc.png", stats: [{ value: "+35%", label: "YoY Digital Engagement" }, { value: "6", label: "Media Team Members Led" }, { value: "2 Seasons", label: "Disney+ Docuseries" }] }
 ];
 
 const partnerLogos = [
@@ -74,12 +74,12 @@ const partnerLogos = [
 ];
 
 const projects = [
-  { title: "FIFA YT Publishing", description: "Oversaw the best year in FIFA YouTube history, driving record-breaking subscriber growth and watch time during the 2026 World Cup.", image: "/fifa-yt.jpg", layout: "horizontal", link: "https://youtube.com/@fifa" },
-  { title: "FanCode ISL & LALIGA", description: "Produced and managed everyday social media content on FanCode for top-tier global football leagues.", image: "/fancode-content.jpg", layout: "vertical", link: "https://fancode.com" },
-  { title: "Future Is Us Docuseries", description: "First-of-its-kind sports docuseries following the journey of Hyderabad FC, scripted and produced for Disney+ Hotstar.", image: "/future-is-us.jpg", layout: "vertical", link: "https://hotstar.com" },
-  { title: "Hyderabad FC Trophy Win", description: "Led the digital media strategy and coverage as Media Manager when Hyderabad FC won the ISL championship.", image: "/hfc-trophy.jpg", layout: "horizontal", link: "https://hyderabadfc.co.in" },
-  { title: "Microsoft Bing UI", description: "Helped improve the Bing homepage user interface and user experience for real-time sports searches.", image: "/bing-ui.jpg", layout: "vertical", link: "https://bing.com" },
-  { title: "Sports Writer & Editor", description: "Wrote and published over 15,000 articles across global platforms, building a readership of half a million.", image: "/writer.jpg", layout: "vertical", link: "#" },
+  { title: "FIFA YouTube Publishing", description: "Led FIFA YouTube publishing into the 2026 World Cup cycle, combining daily programming, SEO, metadata, archive livestreams and packaging to drive sustained channel growth.", image: "/fifa-yt.jpg", layout: "horizontal", link: "https://youtube.com/@fifa" },
+  { title: "FanCode Global Events", description: "Created and led launch and matchday social campaigns across LALIGA, ISL and The Masters, adapting global properties for Indian audiences while keeping the creative close to the fan.", image: "/fancode-content.jpg", layout: "vertical", link: "https://fancode.com" },
+  { title: "Future Is Us Docuseries", description: "Scripted and produced two seasons for Disney+ Hotstar, turning Hyderabad FC's sporting journey into a character-led story built for a mainstream streaming audience.", image: "/future-is-us.jpg", layout: "vertical", link: "https://hotstar.com" },
+  { title: "Hyderabad FC Championship", description: "Led the club's digital media operation through its ISL Championship-winning era, coordinating social, web, broadcast and print while leading a six-person media team.", image: "/hfc-trophy.jpg", layout: "horizontal", link: "https://hyderabadfc.co.in" },
+  { title: "Microsoft Bing Sports", description: "Worked across editorial, product, data and API integrations to improve how real-time scores, fixtures and sports information were presented to millions of users.", image: "/bing-ui.jpg", layout: "vertical", link: "https://bing.com" },
+  { title: "Sports Writing & Editing", description: "Published 15,000+ football stories, led a 10-writer editorial team and built a 500K+ engaged readership through analysis and matchday coverage.", image: "/writer.jpg", layout: "vertical", link: "#" },
 ];
 
 const skills = ["Content Strategy", "Video Production", "Sports Analytics", "Editorial Leadership", "Social Media Growth", "Storytelling", "Digital Marketing", "SEO & SEM", "Data Visualization", "Brand Management", "Media Relations", "Public Speaking", "Content Writing", "Copy Editing", "Research & Fact-Checking", "Article Writing"];
@@ -87,7 +87,6 @@ const skills = ["Content Strategy", "Video Production", "Sports Analytics", "Edi
 // ---------- Main Page Component ----------
 export default function Page() {
   const [isDark, setIsDark] = useState(false);
-  const [showWelcomeModal, setShowWelcomeModal] = useState(true);
   const [active, setActive] = useState("about");
   const [progress, setProgress] = useState(0);
   const [showNav, setShowNav] = useState(true);
@@ -155,47 +154,6 @@ export default function Page() {
   return (
     <div className={`min-h-screen font-sans selection:bg-teal-500 selection:text-white transition-colors duration-700 ${tBg} relative focus:outline-none`}>
       
-      {/* Professional Opaque Screen & Quirky Welcome Modal on Load */}
-      <AnimatePresence>
-        {showWelcomeModal && (
-          <motion.div 
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            className="fixed inset-0 z-50 bg-black/75 backdrop-blur-md flex items-center justify-center p-4"
-          >
-            <motion.div 
-              initial={{ scale: 0.9, y: 20 }}
-              animate={{ scale: 1, y: 0 }}
-              exit={{ scale: 0.9, y: 20 }}
-              className="bg-gradient-to-br from-gray-900 to-gray-950 text-white p-8 sm:p-10 rounded-[2.5rem] shadow-2xl border border-white/15 max-w-md w-full text-center relative overflow-hidden"
-              onClick={(e) => e.stopPropagation()}
-            >
-              <div className="absolute top-0 right-0 w-32 h-32 bg-teal-500/20 blur-3xl rounded-full pointer-events-none"></div>
-              
-              <span className="text-xs font-black text-teal-400 uppercase tracking-widest block mb-3">⚡ Quick Vibe Check</span>
-              <h3 className="text-2xl sm:text-3xl font-extrabold mb-3">How do you like your pixels?</h3>
-              <p className="text-sm text-gray-300 mb-8 leading-relaxed">Choose your aesthetic vibe before diving into a decade of football storytelling, epic docuseries, and viral stats.</p>
-              
-              <div className="grid grid-cols-2 gap-4">
-                <button 
-                  onClick={() => { setIsDark(false); setShowWelcomeModal(false); }}
-                  className="flex items-center justify-center gap-2 py-3.5 px-5 rounded-2xl bg-white text-gray-900 font-bold hover:bg-teal-50 transition-all shadow-lg group cursor-pointer focus:ring-4 focus:ring-teal-400"
-                >
-                  <FaSun className="text-amber-500 group-hover:rotate-45 transition-transform" /> Light Mode
-                </button>
-                <button 
-                  onClick={() => { setIsDark(true); setShowWelcomeModal(false); }}
-                  className="flex items-center justify-center gap-2 py-3.5 px-5 rounded-2xl bg-gray-800 text-teal-300 border border-teal-500/40 font-bold hover:bg-gray-750 transition-all shadow-lg group cursor-pointer focus:ring-4 focus:ring-teal-400"
-                >
-                  <FaMoon className="text-teal-400 group-hover:-rotate-12 transition-transform" /> Dark Mode
-                </button>
-              </div>
-            </motion.div>
-          </motion.div>
-        )}
-      </AnimatePresence>
-
       {/* Background Animated Gradient Mesh Orbs */}
       <div className="fixed inset-0 -z-10 overflow-hidden pointer-events-none">
         <motion.div animate={{ x: [0, 120, 0], y: [0, -80, 0], scale: [1, 1.2, 1] }} transition={{ duration: 18, repeat: Infinity, ease: "easeInOut" }} className={`absolute top-[-15%] left-[-10%] w-[55vw] h-[55vw] rounded-full blur-[150px] transition-colors duration-700 ${isDark ? 'bg-teal-500/15' : 'bg-teal-400/15'}`} />
@@ -237,11 +195,11 @@ export default function Page() {
       <main className="max-w-6xl mx-auto px-4 py-16 space-y-16 sm:space-y-24 relative">
         
         {/* Hero Section */}
-        <section id="about" ref={refs.about} className="min-h-[80vh] flex flex-col justify-center pt-10 md:pt-0">
+        <section id="about" ref={refs.about} className="min-h-[80vh] flex flex-col justify-center pt-20 sm:pt-24 md:pt-8">
           <div className="grid md:grid-cols-2 gap-10 md:gap-16 items-center w-full">
             <div className="flex flex-col items-center md:items-start text-center md:text-left space-y-6 sm:space-y-8">
               
-              <motion.div animate={{ y: [-5, 5, -5] }} transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }} className="relative w-48 h-48 sm:w-72 sm:h-72 rounded-full shadow-[0_20px_50px_rgba(20,184,166,0.2)] overflow-hidden flex-shrink-0 border-4 border-teal-500/30 backdrop-blur-sm p-1">
+              <motion.div animate={{ y: [-5, 5, -5] }} transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }} className="relative w-48 h-48 sm:w-72 sm:h-72 rounded-full shadow-[0_20px_50px_rgba(20,184,166,0.2)] overflow-hidden flex-shrink-0 mt-4 md:mt-0 border-4 border-teal-500/30 backdrop-blur-sm p-1">
                 <div className="relative w-full h-full rounded-full overflow-hidden bg-transparent">
                   <Image src="/profile.jpg" alt="Aakarsh Bommakanti" fill className="object-cover hover:scale-105 transition-transform duration-500" />
                 </div>
