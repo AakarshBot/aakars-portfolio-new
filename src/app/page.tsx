@@ -60,8 +60,8 @@ const achievements: Record<string, { text: string; icon: React.ReactNode; client
 
 const impactData = [
   { client: "FIFA", logo: "/fifa.png", stats: [{ value: "127.33M", label: "Peak Monthly Views" }, { value: "4.95M", label: "Hours Watch Time" }, { value: "+92.4%", label: "Growth From 66.18M Baseline" }] },
-  { client: "FanCode", logo: "/fancode.png", stats: [{ value: "LALIGA • ISL • The Masters", label: "Major Global Properties Covered" }, { value: "Daily", label: "Live Social Coverage" }, { value: "Launch → Matchday", label: "Campaign Lifecycle" }] },
-  { client: "Hyderabad FC", logo: "/hfc.png", stats: [{ value: "+35%", label: "YoY Digital Engagement" }, { value: "5", label: "Major Brand Partnerships Supported" }, { value: "2 Seasons", label: "Future Is Us on Disney+ Hotstar" }] }
+  { client: "FanCode", logo: "/fancode.png", stats: [{ value: "LALIGA • ISL • The Masters", label: "Major Global Properties Covered" }, { value: "Daily", label: "Live Social Coverage" }, { value: "Matchday + Tournament", label: "Social Campaigns to Grow Reach & Engagement" }] },
+  { client: "Hyderabad FC", logo: "/hfc.png", stats: [{ value: "+35%", label: "YoY Digital Engagement" }, { value: "10K → 200K", label: "Instagram Growth in 3 Years" }, { value: "First-of-Its-Kind", label: "Indian Football Documentary Aired on Disney+ Hotstar" }] }
 ];
 
 const partnerLogos = [
