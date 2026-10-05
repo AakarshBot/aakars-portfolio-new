@@ -59,9 +59,9 @@ const achievements: Record<string, { text: string; icon: React.ReactNode; client
 };
 
 const impactData = [
-  { client: "FIFA", logo: "/fifa.png", stats: [{ value: "66.2M -> 127.3M", label: "Peak Monthly Views" }, { value: "7 -> 10", label: "Videos Published Per Day" }, { value: "40", label: "Archive Matches Livestreamed" }] },
-  { client: "FanCode", logo: "/fancode.png", stats: [{ value: "Daily", label: "Live Social Coverage" }, { value: "3+", label: "LALIGA, ISL & The Masters" }, { value: "Launch + Matchday", label: "Campaigns Led" }] },
-  { client: "Hyderabad FC", logo: "/hfc.png", stats: [{ value: "+35%", label: "YoY Digital Engagement" }, { value: "6", label: "Media Team Members Led" }, { value: "2 Seasons", label: "Disney+ Docuseries" }] }
+  { client: "FIFA", logo: "/fifa.png", stats: [{ value: "127.33M", label: "Peak Monthly Views" }, { value: "4.95M", label: "Hours Watch Time" }, { value: "+92.4%", label: "Growth From 66.18M Baseline" }] },
+  { client: "FanCode", logo: "/fancode.png", stats: [{ value: "LALIGA • ISL • The Masters", label: "Major Global Properties Covered" }, { value: "Daily", label: "Live Social Coverage" }, { value: "Launch → Matchday", label: "Campaign Lifecycle" }] },
+  { client: "Hyderabad FC", logo: "/hfc.png", stats: [{ value: "+35%", label: "YoY Digital Engagement" }, { value: "5", label: "Major Brand Partnerships Supported" }, { value: "2 Seasons", label: "Future Is Us on Disney+ Hotstar" }] }
 ];
 
 const partnerLogos = [
@@ -74,12 +74,12 @@ const partnerLogos = [
 ];
 
 const projects = [
-  { title: "FIFA YouTube Publishing", description: "Led FIFA YouTube publishing into the 2026 World Cup cycle, combining daily programming, SEO, metadata, archive livestreams and packaging to drive sustained channel growth.", image: "/fifa-yt.jpg", layout: "horizontal", link: "https://youtube.com/@fifa" },
-  { title: "FanCode Global Events", description: "Created and led launch and matchday social campaigns across LALIGA, ISL and The Masters, adapting global properties for Indian audiences while keeping the creative close to the fan.", image: "/fancode-content.jpg", layout: "vertical", link: "https://fancode.com" },
-  { title: "Future Is Us Docuseries", description: "Scripted and produced two seasons for Disney+ Hotstar, turning Hyderabad FC's sporting journey into a character-led story built for a mainstream streaming audience.", image: "/future-is-us.jpg", layout: "vertical", link: "https://hotstar.com" },
-  { title: "Hyderabad FC Championship", description: "Led the club's digital media operation through its ISL Championship-winning era, coordinating social, web, broadcast and print while leading a six-person media team.", image: "/hfc-trophy.jpg", layout: "horizontal", link: "https://hyderabadfc.co.in" },
-  { title: "Microsoft Bing Sports", description: "Worked across editorial, product, data and API integrations to improve how real-time scores, fixtures and sports information were presented to millions of users.", image: "/bing-ui.jpg", layout: "vertical", link: "https://bing.com" },
-  { title: "Sports Writing & Editing", description: "Published 15,000+ football stories, led a 10-writer editorial team and built a 500K+ engaged readership through analysis and matchday coverage.", image: "/writer.jpg", layout: "vertical", link: "#" },
+  { title: "FIFA YouTube Publishing", description: "Built the publishing engine behind FIFA's global YouTube output: programming, SEO, metadata, packaging and archive livestreams helped move peak monthly views from 66.18M to 127.33M.", image: "/fifa-yt.jpg", layout: "horizontal", link: "https://youtube.com/@fifa" },
+  { title: "FanCode Global Events", description: "Turned major live properties into daily social stories, leading launch and in-tournament campaigns for LALIGA, ISL and The Masters with creative built for Indian fan behaviour.", image: "/fancode-content.jpg", layout: "vertical", link: "https://fancode.com" },
+  { title: "Future Is Us Docuseries", description: "Took Hyderabad FC's season beyond the matchday feed, scripting and producing two seasons of Future Is Us for Disney+ Hotstar with a focus on people, pressure and the club's journey.", image: "/future-is-us.jpg", layout: "vertical", link: "https://hotstar.com" },
+  { title: "Hyderabad FC Championship", description: "Ran the club's media operation through its ISL Championship-winning era, connecting real-time match coverage with longer-term fan storytelling across social, web, broadcast and print.", image: "/hfc-trophy.jpg", layout: "horizontal", link: "https://hyderabadfc.co.in" },
+  { title: "Microsoft Bing Sports", description: "Worked where editorial met product and data, shaping the Bing Sports experience through live API feeds, search behaviour analysis and predictive models for football outcomes.", image: "/bing-ui.jpg", layout: "vertical", link: "https://bing.com" },
+  { title: "Sports Writing & Editing", description: "Started with the keyboard and scaled into editorial leadership: 15,000+ football articles, 20+ published daily with a 10-writer team, and a 500K+ engaged readership.", image: "/writer.jpg", layout: "vertical", link: "#" },
 ];
 
 const skills = ["Content Strategy", "Video Production", "Sports Analytics", "Editorial Leadership", "Social Media Growth", "Storytelling", "Digital Marketing", "SEO & SEM", "Data Visualization", "Brand Management", "Media Relations", "Public Speaking", "Content Writing", "Copy Editing", "Research & Fact-Checking", "Article Writing"];
